@@ -1,0 +1,7 @@
+{
+  "/page": "app/page.js",
+  "/compliance/page": "app/compliance/page.js",
+  "/api/streams/route": "app/api/streams/route.js",
+  "/cadastro/page": "app/cadastro/page.js",
+  "/historico/page": "app/historico/page.js"
+}

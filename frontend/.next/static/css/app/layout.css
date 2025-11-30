@@ -1,0 +1,400 @@
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[3]!./app/globals.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+.particle-0 { left: 5vw; top: 10vh; width: 32px; height: 32px; animation-delay: 0s; }
+.particle-1 { left: 20vw; top: 80vh; width: 40px; height: 40px; animation-delay: 2s; }
+.particle-2 { left: 60vw; top: 30vh; width: 24px; height: 24px; animation-delay: 4s; }
+.particle-3 { left: 80vw; top: 60vh; width: 28px; height: 28px; animation-delay: 1s; }
+.particle-4 { left: 35vw; top: 50vh; width: 36px; height: 36px; animation-delay: 3s; }
+.particle-5 { left: 70vw; top: 20vh; width: 22px; height: 22px; animation-delay: 5s; }
+.particle-6 { left: 10vw; top: 70vh; width: 30px; height: 30px; animation-delay: 6s; }
+.particle-7 { left: 50vw; top: 90vh; width: 26px; height: 26px; animation-delay: 7s; }
+.particle-8 { left: 90vw; top: 40vh; width: 38px; height: 38px; animation-delay: 2.5s; }
+.particle-9 { left: 15vw; top: 30vh; width: 20px; height: 20px; animation-delay: 4.5s; }
+.particle-10 { left: 40vw; top: 60vh; width: 34px; height: 34px; animation-delay: 1.5s; }
+.particle-11 { left: 75vw; top: 10vh; width: 28px; height: 28px; animation-delay: 3.5s; }
+.particle-12 { left: 25vw; top: 50vh; width: 36px; height: 36px; animation-delay: 5.5s; }
+.particle-13 { left: 65vw; top: 80vh; width: 22px; height: 22px; animation-delay: 6.5s; }
+.particle-14 { left: 85vw; top: 20vh; width: 30px; height: 30px; animation-delay: 7.5s; }
+.particle-15 { left: 55vw; top: 40vh; width: 26px; height: 26px; animation-delay: 2.2s; }
+.particle-16 { left: 30vw; top: 75vh; width: 38px; height: 38px; animation-delay: 3.2s; }
+.particle-17 { left: 60vw; top: 15vh; width: 24px; height: 24px; animation-delay: 4.2s; }
+/* Partículas neon animadas */
+.particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00eaff 60%, #005bea 100%);
+  opacity: 0.7;
+  animation: float 8s infinite linear;
+}
+@keyframes float {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-40px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0.7; }
+}
+/* Animação fade-in para páginas e componentes */
+.animate-fade-in {
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efeito neon para títulos e botões */
+.neon-glow {
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88, 0 2px 8px #005bea44;
+}
+.neon-btn {
+  box-shadow: 0 0 12px #00eaff88, 0 2px 8px #005bea44;
+  border: none;
+}
+.glow-text {
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88;
+}
+/* Menu de navegação futurista */
+.nav-futurista {
+  width: 100vw;
+  background: rgba(0, 234, 255, 0.18);
+  box-shadow: 0 2px 16px #00eaff44;
+  padding: 0.5rem 0;
+  margin-bottom: 2rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1vw;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  border-bottom: 2px solid #00eaff44;
+  border-radius: 0 0 24px 24px;
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-futurista ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-link {
+  color: #fff;
+  font-family: 'Orbitron', 'Inter', Arial, sans-serif;
+  font-size: 1.2rem;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88;
+  background: rgba(0, 234, 255, 0.08);
+  box-shadow: 0 0 8px #00eaff44;
+}
+.nav-link:hover {
+  background: linear-gradient(90deg, #00eaff 0%, #005bea 100%);
+  color: #fff;
+  box-shadow: 0 0 16px #00eaff88;
+}
+body, html {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #005073 0%, #005bea 100%);
+  animation: bgMove 12s ease-in-out infinite alternate;
+}
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+main {
+  width: 100vw;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 2vw;
+}
+
+.nav-futurista {
+  width: 100vw;
+  background: rgba(0, 234, 255, 0.18);
+  box-shadow: 0 2px 16px #00eaff44;
+  padding: 0.5rem 0;
+  margin-bottom: 2rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+  gap: 1vw;
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  border-bottom: 2px solid #00eaff44;
+  border-radius: 0 0 24px 24px;
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 1rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  color: #fff;
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88;
+  background: rgba(0, 234, 255, 0.08);
+  box-shadow: 0 0 8px #00eaff44;
+}
+.nav-link:hover {
+  background: linear-gradient(90deg, #00eaff 0%, #005bea 100%);
+  color: #fff;
+  box-shadow: 0 0 16px #00eaff88;
+}
+
+@media (max-width: 900px) {
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
+  }
+  main {
+    padding: 0 1vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-futurista {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-link {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.6rem;
+  }
+  main {
+    padding: 0 0.5vw;
+  }
+}
+
+/* Responsividade dos cards, formulários e containers */
+.bg-slate-900\/80, .neon-glow, .max-w-md {
+  width: 100%;
+  max-width: 480px;
+  min-width: 220px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: rgba(20, 30, 60, 0.85);
+  box-shadow: 0 0 32px #00eaff44, 0 2px 16px #005bea44;
+  border-radius: 20px;
+  border: 2px solid #00eaff33;
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 600px) {
+  .bg-slate-900\/80, .neon-glow, .max-w-md {
+    max-width: 98vw;
+    min-width: 120px;
+    padding: 1rem;
+  }
+}
+
+input, button {
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1.5px solid #00eaff44;
+  background: rgba(0, 234, 255, 0.08);
+  color: #fff;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 8px #00eaff22;
+}
+input:focus, button:focus {
+  border: 2px solid #00eaff;
+  box-shadow: 0 0 16px #00eaff88;
+  outline: none;
+}
+
+/* Logo StreamPay AI */
+.logo-topo-clean {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  background: none;
+  box-shadow: none;
+}
+.logo-streampay {
+  max-width: 240px;
+  min-width: 90px;
+  width: 20vw;
+  height: auto;
+  background: none;
+  box-shadow: none;
+}
+@media (max-width: 600px) {
+  .logo-streampay {
+    max-width: 45vw;
+    min-width: 60px;
+    width: 40vw;
+  }
+}
+.logo-streampay:hover {
+  transform: scale(1.05) rotate(-2deg);
+  filter: drop-shadow(0 0 32px #00eaff) drop-shadow(0 0 48px #6f42c1);
+}
+
+/* Novo estilo para o dashboard futurista */
+.dashboard-glass-card {
+  background: rgba(0, 80, 115, 0.32);
+  box-shadow: 0 0 48px #00eaff88, 0 2px 24px #005bea44;
+  border-radius: 24px;
+  border: 2px solid #00eaff55;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 480px;
+  width: 100%;
+  margin: 2.5rem auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.logo-dashboard {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.wallet-address {
+  font-size: 1rem;
+  color: #00eaff;
+  background: rgba(0, 80, 115, 0.22);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  word-break: break-all;
+  box-shadow: 0 0 8px #00eaff22;
+}
+.wallet-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.2rem;
+  gap: 1rem;
+}
+.ai-prompt-section {
+  width: 100%;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.ai-prompt {
+  width: 60%;
+  min-height: 38px;
+  border-radius: 12px;
+  border: 1.5px solid #00eaff44;
+  background: rgba(0, 234, 255, 0.08);
+  color: #fff;
+  padding: 0.8rem;
+  font-size: 1rem;
+  box-shadow: 0 0 8px #00eaff22;
+  resize: vertical;
+}
+.neon-btn {
+  min-width: 38%;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #00eaff 0%, #005bea 100%);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88;
+  box-shadow: 0 0 16px #00eaff88, 0 2px 8px #005bea44;
+  border: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.neon-btn:hover {
+  box-shadow: 0 0 32px #00eaffcc, 0 2px 16px #005bea88;
+  transform: scale(1.05);
+}
+.streams-list {
+  width: 100%;
+  margin-top: 2rem;
+}
+.streams-list h2 {
+  font-size: 1.5rem;
+  color: #00eaff;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 8px #00eaff, 0 0 24px #00eaff88;
+}
+.streams-list ul {
+  list-style: disc inside;
+  padding-left: 0;
+}
+.streams-list li {
+  background: rgba(0, 80, 115, 0.22);
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+  padding: 0.8rem 1rem;
+  color: #eaf6fb;
+  box-shadow: 0 0 8px #00eaff22;
+}
+.streams-list strong {
+  color: #00eaff;
+}
+@media (max-width: 600px) {
+  .dashboard-glass-card {
+    max-width: 98vw;
+    padding: 1rem;
+  }
+  .logo-dashboard img {
+    max-width: 60vw;
+  }
+  .ai-prompt-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .ai-prompt {
+    width: 100%;
+  }
+  .neon-btn {
+    min-width: 100%;
+  }
+}
+

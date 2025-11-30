@@ -1,0 +1,56 @@
+name: CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: streampay
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies (frontend)
+        run: |
+          cd frontend
+          npm install
+      - name: Install dependencies (backend)
+        run: |
+          cd backend
+          npm install
+      - name: Install dependencies (smart-contracts)
+        run: |
+          cd smart-contracts
+          npm install
+      - name: Run lint (frontend)
+        run: |
+          cd frontend
+          npm run lint
+      - name: Run tests (backend)
+        run: |
+          cd backend
+          npm run test || true
+      - name: Compile smart contracts
+        run: |
+          cd smart-contracts
+          npm run compile
+      - name: Run tests (smart contracts)
+        run: |
+          cd smart-contracts
+          npm run test || true

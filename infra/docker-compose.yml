@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:3000
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MORALIS_API_KEY
+      - CHAINLINK_RPC_URL
+      - KYC_PROVIDER_API_KEY
+      - POSTGRES_URL=postgres://postgres:postgres@db:5432/streampay
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: streampay
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+volumes:
+  db_data:
+  redis_data:
