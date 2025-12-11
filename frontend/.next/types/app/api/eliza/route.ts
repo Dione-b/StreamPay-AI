@@ -1,4 +1,4 @@
-// File: /home/dione/Teulioù/streampay/frontend/app/api/eliza/route.ts
+// File: /home/jistriane/Documentos/StreamPay AI/StreamPay-AI/frontend/app/api/eliza/route.ts
 import * as entry from '../../../../../app/api/eliza/route.js'
 import type { NextRequest } from 'next/server.js'
 

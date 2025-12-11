@@ -42,6 +42,7 @@ export async function migrateEvents() {
   `);
 }
 // Módulo de conexão e operações básicas com Postgres para persistência real
+import 'dotenv/config';
 import { Pool } from "pg";
 
 const pool = new Pool({

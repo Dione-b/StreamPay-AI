@@ -6,7 +6,7 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "dev:eliza": "cd streampay-eliza/streampay-eliza && npm run dev",
+    "dev:eliza": "cd streampay-eliza && npm run dev",
     "dev:contracts": "cd smart-contracts && npm run compile && npm run test"
   },
   "devDependencies": {

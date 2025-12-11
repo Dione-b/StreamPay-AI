@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import { createStreamOnChain, claimStreamOnChain } from "./contract";
 import { createStream, getStreamsBySender, migrate } from "./db";
