@@ -1,3 +1,4 @@
+import cors from "cors";
 import 'dotenv/config';
 import express from "express";
 import http from "http";
@@ -6,6 +7,7 @@ import { createStream, getStreamsBySender, migrate } from "./db";
 import { Pool } from "pg";
 import axios from "axios";
 import { chatAssistant, analyzeStreamData, generateComplianceReport } from "./gemini";
+import authRouter from "./routes/auth";
 import { webhookRouter } from "./webhooks";
 import { wsRouter, WebSocketManager } from "./websocket";
 import { Logger } from "./utils/logger";
@@ -25,6 +27,17 @@ const httpServer = http.createServer(app);
 app.use(sentryRequestHandler());
 
 app.use(express.json());
+
+// Configure CORS
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3003',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3003'
+  ],
+  credentials: true
+}));
 const logger = Logger.getInstance();
 migrate();
 const pool = new Pool({ connectionString: process.env.POSTGRES_URL });
@@ -152,6 +165,9 @@ app.post("/api/gemini/compliance-report", authMiddleware, async (req: any, res: 
 app.get("/health", (req: any, res: any) => res.send("OK"));
 
 // Mount webhook routes
+app.use("/api/auth", authRouter);
+
+// Webhook router
 app.use("/api", webhookRouter);
 
 // Mount WebSocket routes
