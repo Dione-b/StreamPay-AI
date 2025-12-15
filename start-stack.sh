@@ -43,7 +43,14 @@ pkill -f "npm run dev" 2>/dev/null
 pkill -f "next dev" 2>/dev/null
 pkill -f "ts-node" 2>/dev/null
 pkill -f "elizaos" 2>/dev/null
-sleep 2
+
+# Liberar portas específicas
+lsof -ti:3001 | xargs kill -9 2>/dev/null
+lsof -ti:3002 | xargs kill -9 2>/dev/null
+lsof -ti:3003 | xargs kill -9 2>/dev/null
+sleep 3
+
+echo "✅ Portas 3001, 3002, 3003 liberadas"
 
 # Limpar logs anteriores
 rm -f /tmp/backend_test.log /tmp/frontend_test.log /tmp/eliza_test.log
