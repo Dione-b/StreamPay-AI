@@ -7,6 +7,7 @@ import { mainnet } from "wagmi/chains";
 import { createPublicClient, http } from "viem";
 import Header from "./components/Header";
 import BackgroundEffects from "./components/BackgroundEffects";
+import { ToastProvider } from "./components/ToastProvider";
 
 const wagmiConfig = createConfig({
   autoConnect: true,
@@ -29,28 +30,30 @@ export default function RootLayout({
       </head>
       <body>
         <BackgroundEffects />
-        <WagmiConfig config={wagmiConfig}>
-          <div className="app-container">
-            <Header />
-            <main className="main-content">
-              <div className="content-wrapper">
-                {children}
-              </div>
-            </main>
-            <footer className="app-footer">
-              <div className="footer-content">
-                <p className="footer-text">
-                  © 2024 StreamPay AI. Todos os direitos reservados.
-                </p>
-                <div className="footer-links">
-                  <a href="#" className="footer-link">Documentação</a>
-                  <a href="#" className="footer-link">Suporte</a>
-                  <a href="#" className="footer-link">Termos</a>
+        <ToastProvider>
+          <WagmiConfig config={wagmiConfig}>
+            <div className="app-container">
+              <Header />
+              <main className="main-content">
+                <div className="content-wrapper">
+                  {children}
                 </div>
-              </div>
-            </footer>
-          </div>
-        </WagmiConfig>
+              </main>
+              <footer className="app-footer">
+                <div className="footer-content">
+                  <p className="footer-text">
+                    © 2024 StreamPay AI. Todos os direitos reservados.
+                  </p>
+                  <div className="footer-links">
+                    <a href="#" className="footer-link">Documentação</a>
+                    <a href="#" className="footer-link">Suporte</a>
+                    <a href="#" className="footer-link">Termos</a>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </WagmiConfig>
+        </ToastProvider>
       </body>
     </html>
   );
