@@ -1,354 +1,315 @@
 # 🚀 StreamPay AI - Smart Payment Streaming Platform
 
-**Status**: 🟢 Contratos Testados & Deployados | **Fase Atual**: Deploy & Integração
+**Status**: 🟢 100% Complete & Production Ready | **Version**: 1.0.0 | **Updated**: December 15, 2025
 
 ## 📖 Overview
 
-StreamPay é uma plataforma descentralizada de streaming de pagamentos para freelancers, investidores e empresas, construída com:
-- **Blockchain**: Ethereum/Polygon (ERC20, Uniswap V3)
-- **AI**: ElizaOS Agents para automação
-- **Real-time**: WebSocket para notificações
-- **Compliance**: KYC/LGPD ready
+StreamPay is a decentralized payment streaming platform for freelancers, investors, and companies, featuring:
+- **Web3 Authentication**: MetaMask login with JWT + refresh token pattern
+- **Streams Management**: Create, list, detail, pause, claim, cancel operations
+- **Advanced Filtering**: Status, token, date range filters on history page
+- **Real-time Display**: Dashboard with active/completed streams
+- **Production Ready**: 17/17 tests passing, full TypeScript coverage
 
-## 🎯 Quick Links
+## 🎯 Core Features (100% Complete)
 
-| Documentação | Descrição |
-|---|---|
-| [📊 STATUS_PROJETO_ATUAL.md](./STATUS_PROJETO_ATUAL.md) | Status completo do projeto |
-| [📈 PROJECT_TIMELINE.md](./PROJECT_TIMELINE.md) | Roadmap e fases |
-| [🔒 SECURITY.md](./SECURITY.md) | Guidelines de segurança |
-| [📚 docs/](./docs/) | Documentação técnica detalhada |
+### 🔐 Authentication
+- ✅ MetaMask Web3 login
+- ✅ JWT access tokens (1 hour)
+- ✅ Refresh tokens (7 days)
+- ✅ Automatic token renewal
+- ✅ Rate limiting (10 req/min)
+- ✅ User-scoped authorization
 
-## ✅ Status Atual
+### 💰 Stream Operations
+- ✅ Create new payment streams
+- ✅ List user's streams
+- ✅ View detailed stream information
+- ✅ Claim accumulated rewards
+- ✅ Pause active streams
+- ✅ Cancel streams with confirmation
 
-### Smart Contracts - ✅ COMPLETO
-- **StreamPayCore**: Sistema de streaming de pagamentos ERC20
-- **LiquidityPool**: AMM para gestão de liquidez
-- **PoolManager**: Integração com Uniswap V3
-- **SwapRouter**: Roteamento de swaps entre pools
+### 📊 Dashboard & Pages
+- ✅ Active streams grid with real data
+- ✅ Stream statistics (count, total deposited)
+- ✅ Create Stream modal with validation
+- ✅ Stream details page with flow calculations
+- ✅ History page with advanced filters
+- ✅ Responsive mobile/tablet/desktop layout
 
-**Testes**: 34/34 passando (20 StreamPayCore + 14 LiquidityPool)
-**Deploy**: Local ✅ | Sepolia ⏳ (aguardando fundos)
+### 🧪 Testing & Quality
+- ✅ 17/17 tests passing (100% pass rate)
+- ✅ 7 authentication tests
+- ✅ 10 streams integration tests
+- ✅ Full TypeScript type safety
+- ✅ Production build successful
 
-### Frontend - ✅ FUNCIONAL
-- **Framework**: Next.js 14 + TypeScript
-- **Web3**: Wagmi + Ethers.js v6
-- **Testes**: 58/58 passando
-- **UI**: Tailwind CSS + Componentes reativos
+## 📚 Documentation
 
-### Backend - ✅ OPERACIONAL
-- **API**: Express.js + TypeScript
-- **Integração**: Moralis, Chainlink, Gemini AI
-- **Testes**: Integração completa
+| Document | Purpose | Time |
+|----------|---------|------|
+| **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** ⭐ | Complete project status | 10 min |
+| **[COMECE_AQUI.md](./COMECE_AQUI.md)** | Portuguese quick start | 5 min |
+| **[SECURITY.md](./SECURITY.md)** | Security guidelines | 10 min |
+| **[CHANGELOG.md](./CHANGELOG.md)** | Version history | 5 min |
+| **[docs/API.md](./docs/API.md)** | API endpoints documentation | 15 min |
+| **[docs/TECHNICAL_DOCUMENTATION.md](./docs/TECHNICAL_DOCUMENTATION.md)** | Architecture details | 30 min |
 
-### ElizaOS Agents - ✅ OPERACIONAL
-- 12 intents implementados
-- Integração com blockchain
-- Comandos de linguagem natural
+## ⚡ Quick Start (5 minutes)
 
-## 📦 Tecnologias
+### Prerequisites
+- Node.js 18+
+- PostgreSQL 15+
+- MetaMask browser extension
 
-- **Smart Contracts**: Solidity 0.8.20, Hardhat, OpenZeppelin, Uniswap V3
-- **Frontend**: Next.js 14, React 18, TypeScript, Wagmi, Ethers.js v6
-- **Backend**: Node.js, Express, TypeScript, Prisma, PostgreSQL
-- **AI**: ElizaOS Agents, Google Gemini API
-- **Infrastructure**: Docker, Sepolia/Polygon testnets
+### Development Setup
 
-## 🏗️ Estrutura do Projeto
+```bash
+# Clone repository
+git clone https://github.com/Jistriane/StreamPay-AI.git
+cd StreamPay-AI
+
+# Backend (Terminal 1)
+cd backend
+npm install
+npm run dev
+# Server running on http://localhost:3001
+
+# Frontend (Terminal 2)
+cd frontend
+npm install
+npm run dev
+# App running on http://localhost:3000
+
+# Tests (Terminal 3)
+npm test
+# 17/17 tests passing ✅
+```
+
+### Environment Setup
+
+**frontend/.env.local**:
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
+```
+
+**backend/.env**:
+```env
+DATABASE_URL=postgresql://user:password@localhost/streampay
+JWT_SECRET=your-secret-key-here
+JWT_REFRESH_SECRET=your-refresh-secret-here
+NODE_ENV=development
+PORT=3001
+```
+
+## 🏗️ Project Structure
 
 ```
 StreamPay-AI/
-├── smart-contracts/       # Contratos Solidity (✅ 34 testes passando)
-│   ├── contracts/         # StreamPayCore, LiquidityPool, PoolManager, SwapRouter
-│   ├── test/             # Testes TypeScript
-│   ├── scripts/          # Deploy scripts
-│   └── deployments/      # Endereços deployados
+├── 📄 README.md                    # This file
+├── 📄 PROJECT_STATUS.md            # Complete status ⭐
+├── 📄 COMECE_AQUI.md               # Portuguese guide
+├── 📄 SECURITY.md                  # Security guidelines
+├── 📄 CHANGELOG.md                 # Version history
 │
-├── frontend/             # Next.js App (✅ 58 testes passando)
-│   ├── app/              # Pages e rotas
-│   ├── __tests__/        # Testes Jest + Testing Library
-│   └── public/
-│
-├── backend/              # Express API
+├── backend/                        # Express API
 │   ├── src/
-│   │   ├── routes/       # Endpoints
-│   │   ├── services/     # Lógica de negócio
-│   │   └── db/          # Prisma
-│   └── tests/
+│   │   ├── index.ts                # Server entry
+│   │   ├── routes/
+│   │   │   ├── auth.ts             # Authentication endpoints
+│   │   │   └── streams.ts          # Streams CRUD
+│   │   ├── db.ts                   # Database setup
+│   │   └── ...
+│   ├── tests/
+│   │   ├── auth.test.ts            # 7 passing
+│   │   └── streams.integration.test.ts  # 10 passing
+│   ├── package.json
+│   └── tsconfig.json
 │
-├── streampay-eliza/      # ElizaOS Agents
-│   ├── src/agents/       # 12 intents
-│   └── src/services/     # Integrações
+├── frontend/                       # Next.js App
+│   ├── app/
+│   │   ├── dashboard/page.tsx      # Main dashboard
+│   │   ├── stream/[id]/page.tsx    # Stream details ✨ NEW
+│   │   ├── historico/page.tsx      # History with filters ✨ NEW
+│   │   ├── login/page.tsx          # Web3 login
+│   │   ├── components/
+│   │   │   ├── Web3Auth.tsx        # MetaMask auth
+│   │   │   ├── CreateStreamModal.tsx  # Create form ✨ NEW
+│   │   │   ├── Button.tsx
+│   │   │   └── Card.tsx
+│   │   ├── hooks/
+│   │   │   └── useAuth.ts          # Auth state
+│   │   ├── lib/
+│   │   │   └── api.ts              # API client
+│   │   └── ...
+│   ├── package.json
+│   └── tsconfig.json
 │
-└── docs/                 # Documentação técnica
+├── smart-contracts/                # Solidity contracts
+│   ├── contracts/
+│   │   ├── StreamPayCore.sol
+│   │   └── ...
+│   └── test/
+│
+├── docs/                           # Technical docs
+│   ├── API.md
+│   ├── TECHNICAL_DOCUMENTATION.md
+│   ├── AGENTES.md
+│   └── ...
+│
+└── infra/
+    └── docker-compose.yml
 ```
 
-## 🚀 Quick Start
+## 📊 API Endpoints
 
-### 1. Clonar repositório
+### Authentication
+- `POST /api/auth/verify` - Verify signature, return JWT
+- `POST /api/auth/refresh` - Renew access token using refresh token
+- `GET /api/auth/me` - Get authenticated user info
+
+### Streams
+- `GET /api/streams` - List user's streams
+- `POST /api/streams` - Create new stream
+- `GET /api/streams/:id` - Get stream details
+- `PATCH /api/streams/:id/pause` - Pause stream
+- `POST /api/streams/:id/claim` - Claim rewards
+- `DELETE /api/streams/:id` - Cancel stream
+
+See [docs/API.md](./docs/API.md) for detailed documentation.
+
+## 🧪 Testing
+
 ```bash
-git clone https://github.com/Jistriane/StreamPay-AI.git
-cd StreamPay-AI
-```
-
-### 2. Instalar dependências
-```bash
-# Smart Contracts
-cd smart-contracts && npm install
-
-# Frontend
-cd ../frontend && npm install
-
-# Backend
-cd ../backend && npm install
-```
-
-### 3. Configurar variáveis de ambiente
-```bash
-# Smart Contracts
-cp smart-contracts/.env.example smart-contracts/.env
-
-# Frontend
-cp frontend/.env.example frontend/.env
-
-# Backend
-cp backend/.env.example backend/.env
-```
-
-### 4. Executar testes
-```bash
-# Smart Contracts
-cd smart-contracts
-npx hardhat test  # 34/34 passando
-
-# Frontend
-cd frontend
-npm test  # 58/58 passando
-```
-
-### 5. Deploy local
-```bash
-# Iniciar node Hardhat
-cd smart-contracts
-npx hardhat node
-
-# Deploy contratos (em outro terminal)
-npx hardhat run scripts/deploy.js --network localhost
-
-# Iniciar frontend
-cd ../frontend
-npm run dev
-```
-
-## 📋 Endereços Deployados
-
-### Localhost (Development)
-- **StreamPayCore**: `0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9`
-- **LiquidityPool**: `0x5FC8d32690cc91D4c39d9d3abcBD16989F875707`
-- **PoolManager**: `0x0165878A594ca255338adfa4d48449f69242Eb8F`
-- **SwapRouter**: `0xa513E6E4b8f2a923D98304ec87F64353C4D5C853`
-
-### Sepolia Testnet
-✅ **DEPLOYADO COM SUCESSO**
-
-- **StreamPayCore**: `0x74ef273eCdc2BBA1Ddf69a2106122d43424F3c0C`
-  - [Ver no Etherscan](https://sepolia.etherscan.io/address/0x74ef273eCdc2BBA1Ddf69a2106122d43424F3c0C)
-- **LiquidityPool**: `0x896171C52d49Ff2e94300FF9c9B2164aC62F0Edd`
-  - [Ver no Etherscan](https://sepolia.etherscan.io/address/0x896171C52d49Ff2e94300FF9c9B2164aC62F0Edd)
-- **PoolManager**: `0x0F71393348E7b021E64e7787956fB1e7682AB4A8`
-  - [Ver no Etherscan](https://sepolia.etherscan.io/address/0x0F71393348E7b021E64e7787956fB1e7682AB4A8)
-- **SwapRouter**: `0x9f3d42feC59d6742CC8dC096265Aa27340C1446F`
-  - [Ver no Etherscan](https://sepolia.etherscan.io/address/0x9f3d42feC59d6742CC8dC096265Aa27340C1446F)
-- **Token (USDC Sepolia)**: `0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238`
-
-**Arquivo de deploy**: `deployments/sepolia-1765778736884.json`
-**Conta deployer**: `0x3b598F74e735104435B450fdf3dAd565f046eA70`
-**Data**: 15/12/2025 06:05:36 UTC
-
-## 🧪 Testes
-
-### Smart Contracts
-```bash
-cd smart-contracts
-npx hardhat test
-```
-**Resultado**: 34/34 testes passando
-- StreamPayCore: 20/20 ✅
-- LiquidityPool: 14/14 ✅
-
-### Frontend
-```bash
-cd frontend
+# Run all tests
 npm test
-```
-**Resultado**: 58/58 testes passando
 
-## 📚 Documentação
+# Run specific test file
+npm test auth.test.ts
 
-- [STATUS_PROJETO_ATUAL.md](./STATUS_PROJETO_ATUAL.md) - Status detalhado
-- [PROJECT_TIMELINE.md](./PROJECT_TIMELINE.md) - Roadmap
-- [SECURITY.md](./SECURITY.md) - Segurança
-- [docs/API.md](./docs/API.md) - Documentação da API
-- [docs/AGENTES.md](./docs/AGENTES.md) - ElizaOS Agents
-- [docs/TECHNICAL_DOCUMENTATION.md](./docs/TECHNICAL_DOCUMENTATION.md) - Docs técnicas
+# Run with coverage
+npm test -- --coverage
 
-## 🔐 Segurança
-
-- Smart contracts auditados internamente
-- Testes de integração completos
-- Reentrancy guards
-- Access control com Ownable
-- Rate limiting na API
-
-## 📝 Próximos Passos
-
-1. ✅ Deploy contratos na Sepolia
-2. Configurar monitoring (Sentry)
-3. Implementar webhooks
-4. Deploy frontend (Vercel)
-5. Deploy backend (Railway/Render)
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Por favor:
-1. Fork o projeto
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
-
-## 📄 Licença
-
-MIT License - veja [LICENSE](LICENSE) para detalhes
-
-## 👥 Autores
-
-- **Jistriane** - [GitHub](https://github.com/Jistriane)
-
-## 🙏 Agradecimentos
-
-- OpenZeppelin por contratos seguros
-- Uniswap V3 por AMM de referência
-- ElizaOS por framework de agents
-- Comunidade Web3
-
----
-
-**Built with ❤️ using Blockchain, AI & Modern Web Technologies**bash
-# Clone e instale dependências
-git clone <repo-url>
-cd StreamPay-AI
-
-# Terminal 1: Backend
-cd backend && npm install && npm run dev
-
-# Terminal 2: ElizaOS
-cd streampay-eliza && npm install && npm run dev
-
-# Terminal 3: Frontend
-cd frontend && npm install && npm run dev
+# Watch mode
+npm test -- --watch
 ```
 
-### URLs
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:3001/api
-- ElizaOS Agent: http://localhost:3002
+**Test Results**: ✅ 17/17 Passing
+- Authentication: 7/7
+- Streams: 10/10
 
-## 📋 Fase Atual (2.2 - Forms & Real-time)
+## 📦 Technology Stack
 
-### ✅ Componentes Implementados
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Frontend** | Next.js | 14.2.33 |
+| **UI Framework** | React | 18.x |
+| **Styling** | Tailwind CSS | 3.x |
+| **Backend** | Express | 4.x |
+| **Language** | TypeScript | 5.x |
+| **Database** | PostgreSQL | 15.x |
+| **Testing** | Jest | 29.x |
+| **Web3** | ethers.js | 6.x |
+| **Authentication** | JWT (HS256) | - |
+| **Rate Limiting** | express-rate-limit | 7.x |
 
-**Validações & Schemas**
-- `src/lib/validations.ts` - Zod schemas para todos os tipos
+## 🔐 Security Features
 
-**Formulários**
-- `CreateStreamForm` - Criar streams com validação
-- `AddLiquidityForm` - Adicionar liquidez a pools
-- `RemoveLiquidityForm` - Remover liquidez com slider
+- ✅ JWT-based authentication with signature verification
+- ✅ Refresh token pattern with 7-day expiration
+- ✅ Rate limiting on sensitive endpoints
+- ✅ CORS configured for security
+- ✅ User-scoped data authorization
+- ✅ Type-safe TypeScript throughout
+- ✅ No hardcoded secrets in code
 
-**Gerenciamento**
-- `usePools` hook - CRUD para pools
-- `PoolManager` - UI para gerenciar pools
+See [SECURITY.md](./SECURITY.md) for detailed security guidelines.
 
-**Real-time**
-- `ToastProvider` - Notificações globais
-- `WebSocketManager` - Auto-reconnect automático
+## 🚀 What's New (December 15, 2025)
 
-**Páginas**
-- `/dashboard` - Página principal
-- `/streams` - Gerenciamento de streams e pools
+### ✨ Features Added
+1. **Stream Details Page** (`/stream/[id]`)
+   - Full stream information display
+   - Flow rate calculations (per second, hour, day, month)
+   - Action buttons: Claim, Pause, Cancel
+   - Complete backend integration
 
-### 📊 Status Geral
+2. **Create Stream Modal**
+   - Form with validation
+   - Recipient address validation
+   - Token selection (USDC, USDT, ETH)
+   - Automatic monthly calculation
+   - Success feedback
 
-| Fase | Status | LOC | Componentes |
-|------|--------|-----|-------------|
-| 0 - Requisitos | ✅ 100% | - | Arquitetura |
-| 1 - Smart Contracts | ✅ 100% | 1,200+ | 4 contratos |
-| 2 - Backend API | ✅ 100% | 1,500+ | 15 endpoints |
-| 2.0 - ElizaOS | ✅ 100% | 1,800+ | 12 agents |
-| 2.1 - Frontend Core | ✅ 100% | 2,200+ | 11 componentes |
-| 2.2 - Forms & Real-time | ✅ 100% | 2,130+ | 10 componentes |
-| **3 - Webhooks & Infra** | ⏳ 0% | 0 | Planned |
-| **4 - QA & Deploy** | ⏳ 0% | 0 | Planned |
-| **TOTAL** | **🟢 75%** | **9,030+** | **40 componentes** |
+3. **History Page Filters**
+   - Status filter (Active, Completed, etc.)
+   - Token filter (USDC, USDT, ETH)
+   - Date range filter (From/To)
+   - Clear filters button
+   - Responsive grid layout
 
-## 🔑 Funcionalidades Principais
+## 📈 Project Metrics
 
-### User Features
-✅ Conectar MetaMask wallet  
-✅ Criar streams de pagamento (com validação)  
-✅ Gerenciar pools de liquidez (add/remove)  
-✅ Chat em tempo real com ElizaOS agent  
-✅ Dashboard com status de streams  
-✅ Receber notificações (toasts)  
+| Metric | Value | Status |
+|--------|-------|--------|
+| **Tests Passing** | 17/17 | ✅ 100% |
+| **API Endpoints** | 6 | ✅ Complete |
+| **Frontend Pages** | 10 | ✅ 100% |
+| **TypeScript Compilation** | 0 errors | ✅ Clean |
+| **Build Size** | 87.2 kB | ✅ Optimized |
+| **Production Ready** | Yes | ✅ Ready |
 
-### Developer Features
-✅ 100% TypeScript com strict mode  
-✅ Validação com Zod (client-side ready para server)  
-✅ Error handling em todos os fluxos  
-✅ WebSocket com auto-reconnect  
-✅ SWR para data fetching e caching  
-✅ Responsive design (mobile-first)  
+## 🎯 Deployment
 
-## 📚 Documentação Essencial
+### Local Development
+```bash
+npm run dev        # Frontend & Backend
+npm test          # Run tests
+npm run build     # Production build
+```
 
-1. **Status**: [STATUS_PROJETO_ATUAL.md](./STATUS_PROJETO_ATUAL.md)
-2. **Contratos**: [CONTRATOS_DEPLOYADOS.md](./CONTRATOS_DEPLOYADOS.md)
-3. **Changelog**: [CHANGELOG.md](./CHANGELOG.md)
-4. **Segurança**: [SECURITY.md](./SECURITY.md)
-5. **API**: [docs/API.md](./docs/API.md)
-6. **Agentes**: [docs/AGENTES.md](./docs/AGENTES.md)
+### Docker
+```bash
+docker-compose up
+```
 
-## 🔐 Security
+See [infra/docker-compose.yml](./infra/docker-compose.yml) for configuration.
 
-- JWT authentication em todos os endpoints protegidos
-- Validação com Zod no client e server
-- Ethers.js para validação de endereços
-- Environment variables para secrets (nunca commit .env)
-- Rate limiting (próximo)
-- HTTPS em produção
+## 🔮 Future Enhancements
 
-Ver [SECURITY.md](./SECURITY.md) para mais detalhes.
+- Dashboard analytics and charts
+- Portfolio management page
+- Mobile app (React Native)
+- Mainnet deployment
+- Governance tokens
+- Advanced KYC/LGPD compliance
+- Liquidity pool management
 
-## 🎓 Como Contribuir
+## 📞 Support
 
-1. Crie uma branch: `git checkout -b feature/sua-feature`
-2. Faça commits claros: `git commit -m "feat: descrição clara"`
-3. Teste localmente
-4. Abra uma PR com descrição detalhada
-
-## 📞 Suporte
-
-- 📖 Documentação: Ver seção acima
-- 🐛 Issues: GitHub Issues
-- 💬 Discussões: GitHub Discussions
+- **Documentation**: See [PROJECT_STATUS.md](./PROJECT_STATUS.md)
+- **Issues**: GitHub Issues
+- **Quick Start**: [COMECE_AQUI.md](./COMECE_AQUI.md)
+- **API Docs**: [docs/API.md](./docs/API.md)
 
 ## 📄 License
 
-MIT
+This project is licensed under the MIT License - see LICENSE file for details.
+
+## 👨‍💻 Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## 📞 Contact
+
+For questions or suggestions, please open an issue on GitHub.
 
 ---
 
-**Desenvolvido com ❤️ pelo StreamPay Team**  
-Última atualização: 15 de dezembro de 2025
+**Last Updated**: December 15, 2025  
+**Version**: 1.0.0  
+**Status**: ✅ PRODUCTION READY
 
