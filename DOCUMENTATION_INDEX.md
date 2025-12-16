@@ -109,11 +109,11 @@ StreamPay-AI/
 
 ## 🎯 Project Status
 
-| Componente | Status | Arquivo |
+| Component | Status | File |
 |-----------|--------|---------|
-| **Completo** | ✅ 100% | PROJECT_STATUS.md |
-| **Features Novas** | ✅ 3/3 | FEATURES_DECEMBER_2025.md |
-| **Testes** | ✅ 17/17 | PROJECT_STATUS.md |
+| **Complete** | ✅ 100% | PROJECT_STATUS.md |
+| **New Features** | ✅ 3/3 | FEATURES_DECEMBER_2025.md |
+| **Tests** | ✅ 17/17 | PROJECT_STATUS.md |
 | **Build** | ✅ Success | README.md |
 | **Deploy** | ✅ Ready | SECURITY.md |
 

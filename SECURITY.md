@@ -1,107 +1,107 @@
-# 🔒 AVISO DE SEGURANÇA - API Keys
+# 🔒 SECURITY NOTICE - API Keys
 
-## ⚠️ IMPORTANTE
+## ⚠️ IMPORTANT
 
-Este repositório **NÃO** deve conter chaves API reais commitadas no Git.
+This repository must **NOT** contain real API keys committed to Git.
 
-## Arquivos Protegidos
+## Protected Files
 
-Os seguintes arquivos estão no `.gitignore` e **não devem ser commitados**:
+The following files are in `.gitignore` and **must not be committed**:
 
-- `backend/.env` - Contém todas as chaves API sensíveis
-- Qualquer arquivo `.env.local` ou `.env.*.local`
+- `backend/.env` - Contains all sensitive API keys
+- Any `.env.local` or `.env.*.local` file
 
-## Chaves API Necessárias
+## Required API Keys
 
-Para executar este projeto localmente, você precisa:
+To run this project locally, you need:
 
 ### 1. Google Gemini AI
-- Obtenha em: https://makersuite.google.com/app/apikey
-- Adicione ao `backend/.env`: `GEMINI_API_KEY=sua_chave_aqui`
+- Obtain at: https://makersuite.google.com/app/apikey
+- Add to `backend/.env`: `GEMINI_API_KEY=your_key_here`
 
-### 2. Outras APIs (Opcionais)
+### 2. Other APIs (Optional)
 - Moralis API Key
 - Etherscan API Key
 - Infura API Key
 - Chainlink RPC URL
 
-## Como Configurar
+## How to Configure
 
-1. Copie o arquivo de exemplo:
+1. Copy the example file:
 ```bash
 cp backend/.env.example backend/.env
 ```
 
-2. Edite `backend/.env` e adicione suas chaves API reais
+2. Edit `backend/.env` and add your real API keys
 
-3. **NUNCA** faça commit do arquivo `.env` no Git
+3. **NEVER** commit the `.env` file to Git
 
-## Verificação de Segurança
+## Security Check
 
-Antes de fazer commit, sempre execute:
+Before committing, always run:
 
 ```bash
-# Verificar se .env está no .gitignore
-grep -q "^\.env$" .gitignore && echo "✅ .env protegido" || echo "❌ .env NÃO protegido"
+# Confirm .env is in .gitignore
+grep -q "^\.env$" .gitignore && echo "✅ .env protected" || echo "❌ .env NOT protected"
 
-# Verificar se não há chaves expostas
-git diff --cached | grep -i "api.*key" && echo "⚠️ Possível chave exposta!" || echo "✅ Sem chaves expostas"
+# Ensure no keys are staged
+git diff --cached | grep -i "api.*key" && echo "⚠️ Possible exposed key!" || echo "✅ No keys exposed"
 ```
 
-## O Que Fazer Se Você Expôs uma Chave
+## What to Do if You Exposed a Key
 
-Se você acidentalmente commitou uma chave API:
+If you accidentally committed an API key:
 
-1. **Revogue a chave imediatamente** no console do provedor
-2. Gere uma nova chave
-3. Remova a chave do histórico Git:
+1. **Revoke the key immediately** in the provider console
+2. Generate a new key
+3. Remove the key from Git history:
 ```bash
-# Para commits não enviados
+# For commits not pushed
 git reset HEAD~1
 
-# Para commits já enviados (cuidado!)
+# For already pushed commits (handle with care)
 git filter-branch --force --index-filter \
   "git rm --cached --ignore-unmatch backend/.env" \
   --prune-empty --tag-name-filter cat -- --all
 ```
 
-4. Force push (apenas se necessário e com cuidado):
+4. Force push (only if necessary and carefully):
 ```bash
 git push origin --force --all
 ```
 
-## Boas Práticas
+## Best Practices
 
-✅ **FAÇA:**
-- Use variáveis de ambiente (`.env`)
-- Adicione `.env` ao `.gitignore`
-- Rotacione chaves periodicamente
-- Use chaves diferentes para dev/staging/prod
-- Documente quais chaves são necessárias
+✅ **DO:**
+- Use environment variables (`.env`)
+- Add `.env` to `.gitignore`
+- Rotate keys periodically
+- Use different keys for dev/staging/prod
+- Document which keys are required
 
-❌ **NÃO FAÇA:**
-- Commit de arquivos `.env`
-- Hardcode de chaves em código
-- Compartilhe chaves publicamente
-- Use a mesma chave em múltiplos projetos
-- Exponha chaves no frontend
+❌ **DON'T:**
+- Commit `.env` files
+- Hardcode keys in code
+- Share keys publicly
+- Use the same key across projects
+- Expose keys in the frontend
 
-## Ferramentas de Segurança
+## Security Tools
 
-Considere usar:
+Consider using:
 
-- [git-secrets](https://github.com/awslabs/git-secrets) - Previne commits de segredos
-- [truffleHog](https://github.com/trufflesecurity/truffleHog) - Detecta segredos no histórico
-- [gitleaks](https://github.com/gitleaks/gitleaks) - Scanner de segredos
+- [git-secrets](https://github.com/awslabs/git-secrets) - Prevents committing secrets
+- [truffleHog](https://github.com/trufflesecurity/truffleHog) - Detects secrets in history
+- [gitleaks](https://github.com/gitleaks/gitleaks) - Secret scanner
 
-## Contato
+## Contact
 
-Se você descobrir chaves expostas neste repositório, por favor:
+If you find exposed keys in this repository, please:
 
-1. **NÃO** use as chaves
-2. Abra uma issue PRIVADA
-3. Notifique os mantenedores imediatamente
+1. **DO NOT** use the keys
+2. Open a PRIVATE issue
+3. Notify the maintainers immediately
 
 ---
 
-**Última atualização:** 11 de dezembro de 2025
+**Last updated:** December 11, 2025

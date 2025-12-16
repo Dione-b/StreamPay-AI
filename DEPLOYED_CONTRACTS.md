@@ -101,7 +101,7 @@ const streamPayCore = getContractAddress('StreamPayCore', 'sepolia');
 
 ---
 
-## 🔗 Links Úteis
+## 🔗 Useful Links
 
 - **Sepolia Faucet (Alchemy)**: https://www.alchemy.com/faucets/ethereum-sepolia
 - **Sepolia Faucet (QuickNode)**: https://faucet.quicknode.com/ethereum/sepolia
@@ -110,21 +110,21 @@ const streamPayCore = getContractAddress('StreamPayCore', 'sepolia');
 
 ---
 
-## 📝 Notas
+## 📝 Notes
 
-1. ✅ Todos os contratos foram deployados com sucesso
-2. ✅ Contratos estão verificados localmente
-3. ⏳ Verificação no Etherscan pendente (API v2 migration)
-4. ✅ ABIs disponíveis em `smart-contracts/artifacts/`
-5. ✅ TypeChain types gerados em `smart-contracts/typechain-types/`
+1. ✅ All contracts deployed successfully
+2. ✅ Contracts verified locally
+3. ⏳ Etherscan verification pending (API v2 migration)
+4. ✅ ABIs available in `smart-contracts/artifacts/`
+5. ✅ TypeChain types generated in `smart-contracts/typechain-types/`
 
 ---
 
-## 🚨 Próximos Passos
+## 🚨 Next Steps
 
-1. [ ] Atualizar frontend `.env` com novos endereços
-2. [ ] Atualizar backend `.env` com novos endereços
-3. [ ] Testar integração frontend-contratos
-4. [ ] Verificar contratos no Etherscan (manual ou API v2)
-5. [ ] Configurar monitoring e alertas
-6. [ ] Deploy frontend/backend para produção
+1. [ ] Update frontend `.env` with new addresses
+2. [ ] Update backend `.env` with new addresses
+3. [ ] Test frontend-contract integration
+4. [ ] Verify contracts on Etherscan (manual or API v2)
+5. [ ] Configure monitoring and alerts
+6. [ ] Deploy frontend/backend to production

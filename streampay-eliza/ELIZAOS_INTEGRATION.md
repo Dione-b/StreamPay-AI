@@ -1,75 +1,75 @@
 # StreamPay ElizaOS Integration
 
-## 📋 Visão Geral
+## 📋 Overview
 
-A integração ElizaOS do StreamPay permite que usuários interajam com o sistema de pagamentos em stream e gerenciamento de liquidez através de linguagem natural.
+The StreamPay ElizaOS integration lets users interact with streaming payments and liquidity management using natural language.
 
-## 🏗️ Arquitetura
+## 🏗️ Architecture
 
 ```
 User Message
     ↓
-[IntentParser] → Identifica comando (CREATE_STREAM, SWAP, etc)
+[IntentParser] → Detects command (CREATE_STREAM, SWAP, etc)
     ↓
-[ActionHandler] → Executa ação via Backend/Contracts
+[ActionHandler] → Executes action via Backend/Contracts
     ↓
-[Response] → Retorna resultado ao usuário
+[Response] → Returns result to the user
 ```
 
-### Componentes
+### Components
 
 #### 1. **IntentParser** (`src/services/intent-parser.ts`)
-- Converte mensagens em texto para intents estruturados
-- Extrai parâmetros (endereços, valores, tokens)
-- Calcula confiança da predição
+- Converts text messages into structured intents
+- Extracts parameters (addresses, amounts, tokens)
+- Computes prediction confidence
 
-**Intents Suportados:**
-- `CREATE_STREAM` - Criar stream de pagamento
-- `CLAIM_STREAM` - Coletar tokens
-- `PAUSE_STREAM` - Pausar stream
-- `CANCEL_STREAM` - Cancelar stream
-- `VIEW_STREAMS` - Listar streams
-- `ADD_LIQUIDITY` - Adicionar liquidez
-- `REMOVE_LIQUIDITY` - Remover liquidez
-- `SWAP_TOKENS` - Trocar tokens
-- `CHECK_BALANCE` - Verificar saldo
-- `GET_PRICE` - Obter preço
+**Supported Intents:**
+- `CREATE_STREAM` - Create a payment stream
+- `CLAIM_STREAM` - Claim tokens
+- `PAUSE_STREAM` - Pause a stream
+- `CANCEL_STREAM` - Cancel a stream
+- `VIEW_STREAMS` - List streams
+- `ADD_LIQUIDITY` - Add liquidity
+- `REMOVE_LIQUIDITY` - Remove liquidity
+- `SWAP_TOKENS` - Swap tokens
+- `CHECK_BALANCE` - Check balance
+- `GET_PRICE` - Fetch price
 
 #### 2. **ActionHandler** (`src/services/action-handler.ts`)
-- Executa ações baseadas em intents
-- Comunica com Backend API
-- Integra com Moralis e Chainlink
+- Executes actions based on intents
+- Communicates with the Backend API
+- Integrates with Moralis and Chainlink
 
 #### 3. **Services** (`src/services/`)
-- `http-client.ts` - Cliente HTTP com retry e rate limiting
-- `moralis.ts` - API de dados Web3
-- `chainlink.ts` - Oracles de preço
-- `intent-parser.ts` - Parser de linguagem natural
+- `http-client.ts` - HTTP client with retry and rate limiting
+- `moralis.ts` - Web3 data API
+- `chainlink.ts` - Price oracles
+- `intent-parser.ts` - Natural language parser
 
 #### 4. **Agent Orchestrator** (`src/agents/orchestrator.ts`)
-- Coordena todos os serviços
-- Gerencia contexto do usuário
-- Valida parâmetros
+- Coordinates all services
+- Manages user context
+- Validates parameters
 
 #### 5. **ElizaOS Integration** (`src/agents/eliza-integration.ts`)
-- Actions exportadas para ElizaOS
-- Handlers para processar mensagens
-- Validação de intents
+- Actions exported to ElizaOS
+- Handlers to process messages
+- Intent validation
 
-## 🚀 Uso
+## 🚀 Usage
 
-### Instalação
+### Install
 
 ```bash
-# No diretório streampay-eliza
+# In the streampay-eliza directory
 npm install
 ```
 
-### Configuração
+### Configure
 
-Criar `.env`:
+Create `.env`:
 ```env
-# APIs Externas
+# External APIs
 MORALIS_API_KEY=your_moralis_key
 CHAINLINK_RPC_URL=https://polygon-rpc.com
 
@@ -79,134 +79,134 @@ BACKEND_URL=http://localhost:3001
 # ElizaOS LLM
 GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_key
 
-# Plataformas (opcional)
+# Platforms (optional)
 DISCORD_API_TOKEN=your_discord_token
 TELEGRAM_BOT_TOKEN=your_telegram_token
 ```
 
-### Executar Agent
+### Run Agent
 
 ```bash
-# Modo desenvolvimento
+# Development
 npm run dev
 
-# Modo produção
+# Production
 npm run start
 ```
 
-## 💬 Exemplos de Uso
+## 💬 Usage Examples
 
-### Criar Stream
+### Create Stream
 ```
 User: "Create a stream of 1000 USDC to 0x1234567890123456789012345678901234567890 for 30 days"
 
-Agent: 
-✓ Intent: CREATE_STREAM (95% confiança)
-✓ Parâmetros: amount=1000, token=USDC, recipient=0x1234..., duration=30 days
-✓ Confirmado! Stream criado com sucesso.
+Agent:
+✓ Intent: CREATE_STREAM (95% confidence)
+✓ Parameters: amount=1000, token=USDC, recipient=0x1234..., duration=30 days
+✓ Confirmed! Stream created successfully.
 ```
 
-### Verificar Saldo
+### Check Balance
 ```
 User: "What is my wallet balance?"
 
 Agent:
-✓ Intent: CHECK_BALANCE (98% confiança)
-✓ Consultando Moralis...
-✓ Seu saldo: $5,234.50
+✓ Intent: CHECK_BALANCE (98% confidence)
+✓ Querying Moralis...
+✓ Your balance: $5,234.50
   - 1000 USDC
   - 2 ETH
   - 500 MATIC
 ```
 
-### Trocar Tokens
+### Swap Tokens
 ```
 User: "Swap 100 USDC for ETH"
 
 Agent:
-✓ Intent: SWAP_TOKENS (96% confiança)
-✓ Consultando Chainlink...
-✓ Cotação: 100 USDC → 0.05 ETH
+✓ Intent: SWAP_TOKENS (96% confidence)
+✓ Querying Chainlink...
+✓ Quote: 100 USDC → 0.05 ETH
 ✓ Ready to swap? Confirm?
 ```
 
-### Verificar Preço
+### Check Price
 ```
 User: "ETH price?"
 
 Agent:
-✓ Intent: GET_PRICE (99% confiança)
+✓ Intent: GET_PRICE (99% confidence)
 ✓ ETH/USD: $2,340.50 (High Confidence - Chainlink)
 ```
 
-## 🔌 API de Ações
+## 🔌 Actions API
 
 ### StreamPayMessageAction
 
-Processa comandos StreamPay através de NLP.
+Processes StreamPay commands via NLP.
 
 ```typescript
 const action: Action = {
   name: 'STREAMPAY_MESSAGE',
   handler: async (runtime, message, state, options, callback) => {
-    // Processa mensagem e executa ação
+    // Process message and execute action
   }
 }
 ```
 
 ### StreamPayCommandsAction
 
-Mostra comandos disponíveis.
+Shows available commands.
 
 ```typescript
 const action: Action = {
   name: 'STREAMPAY_HELP',
   handler: async (runtime, message, state, options, callback) => {
-    // Retorna lista de comandos
+    // Returns list of commands
   }
 }
 ```
 
-## 📊 Fluxo de Processamento
+## 📊 Processing Flow
 
 ```mermaid
 graph LR
-    A["Mensagem do Usuário"] --> B["IntentParser"]
-    B --> C{"Intent Detectado?"}
-    C -->|Sim| D["Validar Parâmetros"]
-    C -->|Não| E["Retornar Erro"]
-    D --> F{"Parâmetros Válidos?"}
-    F -->|Sim| G["ActionHandler"]
-    F -->|Não| E
+    A["User Message"] --> B["IntentParser"]
+    B --> C{"Intent Detected?"}
+    C -->|Yes| D["Validate Parameters"]
+    C -->|No| E["Return Error"]
+    D --> F{"Valid Parameters?"}
+    F -->|Yes| G["ActionHandler"]
+    F -->|No| E
     G --> H["Backend API / Oracles"]
-    H --> I["Resultado"]
-    I --> J["Formattar Resposta"]
-    J --> K["Callback ao Usuário"]
+    H --> I["Result"]
+    I --> J["Format Response"]
+    J --> K["Callback to User"]
 ```
 
-## 🛡️ Segurança
+## 🛡️ Security
 
-### Validações
-- ✓ Validação de endereços Ethereum
-- ✓ Limites de transação
-- ✓ Verificação de taxa de câmbio
-- ✓ Autenticação via JWT
+### Validations
+- ✓ Ethereum address validation
+- ✓ Transaction limits
+- ✓ Exchange rate checks
+- ✓ JWT authentication
 
 ### Rate Limiting
-- Max 100 requests por minuto
-- Retry automático com backoff exponencial
-- Circuit breaker para APIs externas
+- Max 100 requests per minute
+- Automatic retries with exponential backoff
+- Circuit breaker for external APIs
 
-### Proteções
-- SQL injection: Queries parametrizadas
-- XSS: Sem rendering de HTML direto
+### Protections
+- SQL injection: Parameterized queries
+- XSS: No direct HTML rendering
 - CSRF: Token validation
-- Assinatura: Verificação de mensagens Web3
+- Signature: Web3 message verification
 
-## 🧪 Testes
+## 🧪 Tests
 
 ```bash
-# Executar testes
+# Run tests
 npm test
 
 # Coverage
@@ -216,7 +216,7 @@ npm run test:coverage
 npm run test:watch
 ```
 
-### Exemplo de Teste
+### Test Example
 ```typescript
 it('should parse create stream command', () => {
   const result = parser.parseIntent(
@@ -227,14 +227,14 @@ it('should parse create stream command', () => {
 });
 ```
 
-## 📈 Métricas
+## 📈 Metrics
 
-- **Parse Accuracy**: 92-98% para intents comuns
-- **Response Time**: < 500ms para a maioria das operações
-- **Uptime**: 99.9% com fallbacks
-- **Error Rate**: < 1% com retry logic
+- **Parse Accuracy**: 92-98% for common intents
+- **Response Time**: < 500ms for most operations
+- **Uptime**: 99.9% with fallbacks
+- **Error Rate**: < 1% with retry logic
 
-## 🔮 Extensões Futuras
+## 🔮 Future Extensions
 
 - [ ] Voice input support
 - [ ] Multi-language support
@@ -244,13 +244,13 @@ it('should parse create stream command', () => {
 - [ ] Risk assessment
 - [ ] Portfolio optimization
 
-## 📞 Suporte
+## 📞 Support
 
-Para questões técnicas:
+For technical questions:
 - GitHub Issues: [streamPay-AI/issues](https://github.com/your-org/StreamPay-AI/issues)
 - Discord: [StreamPay Community](https://discord.gg/...)
 - Email: support@streampay.ai
 
-## 📄 Licença
+## 📄 License
 
-MIT License - veja LICENSE para detalhes
+MIT License - see LICENSE for details

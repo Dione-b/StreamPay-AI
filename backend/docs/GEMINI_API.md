@@ -1,39 +1,39 @@
-# Google Gemini AI - Integração StreamPay
+# Google Gemini AI - StreamPay Integration
 
-## Visão Geral
-A integração com Google Gemini AI fornece capacidades avançadas de IA generativa para o StreamPay, incluindo:
-- Assistente virtual inteligente
-- Análise de streams e transações
-- Geração de relatórios de compliance
-- Insights e recomendações em tempo real
+## Overview
+The Google Gemini AI integration provides advanced generative AI capabilities for StreamPay, including:
+- Intelligent virtual assistant
+- Stream and transaction analysis
+- Compliance report generation
+- Real-time insights and recommendations
 
-## Configuração
+## Configuration
 
-### 1. Instalar Dependências
+### 1. Install dependencies
 ```bash
 cd backend
 npm install
 ```
 
-### 2. Configurar API Key
-Adicione sua chave API do Gemini no arquivo `.env`:
+### 2. Configure API key
+Add your Gemini API key to `.env`:
 ```env
-GEMINI_API_KEY=sua_chave_api_aqui
+GEMINI_API_KEY=your_api_key_here
 ```
 
-> ⚠️ **IMPORTANTE:** Nunca commit sua chave API real no Git. Use apenas para desenvolvimento local.
+> ⚠️ **IMPORTANT:** Never commit your real API key to Git. Use it only for local development.
 
-### 3. Obter Chave API
-1. Acesse [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Crie uma nova API Key
-3. Copie e adicione ao arquivo `.env`
+### 3. Obtain an API key
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Copy and add it to `.env`
 
-## Endpoints da API
+## API Endpoints
 
-### Chat com Assistente Virtual
+### Chat with Virtual Assistant
 **POST** `/api/gemini/chat`
 
-Conversa com o assistente virtual StreamPay AI.
+Converse with the StreamPay AI virtual assistant.
 
 **Headers:**
 ```
@@ -44,8 +44,8 @@ Content-Type: application/json
 **Body:**
 ```json
 {
-  "message": "Como criar um stream de pagamento?",
-  "context": "Usuário novo, primeira vez usando a plataforma"
+  "message": "How do I create a payment stream?",
+  "context": "New user, first time using the platform"
 }
 ```
 
@@ -53,14 +53,14 @@ Content-Type: application/json
 ```json
 {
   "success": true,
-  "response": "Para criar um stream de pagamento no StreamPay..."
+  "response": "To create a payment stream on StreamPay..."
 }
 ```
 
-### Análise de Stream
+### Stream Analysis
 **POST** `/api/gemini/analyze-stream`
 
-Analisa dados de um stream e retorna insights de segurança e otimização.
+Analyzes stream data and returns security and optimization insights.
 
 **Headers:**
 ```
@@ -86,14 +86,14 @@ Content-Type: application/json
 ```json
 {
   "success": true,
-  "analysis": "Análise de Risco: Baixo\n1. Transação dentro dos padrões normais..."
+  "analysis": "Risk Analysis: Low\n1. Transaction within normal patterns..."
 }
 ```
 
-### Relatório de Compliance
+### Compliance Report
 **POST** `/api/gemini/compliance-report`
 
-Gera relatório detalhado de compliance baseado em dados KYC.
+Generates a detailed compliance report based on KYC data.
 
 **Headers:**
 ```
@@ -117,33 +117,33 @@ Content-Type: application/json
 ```json
 {
   "success": true,
-  "report": "Avaliação de Risco: Baixo\n1. Status KYC aprovado..."
+  "report": "Risk Assessment: Low\n1. KYC status approved..."
 }
 ```
 
-## Uso Programático
+## Programmatic Usage
 
-### Importar Módulo
+### Import module
 ```typescript
-import { 
-  chatAssistant, 
-  analyzeStreamData, 
+import {
+  chatAssistant,
+  analyzeStreamData,
   generateComplianceReport,
   generateContent,
   generateContentStream
 } from './gemini';
 ```
 
-### Exemplo: Chat Assistente
+### Example: Assistant chat
 ```typescript
 const response = await chatAssistant(
-  "Qual é o status do meu stream?",
-  "Usuário tem 3 streams ativos"
+  "What is the status of my stream?",
+  "User has 3 active streams"
 );
 console.log(response);
 ```
 
-### Exemplo: Análise de Stream
+### Example: Stream analysis
 ```typescript
 const streamData = {
   sender: "0x123...",
@@ -158,160 +158,160 @@ const analysis = await analyzeStreamData(streamData);
 console.log(analysis);
 ```
 
-### Exemplo: Streaming de Resposta
+### Example: Streaming response
 ```typescript
 await generateContentStream(
-  "Explique como funciona o streaming de pagamentos",
+  "Explain how payment streaming works",
   (chunk) => {
-    process.stdout.write(chunk); // Imprime em tempo real
+    process.stdout.write(chunk); // Prints in real time
   }
 );
 ```
 
-## Funções Disponíveis
+## Available Functions
 
 ### `generateContent(prompt: string)`
-Gera texto usando Gemini Pro.
-- **Parâmetros:** prompt (string)
-- **Retorna:** Promise<string>
+Generates text using Gemini Pro.
+- **Parameters:** prompt (string)
+- **Returns:** Promise<string>
 
 ### `generateContentStream(prompt: string, onChunk: (text: string) => void)`
-Gera texto com streaming em tempo real.
-- **Parâmetros:** 
+Generates text with real-time streaming.
+- **Parameters:**
   - prompt (string)
-  - onChunk: callback para cada pedaço de texto
-- **Retorna:** Promise<void>
+  - onChunk: callback for each text chunk
+- **Returns:** Promise<void>
 
 ### `startChat(history?)`
-Inicia uma sessão de chat com histórico.
-- **Parâmetros:** history (array de mensagens, opcional)
-- **Retorna:** ChatSession
+Starts a chat session with optional history.
+- **Parameters:** history (array of messages, optional)
+- **Returns:** ChatSession
 
 ### `chatAssistant(userMessage: string, context?: string)`
-Assistente virtual especializado em StreamPay.
-- **Parâmetros:**
-  - userMessage: mensagem do usuário
-  - context: contexto adicional (opcional)
-- **Retorna:** Promise<string>
+Specialized StreamPay virtual assistant.
+- **Parameters:**
+  - userMessage: user message
+  - context: additional context (optional)
+- **Returns:** Promise<string>
 
 ### `analyzeStreamData(streamData: any)`
-Analisa dados de stream e fornece insights.
-- **Parâmetros:** streamData (objeto com dados do stream)
-- **Retorna:** Promise<string>
+Analyzes stream data and provides insights.
+- **Parameters:** streamData (stream data object)
+- **Returns:** Promise<string>
 
 ### `generateComplianceReport(kycData: any)`
-Gera relatório de compliance baseado em KYC.
-- **Parâmetros:** kycData (objeto com dados KYC)
-- **Retorna:** Promise<string>
+Generates a compliance report based on KYC data.
+- **Parameters:** kycData (KYC data object)
+- **Returns:** Promise<string>
 
-## Casos de Uso
+## Use Cases
 
-### 1. Suporte ao Cliente
+### 1. Customer Support
 ```typescript
-const userQuestion = "Como cancelar um stream?";
+const userQuestion = "How do I cancel a stream?";
 const answer = await chatAssistant(userQuestion);
-// Resposta contextualizada sobre cancelamento
+// Contextualized answer about cancellation
 ```
 
-### 2. Detecção de Fraude
+### 2. Fraud Detection
 ```typescript
 const suspicious = await analyzeStreamData({
   sender: "0x...",
   recipient: "0x...",
-  amount: 1000000, // valor muito alto
-  duration: 60 // duração muito curta
+  amount: 1000000, // very high amount
+  duration: 60 // very short duration
 });
-// Retorna alerta de risco
+// Returns a risk alert
 ```
 
-### 3. Automação de Compliance
+### 3. Compliance Automation
 ```typescript
 const report = await generateComplianceReport({
   wallet: "0x123...",
   status: "pending",
   transactionCount: 150
 });
-// Gera relatório automático para auditoria
+// Generates an automatic report for audit
 ```
 
-### 4. Educação do Usuário
+### 4. User Education
 ```typescript
 const explanation = await generateContent(
-  "Explique o que é streaming de pagamentos em blockchain de forma simples"
+  "Explain what payment streaming is on blockchain in simple terms"
 );
-// Retorna explicação didática
+// Returns a simple explanation
 ```
 
-## Melhores Práticas
+## Best Practices
 
-### 1. Tratamento de Erros
+### 1. Error Handling
 ```typescript
 try {
   const response = await chatAssistant(message);
   console.log(response);
 } catch (error) {
-  console.error("Erro ao chamar Gemini:", error.message);
-  // Implementar fallback ou retry
+  console.error("Error calling Gemini:", (error as Error).message);
+  // Implement fallback or retry
 }
 ```
 
 ### 2. Rate Limiting
-O Gemini API tem limites de taxa. Implemente:
-- Cache de respostas comuns
-- Throttling de requisições
-- Retry com backoff exponencial
+Gemini API has rate limits. Implement:
+- Cache for common responses
+- Request throttling
+- Retry with exponential backoff
 
-### 3. Segurança
-- ⚠️ **NUNCA exponha a API key no frontend**
-- ✅ Sempre valide entrada do usuário
-- ✅ Use autenticação para endpoints Gemini
-- ✅ Sanitize dados antes de enviar ao modelo
-- ✅ Adicione `.env` ao `.gitignore`
+### 3. Security
+- ⚠️ **NEVER expose the API key on the frontend**
+- ✅ Always validate user input
+- ✅ Use authentication for Gemini endpoints
+- ✅ Sanitize data before sending to the model
+- ✅ Add `.env` to `.gitignore`
 
-### 4. Contexto Eficiente
+### 4. Efficient Context
 ```typescript
-// Bom: contexto específico
+// Good: specific context
 const response = await chatAssistant(
-  "Qual o status?",
-  "3 streams ativos, 2 pendentes, saldo: 5000 USDC"
+  "What is the status?",
+  "3 active streams, 2 pending, balance: 5000 USDC"
 );
 
-// Ruim: contexto genérico ou ausente
-const response = await chatAssistant("Qual o status?");
+// Bad: generic or missing context
+const response = await chatAssistant("What is the status?");
 ```
 
-## Limitações
+## Limitations
 
-- **Modelo:** Gemini Pro (texto apenas)
-- **Contexto:** ~32k tokens por requisição
-- **Rate Limit:** Varia conforme plano (verificar console)
-- **Idioma:** Melhor performance em inglês, mas suporta português
+- **Model:** Gemini Pro (text only)
+- **Context:** ~32k tokens per request
+- **Rate Limit:** Varies by plan (check console)
+- **Language:** Best performance in English, supports Portuguese
 
-## Recursos Adicionais
+## Additional Resources
 
 - [Google AI Studio](https://makersuite.google.com/)
-- [Documentação Gemini API](https://ai.google.dev/docs)
-- [Exemplos de Prompts](https://ai.google.dev/examples)
-- [Melhores Práticas](https://ai.google.dev/docs/best_practices)
+- [Gemini API docs](https://ai.google.dev/docs)
+- [Prompt examples](https://ai.google.dev/examples)
+- [Best practices](https://ai.google.dev/docs/best_practices)
 
 ## Troubleshooting
 
-### Erro: API Key inválida
-Verifique se a key está correta no `.env` e se está ativa no console do Google AI.
+### Error: Invalid API key
+Verify the key in `.env` and ensure it is active in the Google AI console.
 
-### Erro: Rate limit exceeded
-Aguarde alguns segundos e tente novamente. Implemente retry automático.
+### Error: Rate limit exceeded
+Wait a few seconds and try again. Implement automatic retry.
 
-### Resposta vazia ou genérica
-Melhore o prompt com mais contexto específico e instruções claras.
+### Empty or generic response
+Improve the prompt with more specific context and clear instructions.
 
 ### Timeout
-Aumente o timeout da requisição ou use `generateContentStream` para respostas longas.
+Increase the request timeout or use `generateContentStream` for long responses.
 
-## Próximos Passos
+## Next Steps
 
-1. Implementar cache Redis para respostas comuns
-2. Adicionar análise de sentimento de usuários
-3. Integrar com histórico de conversas no banco
-4. Criar dashboard de métricas de uso da IA
-5. Implementar fine-tuning com dados específicos do StreamPay
+1. Implement Redis cache for common responses
+2. Add user sentiment analysis
+3. Integrate with conversation history in the database
+4. Create a dashboard for AI usage metrics
+5. Implement fine-tuning with StreamPay-specific data

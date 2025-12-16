@@ -1,111 +1,111 @@
 # 📝 Changelog - StreamPay AI
 
-Todas as mudanças notáveis do projeto serão documentadas aqui.
+All notable changes are documented here.
 
 ---
 
-## [2.0.0] - 2025-12-15 (FINAL - 100% COMPLETO)
+## [2.0.0] - 2025-12-15 (FINAL - 100% COMPLETE)
 
-### ✅ Projeto 100% Finalizado e Production-Ready
+### ✅ Project 100% finalized and production-ready
 
-**Três features críticas implementadas com sucesso**
+**Three critical features delivered**
 
-#### Novas Features
+#### New Features
 1. **Stream Details Page** (`/stream/[id]`)
-   - ✅ Display completo de informações da stream
-   - ✅ Cálculo automático de flow rates (por segundo/hora/dia/mês)
-   - ✅ Botões de ação (Claim, Pause, Cancel)
-   - ✅ Tratamento robusto de erros
-   - ✅ Responsive design mobile/tablet/desktop
+   - ✅ Full stream information display
+   - ✅ Automatic flow-rate calculation (per second/hour/day/month)
+   - ✅ Action buttons (Claim, Pause, Cancel)
+   - ✅ Robust error handling
+   - ✅ Responsive design for mobile/tablet/desktop
 
-2. **Create Stream Modal** 
-   - ✅ Validação de endereço Ethereum
-   - ✅ Seleção de token (USDC, USDT, ETH)
-   - ✅ Cálculo mensal em tempo real
-   - ✅ Feedback de sucesso e erro
-   - ✅ Integração com Dashboard
+2. **Create Stream Modal**
+   - ✅ Ethereum address validation
+   - ✅ Token selection (USDC, USDT, ETH)
+   - ✅ Real-time monthly calculation
+   - ✅ Success and error feedback
+   - ✅ Integrated with Dashboard
 
 3. **History Page with Advanced Filters** (`/historico`)
-   - ✅ Filtro por status, token, data
-   - ✅ Contador de resultados
-   - ✅ Grid responsivo com navegação
-   - ✅ Busca em tempo real (client-side)
-   - ✅ Empty state com opção de resetar
+   - ✅ Filters by status, token, date
+   - ✅ Result counter
+   - ✅ Responsive grid with navigation
+   - ✅ Real-time client-side search
+   - ✅ Empty state with reset option
 
-#### Testes
-- ✅ **17/17 testes passando** (7 auth + 10 streams)
-- ✅ Features tests implementados
-- ✅ Integration tests com API
+#### Tests
+- ✅ **17/17 tests passing** (7 auth + 10 streams)
+- ✅ Feature tests implemented
+- ✅ Integration tests with API
 - ✅ TypeScript strict mode
 
 #### Build & Deploy
-- ✅ Frontend build: 87.2 kB shared JS (sem erros)
+- ✅ Frontend build: 87.2 kB shared JS (no errors)
 - ✅ Production ready
 - ✅ TypeScript compilation clean
-- ✅ Module paths configurados corretamente
+- ✅ Module paths configured correctly
 
-#### Documentação Consolidada
-- ✅ README.md recriado (production-ready)
-- ✅ PROJECT_STATUS.md criado (status único)
-- ✅ FEATURES_DECEMBER_2025.md criado (features documentadas)
-- ✅ COMECE_AQUI.md atualizado (100% completo)
-- ✅ INDICE_DOCUMENTACAO.md consolidado
-- ✅ 9 arquivos markdown finais (removidos 9 obsoletos)
+#### Consolidated Documentation
+- ✅ README.md rewritten (production-ready)
+- ✅ PROJECT_STATUS.md created (single status source)
+- ✅ FEATURES_DECEMBER_2025.md created (features documented)
+- ✅ COMECE_AQUI.md updated (100% complete)
+- ✅ INDICE_DOCUMENTACAO.md consolidated
+- ✅ 9 final markdown files (9 obsolete removed)
 
-#### Métricas Finais
-- **Completude**: 100% ✅
-- **Funcionalidade**: 100% ✅
-- **Documentação**: 100% ✅
-- **Testes**: 100% (17/17) ✅
+#### Final Metrics
+- **Completeness**: 100% ✅
+- **Functionality**: 100% ✅
+- **Documentation**: 100% ✅
+- **Tests**: 100% (17/17) ✅
 - **Build**: Success ✅
 - **Production Ready**: YES ✅
 
 ---
 
-## [1.1.0] - 2025-12-15 (Antes da Finalização)
+## [1.1.0] - 2025-12-15 (Pre-Finalization)
 
-### ✅ Validação Completa do Stack
+### ✅ Full stack validation
 
-**Infraestrutura 100% validada e funcional**
+**Infrastructure 100% validated and functional**
 
-#### O Que Foi Alcançado
-- ✅ Backend (Node.js + Express) - Porta 3001
-- ✅ Frontend (Next.js + React) - Porta 3003
-- ✅ ElizaOS Agent - Porta 3002
-- ✅ PostgreSQL Database - Conectado
-- ✅ Smart Contracts - Sepolia (4 contratos)
-- ✅ Testes E2E Automatizados
-- ✅ Documentação Profissional
+#### Achievements
+- ✅ Backend (Node.js + Express) - Port 3001
+- ✅ Frontend (Next.js + React) - Port 3003
+- ✅ ElizaOS Agent - Port 3002
+- ✅ PostgreSQL Database - Connected
+- ✅ Smart Contracts - Sepolia (4 contracts)
+- ✅ Automated E2E tests
+- ✅ Professional documentation
 
-#### Testes Executados
-- ✅ Integration Tests (7 seções) - PASSOU
-- ✅ E2E Tests (Fluxo completo) - PASSOU
-- ✅ Backend Health - OK
-- ✅ Frontend Loading - OK (Status 200)
-- ✅ Database Connection - OK
-- ✅ Acessibilidade WCAG 2.1 - OK
+#### Tests Executed
+- ✅ Integration Tests (7 sections) - PASSED
+- ✅ E2E Tests (full flow) - PASSED
+- ✅ Backend health - OK
+- ✅ Frontend loading - OK (Status 200)
+- ✅ Database connection - OK
+- ✅ Accessibility WCAG 2.1 - OK
 
-#### Scripts Criados
-- `start-stack.sh` - Orquestração completa de serviços
-- `test-integration.sh` - Testes automatizados
-- `test-e2e.sh` - Simulação de fluxo completo
+#### Scripts Created
+- `start-stack.sh` - Full service orchestration
+- `test-integration.sh` - Automated tests
+- `test-e2e.sh` - Complete flow simulation
 
-#### Documentação Criada
+#### Documentation Created
 - `COMECE_AQUI.md` - Entry point
-- `IMPLEMENTAR_WEB3AUTH.md` - Guia completo Web3Auth
-- `INDICE_DOCUMENTACAO.md` - Índice centralizado
-- `STATUS_CONCLUSAO.md` - Status final
+- `IMPLEMENTAR_WEB3AUTH.md` - Web3Auth guide
+- `INDICE_DOCUMENTACAO.md` - Central index
+- `STATUS_CONCLUSAO.md` - Final status
 
-#### Próxima Ação Crítica
-- Implementar Web3Auth com MetaMask (2-4 horas)
-- Após: Testes E2E completamente automatizados
+#### Next Critical Action
+- Implement Web3Auth with MetaMask (2-4 hours)
+- After that: fully automated E2E tests
 
-#### Métricas
-- Completude: 90%
-- Funcionalidade: 100%
-- Documentação: 100%
-- Testes: 90%
-- Segurança: 95%
+#### Metrics
+- Completeness: 90%
+- Functionality: 100%
+- Documentation: 100%
+- Tests: 90%
+- Security: 95%
 
 ---
 
@@ -113,22 +113,22 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 🚀 Deploy Sepolia Testnet
 
-**Contratos deployados com sucesso na Sepolia testnet**
+**Contracts deployed successfully to Sepolia testnet**
 
-#### Contratos Deployados
+#### Deployed Contracts
 - **StreamPayCore**: `0x74ef273eCdc2BBA1Ddf69a2106122d43424F3c0C`
 - **LiquidityPool**: `0x896171C52d49Ff2e94300FF9c9B2164aC62F0Edd`
 - **PoolManager**: `0x0F71393348E7b021E64e7787956fB1e7682AB4A8`
 - **SwapRouter**: `0x9f3d42feC59d6742CC8dC096265Aa27340C1446F`
 
-#### Detalhes do Deploy
+#### Deploy Details
 - **Network**: Sepolia Testnet (Chain ID: 11155111)
 - **Deployer**: `0x3b598F74e735104435B450fdf3dAd565f046eA70`
 - **Timestamp**: 2025-12-15 06:05:36 UTC
 - **Gas Cost**: ~0.04 ETH
 - **RPC**: ethereum-sepolia-rpc.publicnode.com
 
-#### Arquivos Criados/Atualizados
+#### Files Created/Updated
 - ✅ `smart-contracts/deployments/sepolia-1765778736884.json` - Deployment record
 - ✅ `frontend/app/config/contracts.ts` - Frontend contract config
 - ✅ `backend/src/config/contracts.ts` - Backend contract config
@@ -136,7 +136,7 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 - ✅ `.env.example` files updated in frontend/backend
 - ✅ `frontend/app/api/streams/route.ts` - Updated to use Sepolia
 
-#### Documentação Atualizada
+#### Documentation Updated
 - ✅ `README.md` - Added Sepolia deployment section
 - ✅ `STATUS_PROJETO_ATUAL.md` - Updated deployment status
 - ✅ `docs/API.md` - Added contract addresses section
@@ -147,32 +147,32 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### ✅ Smart Contracts Testing Complete
 
-**34/34 testes passando**
+**34/34 tests passing**
 
-#### StreamPayCore (20 testes)
-- ✅ Stream Creation (4 tests)
+#### StreamPayCore (20 tests)
+- ✅ Stream creation (4 tests)
 - ✅ Claiming (5 tests)
-- ✅ Stream Cancellation (4 tests)
+- ✅ Stream cancellation (4 tests)
 - ✅ Pause/Unpause (3 tests)
-- ✅ Edge Cases (2 tests)
-- ✅ Gas Optimization (2 tests)
+- ✅ Edge cases (2 tests)
+- ✅ Gas optimization (2 tests)
 
-#### LiquidityPool (14 testes)
-- ✅ Pool Creation (3 tests)
-- ✅ Liquidity Management (3 tests)
+#### LiquidityPool (14 tests)
+- ✅ Pool creation (3 tests)
+- ✅ Liquidity management (3 tests)
 - ✅ Swapping (4 tests)
-- ✅ Fee Collection (2 tests)
+- ✅ Fee collection (2 tests)
 - ✅ Pause/Unpause (2 tests)
 
-#### Correções Implementadas
+#### Fixes Implemented
 - Fixed TypeChain generation (removed .dbg.json files)
-- Fixed ESM imports (hardhat and signers)
+- Fixed ESM imports (Hardhat and signers)
 - Fixed ERC20Mock constructor (4 parameters)
 - Fixed OpenZeppelin 4.9.0 error assertions (strings instead of custom errors)
 - Fixed timing/rounding precision with `.closeTo()` assertions
 - Fixed BigInt serialization in deploy script
 
-#### Deploy Local
+#### Local Deploy
 - ✅ All 4 contracts deployed to Hardhat localhost
 - ✅ Deployment saved to `deployments/localhost-1765769739309.json`
 
@@ -182,7 +182,7 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 📚 Documentation Cleanup
 
-**Removed obsolete files, consolidated documentation**
+**Removed obsolete files and consolidated documentation**
 
 #### Files Deleted (12)
 - ATUALIZACAO_14_DEZEMBRO.md
@@ -208,18 +208,18 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 🎨 Frontend Complete
 
-**58/58 testes passando**
+**58/58 tests passing**
 
-#### Páginas Implementadas
+#### Pages Implemented
 - Dashboard
-- Login/Cadastro
-- Configurações
-- Histórico
-- Monitoramento
+- Login/Signup
+- Settings
+- History
+- Monitoring
 - Compliance
-- Detalhes de Stream
+- Stream Details
 
-#### Componentes
+#### Components
 - CreateStreamForm with Zod validation
 - AddLiquidityForm / RemoveLiquidityForm
 - PoolManager
@@ -233,15 +233,15 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 🔌 Backend API Complete
 
-**15 endpoints implementados**
+**15 endpoints implemented**
 
 #### Integrations
 - ✅ Moralis API - Blockchain data
 - ✅ Chainlink - Price feeds
-- ✅ Gemini AI - Análise de dados
+- ✅ Gemini AI - Data analysis
 - ✅ Etherscan API - Transaction verification
 
-#### Testes
+#### Tests
 - ✅ Integration tests passing
 - ✅ API endpoints tested
 
@@ -251,7 +251,7 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 🤖 ElizaOS Agents
 
-**12 intents implementados**
+**12 intents implemented**
 
 - create_stream
 - check_balance
@@ -272,7 +272,7 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ### 📝 Smart Contracts Implementation
 
-**4 contratos Solidity**
+**4 Solidity contracts**
 
 - StreamPayCore (291 LOC)
 - LiquidityPool (284 LOC)
@@ -300,27 +300,27 @@ Todas as mudanças notáveis do projeto serão documentadas aqui.
 
 ## Versioning
 
-Este projeto segue [Semantic Versioning](https://semver.org/):
+This project follows [Semantic Versioning](https://semver.org/):
 - **MAJOR**: Breaking changes
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes (backward compatible)
 
-## Próximas Releases
+## Upcoming Releases
 
-### [1.1.0] - Planejado
+### [1.1.0] - Planned
 - [ ] Etherscan contract verification
 - [ ] Frontend integration with Sepolia
 - [ ] Backend deployment (Railway/Render)
 - [ ] Monitoring setup (Sentry)
 - [ ] Webhooks implementation
 
-### [1.2.0] - Planejado
+### [1.2.0] - Planned
 - [ ] Production deployment (Polygon mainnet)
 - [ ] External security audit
 - [ ] Performance optimizations
 - [ ] Enhanced UI/UX
 
-### [2.0.0] - Futuro
+### [2.0.0] - Future
 - [ ] Multi-chain support
 - [ ] Advanced AI features
 - [ ] Mobile app

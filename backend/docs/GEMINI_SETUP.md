@@ -1,119 +1,119 @@
-# 🔑 Como Obter e Configurar a API Key do Google Gemini
+# 🔑 How to Obtain and Configure the Google Gemini API Key
 
-## Status Atual
-⚠️ A API key fornecida está **inválida**. Siga os passos abaixo para obter uma chave válida.
+## Current Status
+⚠️ The provided API key is **invalid**. Follow the steps below to obtain a valid key.
 
-## Passos para Obter a API Key
+## Steps to Obtain the API Key
 
-### 1. Acesse o Google AI Studio
-Visite: [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
+### 1. Go to Google AI Studio
+Visit: [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
 
-### 2. Faça Login
-- Use sua conta Google
-- Aceite os termos de serviço se solicitado
+### 2. Sign In
+- Use your Google account
+- Accept the terms of service if prompted
 
-### 3. Crie uma Nova API Key
-1. Clique em **"Create API Key"** ou **"Get API key"**
-2. Selecione um projeto do Google Cloud (ou crie um novo)
-3. Copie a chave gerada (formato: `AIzaSy...`)
+### 3. Create a New API Key
+1. Click **"Create API Key"** or **"Get API key"**
+2. Select a Google Cloud project (or create a new one)
+3. Copy the generated key (format: `AIzaSy...`)
 
-### 4. Configure no Projeto
+### 4. Configure in the Project
 
 #### Backend
-Edite o arquivo `/backend/.env`:
+Edit `/backend/.env`:
 ```env
-GEMINI_API_KEY=SUA_CHAVE_AQUI
+GEMINI_API_KEY=YOUR_KEY_HERE
 ```
 
-#### Teste a Configuração
+#### Test the Configuration
 ```bash
 cd backend
 npx ts-node tests/gemini.test.ts
 ```
 
-## Verificação da API Key
+## API Key Verification
 
-### Método 1: Via Terminal
+### Method 1: Terminal
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"contents":[{"parts":[{"text":"Hello"}]}]}' \
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=SUA_CHAVE_AQUI"
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_KEY_HERE"
 ```
 
-**Resposta esperada:** JSON com conteúdo gerado
-**Erro esperado:** 400 Bad Request se a chave for inválida
+**Expected response:** JSON with generated content
+**Expected error:** 400 Bad Request if the key is invalid
 
-### Método 2: Via Node.js
+### Method 2: Node.js
 ```javascript
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI("SUA_CHAVE_AQUI");
+const genAI = new GoogleGenerativeAI("YOUR_KEY_HERE");
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 model.generateContent("Hello")
-  .then(result => console.log("✅ API Key válida!"))
-  .catch(error => console.error("❌ API Key inválida:", error.message));
+  .then(result => console.log("✅ Valid API key!"))
+  .catch(error => console.error("❌ Invalid API key:", error.message));
 ```
 
-## Problemas Comuns
+## Common Issues
 
 ### ❌ "API Key not found"
-**Causa:** A chave não está configurada ou está vazia
-**Solução:** 
-- Verifique se o arquivo `.env` existe em `/backend`
-- Confirme que a variável `GEMINI_API_KEY` está definida
-- Reinicie o servidor após editar o `.env`
+**Cause:** The key is not configured or is empty
+**Solution:** 
+- Ensure the `.env` file exists in `/backend`
+- Confirm `GEMINI_API_KEY` is set
+- Restart the server after editing `.env`
 
 ### ❌ "API Key invalid"
-**Causa:** A chave está incorreta ou expirada
-**Solução:**
-- Gere uma nova chave no Google AI Studio
-- Verifique se copiou a chave completa (sem espaços)
-- Confirme que a chave não foi revogada no console
+**Cause:** The key is incorrect or expired
+**Solution:**
+- Generate a new key in Google AI Studio
+- Verify you copied the full key (no spaces)
+- Confirm the key was not revoked in the console
 
 ### ❌ "Quota exceeded"
-**Causa:** Você atingiu o limite gratuito da API
-**Solução:**
-- Aguarde a renovação do quota (geralmente diária)
-- Upgrade para plano pago no Google Cloud
-- Otimize as requisições (use cache)
+**Cause:** Free API quota exceeded
+**Solution:**
+- Wait for quota renewal (usually daily)
+- Upgrade to a paid plan in Google Cloud
+- Optimize requests (use caching)
 
 ### ❌ "Service not enabled"
-**Causa:** A API Gemini não está ativada no projeto
-**Solução:**
-1. Acesse [Google Cloud Console](https://console.cloud.google.com/)
-2. Navegue para "APIs & Services" > "Library"
-3. Procure por "Generative Language API"
-4. Clique em "Enable"
+**Cause:** Gemini API not enabled in the project
+**Solution:**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Navigate to "APIs & Services" > "Library"
+3. Search for "Generative Language API"
+4. Click "Enable"
 
-## Limites e Quotas
+## Limits and Quotas
 
-### Plano Gratuito
-- **Requisições por minuto:** 60
-- **Requisições por dia:** 1,500
-- **Tokens por requisição:** 32,000 (input + output)
+### Free Plan
+- **Requests per minute:** 60
+- **Requests per day:** 1,500
+- **Tokens per request:** 32,000 (input + output)
 
-### Plano Pago
-- Limites mais altos (verificar documentação)
+### Paid Plan
+- Higher limits (see docs)
 - Pay-as-you-go
-- Suporte prioritário
+- Priority support
 
-## Segurança
+## Security
 
-### ✅ Boas Práticas
-- ✓ Nunca commit a chave no Git
-- ✓ Use variáveis de ambiente (`.env`)
-- ✓ Adicione `.env` ao `.gitignore`
-- ✓ Rotacione as chaves periodicamente
-- ✓ Use keys diferentes para dev/prod
+### ✅ Best Practices
+- ✓ Never commit the key to Git
+- ✓ Use environment variables (`.env`)
+- ✓ Add `.env` to `.gitignore`
+- ✓ Rotate keys periodically
+- ✓ Use different keys for dev/prod
 
-### ❌ Evite
-- ✗ Compartilhar a chave publicamente
-- ✗ Expor a chave no frontend
-- ✗ Hardcode em arquivos de código
-- ✗ Usar a mesma chave em múltiplos projetos
+### ❌ Avoid
+- ✗ Sharing the key publicly
+- ✗ Exposing the key in the frontend
+- ✗ Hardcoding in code files
+- ✗ Using the same key across multiple projects
 
-## Alternativas (Caso Tenha Problemas)
+## Alternatives (If You Have Issues)
 
 ### 1. OpenAI GPT
 ```bash
@@ -142,31 +142,31 @@ import { CohereClient } from "cohere-ai";
 const cohere = new CohereClient({ token: process.env.COHERE_API_KEY });
 ```
 
-## Recursos Adicionais
+## Additional Resources
 
-- 📚 [Documentação Oficial](https://ai.google.dev/docs)
-- 🎓 [Tutoriais e Guias](https://ai.google.dev/tutorials)
-- 💬 [Comunidade no Discord](https://discord.gg/google-ai)
-- 🐛 [Reportar Bugs](https://github.com/google/generative-ai-js/issues)
+- 📚 [Official Documentation](https://ai.google.dev/docs)
+- 🎓 [Tutorials and Guides](https://ai.google.dev/tutorials)
+- 💬 [Discord Community](https://discord.gg/google-ai)
+- 🐛 [Report Bugs](https://github.com/google/generative-ai-js/issues)
 
-## Próximos Passos
+## Next Steps
 
-Após obter uma chave válida:
+After obtaining a valid key:
 
-1. ✅ Configure no arquivo `.env`
-2. ✅ Execute os testes: `npx ts-node tests/gemini.test.ts`
-3. ✅ Inicie o backend: `npm run dev`
-4. ✅ Teste os endpoints via Postman/cURL
-5. ✅ Integre com o frontend
+1. ✅ Configure it in `.env`
+2. ✅ Run tests: `npx ts-node tests/gemini.test.ts`
+3. ✅ Start the backend: `npm run dev`
+4. ✅ Test the endpoints via Postman/cURL
+5. ✅ Integrate with the frontend
 
-## Suporte
+## Support
 
-Se você continuar tendo problemas:
-1. Verifique o console do Google AI Studio
-2. Revise os logs de erro do backend
-3. Consulte a [documentação de troubleshooting](https://ai.google.dev/docs/troubleshooting)
-4. Abra uma issue no repositório do projeto
+If you still have issues:
+1. Check the Google AI Studio console
+2. Review backend error logs
+3. Consult the [troubleshooting docs](https://ai.google.dev/docs/troubleshooting)
+4. Open an issue in the project repository
 
 ---
 
-**Nota:** Por favor, obtenha uma chave API válida seguindo os passos acima. Nunca compartilhe ou faça commit de chaves reais no repositório.
+**Note:** Obtain a valid API key following the steps above. Never share or commit real keys to the repository.

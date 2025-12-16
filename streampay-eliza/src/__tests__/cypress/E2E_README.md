@@ -1,102 +1,102 @@
 # E2E Tests - StreamPay AI
 
-Este diretório contém testes end-to-end (E2E) para a plataforma StreamPay AI usando Cypress.
+This directory contains end-to-end (E2E) tests for the StreamPay AI platform using Cypress.
 
-## 📋 Estrutura dos Testes
+## 📋 Test Structure
 
-### Testes Principais
+### Primary Tests
 
-#### 1. **streampay-flows.cy.ts** - Fluxos Principais do StreamPay
-Testes completos para os 4 fluxos críticos:
+#### 1. **streampay-flows.cy.ts** — Core StreamPay Flows
+Complete coverage of the 4 critical flows:
 
 - **Stream Creation Flow** ✅
-  - Navegação para criação de stream
-  - Preenchimento do formulário (recipient, amount, duration)
-  - Submissão e confirmação
-  - Verificação no dashboard
+  - Navigate to stream creation
+  - Fill the form (recipient, amount, duration)
+  - Submit and confirm
+  - Verify on dashboard
 
 - **Stream Claiming Flow** ✅
-  - Navegação para streams recebidos
-  - Busca de streams reclamáveis
-  - Reclamação com confirmação
-  - Atualização de saldo verificada
+  - Navigate to received streams
+  - Find claimable streams
+  - Claim with confirmation
+  - Verify balance update
 
 - **Liquidity Pool Flow** ✅
-  - Navegação para seção de liquidez
-  - Visualização de estatísticas (TVL, APY, Volume)
-  - Adição de liquidez ao pool
-  - Remoção de liquidez
+  - Navigate to liquidity section
+  - View statistics (TVL, APY, Volume)
+  - Add liquidity to pool
+  - Remove liquidity
 
 - **Real-time Chat Flow** ✅
-  - Navegação para chat
-  - Envio de mensagens
-  - Recebimento de mensagens via WebSocket
-  - Indicador de digitação
-  - Múltiplas mensagens na conversa
+  - Navigate to chat
+  - Send messages
+  - Receive messages via WebSocket
+  - Typing indicator
+  - Multiple messages in conversation
 
 - **Integration Tests** ✅
-  - Manutenção de sessão entre features
-  - Sincronização de dados via WebSocket
+  - Session persistence across features
+  - Data sync via WebSocket
 
 #### 2. **user-workflow.cy.ts**
-Testes de fluxo de usuário completo (onboarding, navegação, resposta de agente)
+Full user journey tests (onboarding, navigation, agent response)
 
 #### 3. **agent-chat.cy.ts**
-Testes específicos da interface de chat com o agente
+Chat UI-specific tests with the agent
 
 #### 4. **dashboard.cy.ts**
-Testes do dashboard (carregamento, navegação, design responsivo, tratamento de erros)
+Dashboard tests (loading, navigation, responsive design, error handling)
 
 ## 🎯 Custom Commands (streampay-commands.ts)
 
-### Comandos Disponíveis
+### Available Commands
 
 ```typescript
-// Criar um stream
+// Create a stream
 cy.createStream(
   recipientWallet: string,  // '0x123...'
   amount: string,           // '100.00'
   duration: number          // 30 (dias)
 );
 
-// Reclamar stream
+// Claim stream
 cy.claimStream();
 
-// Adicionar liquidez
+// Add liquidity
 cy.addLiquidity(amount: string);  // '10.00'
 
-// Enviar mensagem de chat
+// Send chat message
 cy.sendChatMessage(message: string);
 
-// Esperar evento WebSocket
+// Wait for WebSocket event
 cy.waitForWebSocketEvent(eventType: string, timeout?: number);
 
-// Obter saldo atual
+// Get current balance
 cy.getBalance();
 
-// Esperar conclusão de transação
+// Wait for transaction completion
 cy.waitForTransaction(timeout?: number);
 ```
 
-### Exemplos de Uso
+### Usage Examples
 
 ```typescript
 describe('Stream Creation', () => {
   it('should create and claim a stream', () => {
-    // Criar stream
+    // Create stream
     cy.createStream('0xRecipient...', '100.00', 30);
 
-    // Verificar sucesso
+    // Verify success
     cy.waitForTransaction();
 
-    // Trocar para conta do recebedor
+    // Switch to recipient account
     cy.login('recipient', 'password');
 
-    // Reclamar stream
+    // Claim stream
     cy.claimStream();
     cy.waitForTransaction();
 
-    // Verificar novo saldo
+    // Verify new balance
     cy.getBalance().then(balance => {
       expect(balance).to.include('100');
     });
@@ -111,52 +111,52 @@ describe('Stream Creation', () => {
 
 ## 🚀 Executando os Testes
 
-### Modo Interativo (Cypress UI)
+### Interactive Mode (Cypress UI)
 
 ```bash
-# Abrir Cypress Test Runner
+# Open Cypress Test Runner
 npm run test:e2e
 
-# Ou especificar um arquivo
+# Or target a file
 npm run test:e2e -- streampay-flows
 ```
 
-### Modo Headless (CI/CD)
+### Headless Mode (CI/CD)
 
 ```bash
-# Executar todos os testes E2E
+# Run all E2E tests
 npm run test:e2e:headless
 
-# Executar teste específico
+# Run specific test
 npm run test:e2e:headless -- --spec="**streampay-flows.cy.ts"
 
-# Com relatório
+# With reporter
 npm run test:e2e:headless -- --reporter spec
 ```
 
-### Executar Teste Específico
+### Run a Specific Test
 
 ```bash
-# Stream Creation apenas
+# Stream Creation only
 npm run test:e2e -- --grep "Stream Creation Flow"
 
-# Chat apenas
+# Chat only
 npm run test:e2e -- --grep "Real-time Chat Flow"
 
 # Integration tests
 npm run test:e2e -- --grep "Integration"
 ```
 
-## 📊 Configuração (cypress.config.ts)
+## 📊 Configuration (cypress.config.ts)
 
 ```typescript
 {
   baseUrl: 'http://localhost:3000',
   specPattern: 'src/__tests__/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
   supportFile: 'src/__tests__/cypress/support/e2e.ts',
-  defaultCommandTimeout: 10000,      // 10 segundos
-  requestTimeout: 10000,             // Para requisições HTTP
-  responseTimeout: 10000,            // Para respostas
+  defaultCommandTimeout: 10000,      // 10 seconds
+  requestTimeout: 10000,             // HTTP requests
+  responseTimeout: 10000,            // Responses
   viewportWidth: 1280,
   viewportHeight: 720,
   video: false,
@@ -164,34 +164,34 @@ npm run test:e2e -- --grep "Integration"
 }
 ```
 
-## 🔍 Estratégias de Seleção
+## 🔍 Selection Strategies
 
-Os testes usam múltiplas estratégias para encontrar elementos:
+Tests use multiple strategies to find elements:
 
-### 1. **data-testid** (Recomendado)
+### 1. **data-testid** (Recommended)
 ```html
 <button data-testid="create-stream">Create Stream</button>
 ```
 
-### 2. **Seletores por Conteúdo**
+### 2. **Content selectors**
 ```typescript
 cy.get('button:contains("Create")');
 cy.contains('Stream');
 ```
 
-### 3. **Atributos Comuns**
+### 3. **Common attributes**
 ```typescript
 cy.get('input[placeholder*="amount"]');
 cy.get('a[href*="chat"]');
 ```
 
-### 4. **Roles ARIA**
+### 4. **ARIA roles**
 ```typescript
 cy.get('[role="dialog"]');
 cy.get('[role="alert"]');
 ```
 
-## ⚙️ Variáveis de Teste
+## ⚙️ Test Variables
 
 ```typescript
 const TEST_USER_WALLET = 'test-wallet-123';
@@ -200,141 +200,141 @@ const TEST_STREAM_AMOUNT = '100.00';
 const TEST_DURATION_DAYS = 30;
 ```
 
-## 🛠️ Hooks Disponíveis
+## 🛠️ Available Hooks
 
 ```typescript
 beforeEach(() => {
-  cy.visit('/');           // Visita página inicial
-  cy.wait(2000);           // Aguarda carregamento
-  cy.login();              // Efetua login
+  cy.visit('/');           // Go to home page
+  cy.wait(2000);           // Wait for load
+  cy.login();              // Log in
 });
 
 afterEach(() => {
-  cy.clearAppData();       // Limpa dados locais
+  cy.clearAppData();       // Clear local data
 });
 ```
 
-## 📈 Eventos WebSocket Testados
+## 📈 WebSocket Events Covered
 
-Os testes verificam eventos em tempo real:
+Tests validate real-time events:
 
-- ✅ `stream:created` - Stream criado
-- ✅ `stream:claimed` - Stream reclamado
-- ✅ `stream:updated` - Stream atualizado
-- ✅ `pool:liquidity_added` - Liquidez adicionada
-- ✅ `chat:message_received` - Mensagem recebida
-- ✅ `chat:typing_indicator` - Indicador de digitação
-- ✅ `price:updated` - Preço atualizado
+- ✅ `stream:created` - Stream created
+- ✅ `stream:claimed` - Stream claimed
+- ✅ `stream:updated` - Stream updated
+- ✅ `pool:liquidity_added` - Liquidity added
+- ✅ `chat:message_received` - Message received
+- ✅ `chat:typing_indicator` - Typing indicator
+- ✅ `price:updated` - Price updated
 
-## ✅ Checklist de Teste
+## ✅ Test Checklist
 
-### Antes de Rodar os Testes
+### Before Running Tests
 
-- [ ] Backend está rodando em `http://localhost:3001`
-- [ ] Frontend está rodando em `http://localhost:3000`
-- [ ] WebSocket está ativo na porta `3002`
-- [ ] Base de dados contém dados de teste
-- [ ] Variáveis de ambiente estão configuradas
+- [ ] Backend running at `http://localhost:3001`
+- [ ] Frontend running at `http://localhost:3000`
+- [ ] WebSocket active on port `3002`
+- [ ] Database contains test data
+- [ ] Environment variables configured
 
-### Fluxo Esperado
+### Expected Flow
 
 ```
 1. Stream Creation
-   ├─ Navegação para create
-   ├─ Preenchimento do form
-   ├─ Submissão
-   └─ Verificação no dashboard
+  ├─ Navigate to create
+  ├─ Fill form
+  ├─ Submit
+  └─ Verify on dashboard
 
 2. Stream Claiming
-   ├─ Navegação para received
-   ├─ Busca de stream reclamável
-   ├─ Clique em claim
-   ├─ Confirmação
-   └─ Atualização de saldo
+  ├─ Navigate to received
+  ├─ Find claimable stream
+  ├─ Click claim
+  ├─ Confirm
+  └─ Balance updated
 
 3. Liquidity Management
-   ├─ Navegação para liquidity
-   ├─ Visualização de stats
-   ├─ Adição de liquidez
-   ├─ Remoção de liquidez
-   └─ Verificação de saldo
+  ├─ Navigate to liquidity
+  ├─ View stats
+  ├─ Add liquidity
+  ├─ Remove liquidity
+  └─ Verify balance
 
-4. Chat em Tempo Real
-   ├─ Navegação para chat
-   ├─ Envio de mensagem
-   ├─ Recebimento via WebSocket
-   ├─ Indicador de digitação
-   └─ Múltiplas mensagens
+4. Real-time Chat
+  ├─ Navigate to chat
+  ├─ Send message
+  ├─ Receive via WebSocket
+  ├─ Typing indicator
+  └─ Multiple messages
 
 5. Integration
-   ├─ Manutenção de sessão
-   ├─ Sincronização entre tabs
-   └─ Logout
+  ├─ Session persistence
+  ├─ Cross-tab sync
+  └─ Logout
 ```
 
 ## 🐛 Troubleshooting
 
-### Testes Falhando
+### Failing Tests
 
-**Problema**: "Element not found"
+**Issue**: "Element not found"
 ```typescript
-// Solução: Aumentar timeout
+// Solution: Increase timeout
 cy.get('[data-testid="element"]', { timeout: 15000 });
 ```
 
-**Problema**: "Cypress failed to start"
+**Issue**: "Cypress failed to start"
 ```bash
-# Solução: Reinstalar Cypress
+# Solution: Reinstall Cypress
 npm install --save-dev cypress
 npx cypress cache clear
 ```
 
-**Problema**: "WebSocket connection timeout"
+**Issue**: "WebSocket connection timeout"
 ```typescript
-// Solução: Aguardar WebSocket conectar
+// Solution: Wait for WebSocket to connect
 cy.wait(2000);
 cy.waitForWebSocketEvent('connect', 5000);
 ```
 
-### Testes Lentos
+### Slow Tests
 
-- Aumentar `defaultCommandTimeout` em cypress.config.ts
-- Usar `cy.waitForApp()` para aguardar carregamento
-- Verificar se o backend está respondendo rápido
+- Increase `defaultCommandTimeout` in cypress.config.ts
+- Use `cy.waitForApp()` to wait for load
+- Check backend response time
 
-## 📝 Melhores Práticas
+## 📝 Best Practices
 
-### ✅ Fazer
+### ✅ Do
 
 ```typescript
-// Use data-testid quando possível
+// Use data-testid when possible
 cy.get('[data-testid="stream-form"]');
 
-// Aguarde elementos explicitamente
+// Wait for elements explicitly
 cy.get('[data-testid="loading"]').should('not.exist');
 
-// Use custom commands para fluxos comuns
+// Use custom commands for common flows
 cy.createStream(wallet, amount, duration);
 
-// Limpe dados entre testes
+// Clear data between tests
 beforeEach(() => cy.login());
 afterEach(() => cy.clearAppData());
 ```
 
-### ❌ Não Fazer
+### ❌ Don't
 
 ```typescript
-// Não use índices frágeis
-cy.get('button').eq(3).click();  // ❌ Frágil
+// Avoid brittle indexes
+cy.get('button').eq(3).click();  // ❌ Brittle
 
-// Não use esperas arbitrárias
-cy.wait(5000);  // ❌ Impreciso
+// Avoid arbitrary waits
+cy.wait(5000);  // ❌ Imprecise
 
-// Não teste detalhes de implementação
-cy.get('.component-internal-class');  // ❌ Quebra com refactoring
+// Don't test implementation details
+cy.get('.component-internal-class');  // ❌ Breaks with refactors
 
-// Não deixe estado compartilhado entre testes
-// ✅ Limpe dados após cada teste
+// Don't share state between tests
+// ✅ Clean data after each test
 ```
 
 ## 🔄 Integração com CI/CD
@@ -373,5 +373,5 @@ cy.get('.component-internal-class');  // ❌ Quebra com refactoring
 
 ---
 
-**Última Atualização**: Dec 14, 2024  
-**Status**: ✅ Testes E2E Implementados
+**Last Update**: Dec 14, 2024  
+**Status**: ✅ E2E Tests Implemented
