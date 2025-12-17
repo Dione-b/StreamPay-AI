@@ -25,7 +25,7 @@ npm run dev
 cd frontend
 npm install
 npm run dev
-# http://localhost:3000
+# http://localhost:3003
 
 # Terminal 3: Tests
 npm test
@@ -47,7 +47,7 @@ npm test
 - [x] History filters implemented
 
 ### 🎯 Usage Flow
-1. **Open application**: http://localhost:3000
+1. **Open application**: http://localhost:3003
 2. **Connect MetaMask**: Click "Connect Wallet"
 3. **Login**: Sign the message
 4. **Use dashboard**: View your streams
@@ -141,7 +141,7 @@ http://localhost:3000
 
 | Resource | URL |
 |----------|-----|
-| Frontend | http://localhost:3000 |
+| Frontend | http://localhost:3003 |
 | Backend Health | http://localhost:3001/health |
 | PostgreSQL | localhost:5432 |
 | Etherscan Sepolia | https://sepolia.etherscan.io |
@@ -198,7 +198,7 @@ npm test
         ┌────────▼────────┐
         │   Frontend      │
         │   (Next.js)     │
-        │   Port 3000     │
+     │   Port 3003     │
         └────────┬────────┘
                  │
     ┌────────────┼────────────┐

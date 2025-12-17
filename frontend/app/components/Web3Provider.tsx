@@ -1,18 +1,28 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { WagmiConfig } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { createConfig, http } from 'wagmi';
 import { injected } from 'wagmi/connectors';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 interface Web3ProviderProps {
   children: ReactNode;
 }
 
-// Criar configuração do Wagmi
+// Criar instância do QueryClient
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutos
+      gcTime: 1000 * 60 * 10, // 10 minutos (anterior: cacheTime)
+    },
+  },
+});
+
+// Criar configuração do Wagmi (v2)
 const wagmiConfig = createConfig({
-  autoConnect: true,
   chains: [sepolia],
   connectors: [injected()],
   transports: {
@@ -22,13 +32,15 @@ const wagmiConfig = createConfig({
 
 /**
  * Web3Provider Component
- * Configura Wagmi com suporte a Sepolia testnet
- * Pode ser expandido para incluir Web3Modal com Reown AppKit
+ * Configura Wagmi v2 com QueryClient para react-query
+ * Suporte a Sepolia testnet
  */
 export function Web3Provider({ children }: Web3ProviderProps) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      {children}
-    </WagmiConfig>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

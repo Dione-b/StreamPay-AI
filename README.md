@@ -79,7 +79,7 @@ npm run dev
 cd frontend
 npm install
 npm run dev
-# App running on http://localhost:3000
+# App running on http://localhost:3003
 
 # Tests (Terminal 3)
 npm test
@@ -266,6 +266,17 @@ See [SECURITY.md](./SECURITY.md) for detailed security guidelines.
 npm run dev        # Frontend & Backend
 npm test          # Run tests
 npm run build     # Production build
+```
+
+### Ports & URLs
+- Frontend: http://localhost:3003
+- Backend API: http://localhost:3001
+- Eliza Agent Server: http://localhost:3002
+
+If you see EADDRINUSE errors on any port, free the port and retry:
+```bash
+lsof -iTCP:3003 -sTCP:LISTEN -P -n
+kill -9 <PID>
 ```
 
 ### Docker
