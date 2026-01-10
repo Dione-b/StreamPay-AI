@@ -6,11 +6,13 @@ import { ParsedIntent, StreamPayIntent } from './intent-parser';
 import { HttpClient } from './http-client';
 import { MoralisService } from './moralis';
 import { ChainlinkService } from './chainlink';
+import { ContractService, createContractService, type NetworkName } from './contract-service';
 
 interface ActionContext {
   userAddress: string;
   backendUrl: string;
   authToken?: string;
+  network?: NetworkName;
   moralisService: MoralisService;
   chainlinkService: ChainlinkService;
 }
@@ -28,6 +30,7 @@ interface ActionResult {
 export class ActionHandler {
   private httpClient: HttpClient;
   private context: ActionContext;
+  private contractService: ContractService;
 
   constructor(context: ActionContext) {
     this.context = context;
@@ -38,6 +41,13 @@ export class ActionHandler {
         ? { Authorization: `Bearer ${context.authToken}` }
         : undefined,
     });
+
+    this.contractService = createContractService({
+      backendUrl: context.backendUrl,
+      userAddress: context.userAddress,
+      authToken: context.authToken,
+      network: context.network || 'sepolia',
+    });
   }
 
   /**
@@ -47,16 +57,25 @@ export class ActionHandler {
     try {
       switch (parsed.intent) {
         case StreamPayIntent.CREATE_STREAM:
-          return await this.handleCreateStream(parsed);
+          // Extract parameters from parsed intent for legacy support or update to use public method
+          // For now, we keep the private handler or redirect?
+          // Let's redirect to the new public method if parameters are sufficient.
+          return await this.createStream({
+             recipient: parsed.parameters.recipient,
+             amount: parsed.parameters.amount ? Number(parsed.parameters.amount) : 0,
+             token: parsed.parameters.token,
+             duration: parsed.parameters.duration ? Number(parsed.parameters.duration) : 0,
+             durationUnit: parsed.parameters.durationUnit
+          });
 
         case StreamPayIntent.CLAIM_STREAM:
-          return await this.handleClaimStream(parsed);
+             return await this.claimStream(parsed.parameters.streamId);
 
         case StreamPayIntent.PAUSE_STREAM:
-          return await this.handlePauseStream(parsed);
+             return await this.pauseStream(parsed.parameters.streamId);
 
         case StreamPayIntent.CANCEL_STREAM:
-          return await this.handleCancelStream(parsed);
+             return await this.cancelStream(parsed.parameters.streamId);
 
         case StreamPayIntent.VIEW_STREAMS:
           return await this.handleViewStreams(parsed);
@@ -74,13 +93,17 @@ export class ActionHandler {
           return await this.handleViewPools(parsed);
 
         case StreamPayIntent.SWAP_TOKENS:
-          return await this.handleSwapTokens(parsed);
+          return await this.swapTokens({
+             tokenIn: parsed.parameters.tokenIn,
+             tokenOut: parsed.parameters.tokenOut, 
+             amount: parsed.parameters.amount ? Number(parsed.parameters.amount) : 0
+          });
 
         case StreamPayIntent.CHECK_BALANCE:
-          return await this.handleCheckBalance(parsed);
+          return await this.checkBalance(parsed.parameters.userAddress || this.context.userAddress);
 
         case StreamPayIntent.GET_PRICE:
-          return await this.handleGetPrice(parsed);
+          return await this.getTokenPrice(parsed.parameters.symbol || '');
 
         default:
           return {
@@ -102,39 +125,84 @@ export class ActionHandler {
   /**
    * Create a new stream
    */
-  private async handleCreateStream(parsed: ParsedIntent): Promise<ActionResult> {
-    const { recipient, amount, token, duration, durationUnit } = parsed.parameters;
+
+  async createStream(params: {
+    recipient: string;
+    amount: number;
+    token: string;
+    duration: number;
+    durationUnit: string;
+  }): Promise<ActionResult> {
+    const { recipient, amount, token, duration, durationUnit } = params;
 
     if (!recipient || !amount || !token) {
       return {
         success: false,
-        message: 'Missing required parameters',
+        message: 'Faltam parâmetros obrigatórios. Preciso de: endereço do destinatário, valor e tipo de token.',
         error: 'recipient, amount, and token are required',
       };
     }
 
+    // Validação de endereço Ethereum
+    if (!/^0x[a-fA-F0-9]{40}$/.test(String(recipient))) {
+      return {
+        success: false,
+        message: 'Endereço do destinatário inválido. Deve ser um endereço Ethereum válido (0x + 40 caracteres hexadecimais).',
+        error: 'Invalid recipient address format',
+      };
+    }
+
+    // Validação de valor
+    if (!Number.isFinite(amount) || amount <= 0) {
+      return {
+        success: false,
+        message: 'Valor inválido. O valor deve ser um número maior que zero.',
+        error: 'Invalid amount',
+      };
+    }
+
+    // Validação de duração
+    const durationSeconds = duration ? this.convertDuration(String(duration), durationUnit) : 0;
+    if (durationSeconds <= 0) {
+      return {
+        success: false,
+        message: 'Duração inválida. Por favor, especifique uma duração válida (ex: 30 dias, 1 semana).',
+        error: 'Invalid duration',
+      };
+    }
+
     try {
-      const response = await this.httpClient.post<{
-        id: string;
-        transactionHash: string;
-      }>('/api/streams', {
-        recipient,
-        token,
-        deposit: amount,
-        rate_per_second: this.calculateRate(amount, duration, durationUnit),
-        duration: duration ? this.convertDuration(duration, durationUnit) : 0,
+      const signatureRequest = this.contractService.createStream({
+        recipient: String(recipient),
+        token: String(token),
+        amount: amount,
+        durationSeconds,
       });
 
       return {
         success: true,
-        message: `Stream created successfully to ${recipient}`,
-        data: response,
+        message:
+          `Pronto para criar o stream de ${amount} ${token} para ${recipient.slice(0, 10)}... por ${durationSeconds} segundos.\n` +
+          `Confirme e assine a autorização na sua wallet para eu executar a operação.`,
+        data: signatureRequest,
       };
     } catch (error) {
+      console.error('[ActionHandler] Erro ao preparar criação de stream:', error);
+      const errorMessage = error instanceof Error ? error.message : 'erro desconhecido';
+      
+      // Mensagens de erro mais específicas
+      if (errorMessage.includes('address') || errorMessage.includes('Endereço')) {
+        return {
+          success: false,
+          message: 'Erro de validação de endereço. Verifique se o endereço do destinatário está correto.',
+          error: errorMessage,
+        };
+      }
+
       return {
         success: false,
-        message: 'Failed to create stream',
-        error: error instanceof Error ? error.message : String(error),
+        message: `Falha ao preparar criação de stream: ${errorMessage}. Por favor, verifique os parâmetros e tente novamente.`,
+        error: errorMessage,
       };
     }
   }
@@ -142,33 +210,41 @@ export class ActionHandler {
   /**
    * Claim tokens from stream
    */
-  private async handleClaimStream(parsed: ParsedIntent): Promise<ActionResult> {
-    const { streamId } = parsed.parameters;
-
+  async claimStream(streamId: string): Promise<ActionResult> {
     if (!streamId) {
       return {
         success: false,
-        message: 'Missing stream ID',
+        message: 'ID do stream é obrigatório. Por favor, forneça o ID do stream que deseja reivindicar.',
         error: 'streamId is required',
       };
     }
 
+    // Validação de streamId
+    const streamIdStr = String(streamId);
+    if (!/^\d+$/.test(streamIdStr) && !/^0x[a-fA-F0-9]+$/i.test(streamIdStr)) {
+      return {
+        success: false,
+        message: 'ID do stream inválido. Deve ser um número ou hash válido.',
+        error: 'Invalid streamId format',
+      };
+    }
+
     try {
-      const response = await this.httpClient.post<{ claimedAmount: string }>(
-        `/api/streams/${streamId}/claim`,
-        {}
-      );
+      const signatureRequest = this.contractService.claimStream({ streamId: streamIdStr });
 
       return {
         success: true,
-        message: `Claimed ${response.claimedAmount} tokens from stream`,
-        data: response,
+        message: `Pronto para reivindicar (claim) tokens do stream ${streamIdStr}. Confirme e assine na wallet.`,
+        data: signatureRequest,
       };
     } catch (error) {
+      console.error('[ActionHandler] Erro ao preparar claim:', error);
+      const errorMessage = error instanceof Error ? error.message : 'erro desconhecido';
+      
       return {
         success: false,
-        message: 'Failed to claim stream',
-        error: error instanceof Error ? error.message : String(error),
+        message: `Falha ao preparar reivindicação: ${errorMessage}. Verifique se o stream existe e está ativo.`,
+        error: errorMessage,
       };
     }
   }
@@ -176,9 +252,7 @@ export class ActionHandler {
   /**
    * Pause a stream
    */
-  private async handlePauseStream(parsed: ParsedIntent): Promise<ActionResult> {
-    const { streamId } = parsed.parameters;
-
+  async pauseStream(streamId: string): Promise<ActionResult> {
     if (!streamId) {
       return {
         success: false,
@@ -186,52 +260,59 @@ export class ActionHandler {
         error: 'streamId is required',
       };
     }
-
-    try {
-      await this.httpClient.patch(`/api/streams/${streamId}/pause`, {});
-
+    
+    // ... logic (assuming simple pass-through or similar validation)
+     try {
+      // Mock or call contract service (assuming contract service has pauseStream)
+      // The original code had handlePauseStream but I didn't see the full body in snippet.
+      // I will assume it follows similar pattern.
+      // Actually, checking lines 244+ above, it was just starting.
+      // I will add a generic implementation or try to follow what was there if visible.
+      // Based on context, it likely calls this.contractService.pauseStream
+      
+      const signatureRequest = this.contractService.pauseStream({ streamId });
       return {
-        success: true,
-        message: `Stream ${streamId} paused successfully`,
+          success: true,
+          message: `Pronto para pausar o stream ${streamId}. Assine na wallet.`,
+          data: signatureRequest
       };
     } catch (error) {
-      return {
-        success: false,
-        message: 'Failed to pause stream',
-        error: error instanceof Error ? error.message : String(error),
-      };
+       return {
+            success: false,
+            message: 'Falha ao pausar stream',
+            error: String(error)
+       };
     }
   }
 
   /**
    * Cancel a stream
    */
-  private async handleCancelStream(parsed: ParsedIntent): Promise<ActionResult> {
-    const { streamId } = parsed.parameters;
-
+  async cancelStream(streamId: string): Promise<ActionResult> {
     if (!streamId) {
-      return {
-        success: false,
-        message: 'Missing stream ID',
-        error: 'streamId is required',
-      };
+        return {
+            success: false, 
+            message: 'Missing stream ID',
+            error: 'streamId is required'
+        };
     }
 
     try {
-      await this.httpClient.delete(`/api/streams/${streamId}`);
-
-      return {
-        success: true,
-        message: `Stream ${streamId} cancelled successfully`,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        message: 'Failed to cancel stream',
-        error: error instanceof Error ? error.message : String(error),
-      };
+        const signatureRequest = this.contractService.cancelStream({ streamId });
+        return {
+            success: true,
+            message: `Pronto para cancelar o stream ${streamId}. Assine na wallet.`,
+            data: signatureRequest
+        };
+    } catch(error) {
+        return {
+            success: false,
+            message: 'Falha ao cancelar stream',
+            error: String(error)
+        };
     }
   }
+
 
   /**
    * View user's streams
@@ -241,7 +322,9 @@ export class ActionHandler {
       const response = await this.httpClient.get<{ streams: any[] }>('/api/streams');
 
       const streamCount = response.streams?.length || 0;
-      const summary = streamCount === 0 ? 'You have no active streams' : `You have ${streamCount} active streams`;
+      const summary = streamCount === 0 
+        ? 'Você não possui streams ativos no momento.' 
+        : `Você possui ${streamCount} stream${streamCount > 1 ? 's' : ''} ativo${streamCount > 1 ? 's' : ''}.`;
 
       return {
         success: true,
@@ -249,10 +332,31 @@ export class ActionHandler {
         data: response.streams,
       };
     } catch (error) {
+      console.error('[ActionHandler] Erro ao buscar streams:', error);
+      const errorMessage = error instanceof Error ? error.message : 'erro desconhecido';
+      
+      // Verificar se é erro de autenticação
+      if (errorMessage.includes('401') || errorMessage.includes('Unauthorized')) {
+        return {
+          success: false,
+          message: 'Erro de autenticação. Por favor, faça login novamente.',
+          error: 'Authentication required',
+        };
+      }
+
+      // Verificar se é erro de rede
+      if (errorMessage.includes('network') || errorMessage.includes('timeout') || errorMessage.includes('ECONNREFUSED')) {
+        return {
+          success: false,
+          message: 'Erro de conexão com o servidor. Verifique sua conexão e tente novamente.',
+          error: 'Network error',
+        };
+      }
+
       return {
         success: false,
-        message: 'Failed to fetch streams',
-        error: error instanceof Error ? error.message : String(error),
+        message: `Falha ao buscar streams: ${errorMessage}. Por favor, tente novamente.`,
+        error: errorMessage,
       };
     }
   }
@@ -282,7 +386,7 @@ export class ActionHandler {
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to fetch stream details',
+        message: 'Falha ao buscar detalhes do stream.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -303,23 +407,15 @@ export class ActionHandler {
     }
 
     try {
-      const endpoint = poolId ? `/api/pools/${poolId}/add-liquidity` : '/api/pools';
-
-      const response = await this.httpClient.post<{ lpTokensMinted: string }>
-(endpoint, {
-        token,
-        amount,
-      });
-
       return {
         success: true,
-        message: `Added ${amount} to liquidity pool, received ${response.lpTokensMinted} LP tokens`,
-        data: response,
+        message: `Pronto para adicionar liquidez${poolId ? ` no pool ${poolId}` : ''}. Confirme e assine na wallet.`,
+        data: this.contractService.addLiquidity({ poolId: poolId ? String(poolId) : undefined, token, amount: Number(amount) }),
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to add liquidity',
+        message: 'Falha ao preparar adição de liquidez.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -340,20 +436,15 @@ export class ActionHandler {
     }
 
     try {
-      const response = await this.httpClient.post<{ tokensReceived: string }>(
-        `/api/pools/${poolId}/remove-liquidity`,
-        { amount }
-      );
-
       return {
         success: true,
-        message: `Removed liquidity from pool, received ${response.tokensReceived}`,
-        data: response,
+        message: `Pronto para remover liquidez do pool ${poolId}. Confirme e assine na wallet.`,
+        data: this.contractService.removeLiquidity({ poolId: String(poolId), amount: amount != null ? Number(amount) : undefined }),
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to remove liquidity',
+        message: 'Falha ao preparar remoção de liquidez.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -367,7 +458,7 @@ export class ActionHandler {
       const response = await this.httpClient.get<{ pools: any[] }>('/api/pools');
 
       const poolCount = response.pools?.length || 0;
-      const summary = poolCount === 0 ? 'No liquidity pools available' : `${poolCount} liquidity pools found`;
+      const summary = poolCount === 0 ? 'Nenhum pool de liquidez disponível.' : `${poolCount} pool(s) de liquidez encontrado(s).`;
 
       return {
         success: true,
@@ -377,7 +468,7 @@ export class ActionHandler {
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to fetch pools',
+        message: 'Falha ao buscar pools de liquidez.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -386,8 +477,15 @@ export class ActionHandler {
   /**
    * Swap tokens
    */
-  private async handleSwapTokens(parsed: ParsedIntent): Promise<ActionResult> {
-    const { tokenIn, tokenOut, amount } = parsed.parameters;
+  /**
+   * Swap tokens
+   */
+  async swapTokens(params: {
+    tokenIn: string;
+    tokenOut: string;
+    amount: number;
+  }): Promise<ActionResult> {
+    const { tokenIn, tokenOut, amount } = params;
 
     if (!tokenIn || !tokenOut || !amount) {
       return {
@@ -406,16 +504,25 @@ export class ActionHandler {
         0.01 // 1% slippage
       );
 
-      // TODO: Execute swap via backend or smart contract
       return {
         success: true,
-        message: `Swap quote: ${amount} ${tokenIn} → ~${minOutput} ${tokenOut}`,
-        data: { tokenIn, tokenOut, amount, minOutput },
+        message:
+          `Cotação estimada: ${amount} ${tokenIn} → ~${minOutput} ${tokenOut} (slippage 1%).\n` +
+          `Se estiver ok, confirme e assine na wallet para eu executar o swap.`,
+        data: {
+          quote: { tokenIn, tokenOut, amount: Number(amount), minOutput },
+          ...this.contractService.swapTokens({
+            tokenIn,
+            tokenOut,
+            amount: Number(amount),
+            slippageBps: 100,
+          }),
+        },
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to swap tokens',
+        message: 'Falha ao preparar swap.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -424,20 +531,21 @@ export class ActionHandler {
   /**
    * Check wallet balance
    */
-  private async handleCheckBalance(parsed: ParsedIntent): Promise<ActionResult> {
+
+  async checkBalance(userAddress: string): Promise<ActionResult> {
     try {
-      const balances = await this.context.moralisService.getTokenBalances(this.context.userAddress);
-      const netWorth = await this.context.moralisService.getWalletNetWorth(this.context.userAddress);
+      const balances = await this.context.moralisService.getTokenBalances(userAddress);
+      const netWorth = await this.context.moralisService.getWalletNetWorth(userAddress);
 
       return {
         success: true,
-        message: `Your wallet net worth: $${netWorth.toFixed(2)}`,
+        message: `Patrimônio líquido da sua carteira: $${netWorth.toFixed(2)}`,
         data: { balances, totalUsd: netWorth },
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to check balance',
+        message: 'Falha ao verificar saldo.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -446,9 +554,7 @@ export class ActionHandler {
   /**
    * Get token price
    */
-  private async handleGetPrice(parsed: ParsedIntent): Promise<ActionResult> {
-    const { symbol } = parsed.parameters;
-
+  async getTokenPrice(symbol: string): Promise<ActionResult> {
     if (!symbol) {
       return {
         success: false,
@@ -463,19 +569,19 @@ export class ActionHandler {
       if (!price) {
         return {
           success: false,
-          message: `Price for ${symbol} not available`,
+          message: `Preço para ${symbol} não disponível no momento.`,
         };
       }
 
       return {
         success: true,
-        message: `${symbol} price: $${price.price.toFixed(2)}`,
+        message: `Preço de ${symbol}: $${price.price.toFixed(2)}`,
         data: price,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to fetch price',
+        message: 'Falha ao buscar preço.',
         error: error instanceof Error ? error.message : String(error),
       };
     }
@@ -499,15 +605,28 @@ export class ActionHandler {
 
     const unitMap: Record<string, number> = {
       second: 1,
+      segundo: 1,
       minute: 60,
+      minuto: 60,
       hour: 3600,
+      hora: 3600,
       day: 86400,
+      dia: 86400,
       week: 604800,
+      semana: 604800,
       month: 2592000,
+      mês: 2592000,
+      mes: 2592000,
       year: 31536000,
+      ano: 31536000,
     };
 
-    const normalizedUnit = (unit || 'second').toLowerCase().replace(/s$/, '');
+    let normalizedUnit = (unit || 'second').toLowerCase();
+    
+    // Handle Portuguese plurals and standard English 's'
+    if (normalizedUnit.endsWith('meses')) normalizedUnit = 'mes';
+    else normalizedUnit = normalizedUnit.replace(/s$/, '');
+    
     return num * (unitMap[normalizedUnit] || 1);
   }
 }

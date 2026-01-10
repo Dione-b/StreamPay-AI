@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { logger } from '../../utils/logger';
 
 interface ElizaMessage {
@@ -9,58 +8,117 @@ interface ElizaMessage {
 
 interface ElizaResponse {
   text: string;
+  data?: any;
   action?: string;
 }
 
 export class ElizaOSService {
-  private baseUrl: string;
-  private apiKey: string;
+  // Usando 'any' para evitar problemas de tipo entre CJS e ESM
+  private agent: any = null;
 
   constructor() {
-    this.baseUrl = process.env.ELIZAOS_BASE_URL || 'http://localhost:3001';
-    this.apiKey = process.env.ELIZAOS_API_KEY || 'dev-key';
+    // Agent será inicializado lazy quando necessário
   }
 
-  async sendMessage(message: ElizaMessage): Promise<ElizaResponse> {
+  private async getAgent(userAddress?: string, authToken?: string) {
+    if (!this.agent) {
+      const config = {
+        moralisApiKey: process.env.MORALIS_API_KEY || '',
+        chainlinkRpcUrl: process.env.CHAINLINK_RPC_URL || process.env.INFURA_URL || '',
+        backendUrl: process.env.BACKEND_URL || 'http://localhost:3001',
+        userAddress: userAddress,
+        authToken: authToken,
+        network: (process.env.NETWORK as 'sepolia' | 'localhost') || 'sepolia',
+      };
+
+      // Usando o artefato de build CommonJS para evitar problemas de ESM/CJS
+      // O path aponta para o JS compilado no dist
+      // @ts-ignore
+      const { createStreamPayAgent } = require('../../../../streampay-eliza/dist/src/index.js');
+      
+      this.agent = createStreamPayAgent(config);
+      logger.info('[ElizaOS] StreamPayAgent inicializado via CommonJS Build');
+    }
+    return this.agent;
+  }
+
+  async sendMessage(message: ElizaMessage, userAddress?: string, authToken?: string): Promise<ElizaResponse> {
     try {
-      logger.info('[ElizaOS] Enviando mensagem:', message);
+      logger.info('[ElizaOS] Processando mensagem:', { text: message.text, userId: message.userId });
 
-      const response = await axios.post<ElizaResponse>(
-        `${this.baseUrl}/api/message`,
-        {
-          text: message.text,
-          userId: message.userId,
-          userName: message.userName,
-        },
-        {
-          headers: { Authorization: `Bearer ${this.apiKey}` },
-          timeout: 30000,
-        }
-      );
+      // Extrair userAddress do userId se for um endereço Ethereum
+      const address = userAddress || (message.userId.startsWith('0x') ? message.userId : undefined);
 
-      logger.info('[ElizaOS] Resposta recebida:', response.data);
-      return response.data;
+      if (!address) {
+        logger.warn('[ElizaOS] userAddress não fornecido, usando userId como fallback');
+      }
+
+      const agent = await this.getAgent(address, authToken);
+      const result = await agent.processMessage(message.text, address || message.userId, authToken);
+
+      logger.info('[ElizaOS] Resposta do agente:', {
+        success: result.success,
+        hasData: !!result.data,
+      });
+
+      // Formatar resposta no formato esperado pelo frontend
+      return {
+        text: result.response,
+        data: result.data, // Já inclui pendingSignature quando necessário
+        action: result.success ? 'processed' : 'error',
+      };
     } catch (error) {
-      logger.error('[ElizaOS] Erro ao enviar mensagem:', error);
-      throw new Error(
-        `Falha ao consultar ElizaOS: ${error instanceof Error ? error.message : 'erro desconhecido'}`
-      );
+      logger.error('[ElizaOS] Erro ao processar mensagem:', error);
+      const errorMessage = error instanceof Error ? error.message : 'erro desconhecido';
+      
+      // Log detalhado para debugging
+      logger.error('[ElizaOS] Error details:', {
+        message: message.text,
+        userId: message.userId,
+        userAddress,
+        error: errorMessage,
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+
+      // Mensagens de erro mais específicas
+      if (errorMessage.includes('network') || errorMessage.includes('ECONNREFUSED')) {
+        return {
+          text: 'Erro de conexão com os serviços. Verifique se todos os serviços estão disponíveis e tente novamente.',
+          action: 'error',
+        };
+      }
+
+      if (errorMessage.includes('validation') || errorMessage.includes('invalid')) {
+        return {
+          text: 'Erro de validação. Por favor, verifique os parâmetros fornecidos e tente novamente.',
+          action: 'error',
+        };
+      }
+
+      return {
+        text: `Desculpe, encontrei um erro ao processar sua solicitação: ${errorMessage}. Por favor, tente novamente.`,
+        action: 'error',
+      };
     }
   }
 
-  async getStatus(): Promise<{ status: string; version?: string }> {
+  async getStatus(): Promise<{ status: string; version?: string; healthy?: boolean }> {
     try {
-      const response = await axios.get<any>(`${this.baseUrl}/api/status`, {
-        headers: { Authorization: `Bearer ${this.apiKey}` },
-        timeout: 10000,
-      });
+      const agent = await this.getAgent();
+      const health = await agent.getHealth();
 
-      return response.data || { status: 'unknown' };
+      return {
+        status: health.healthy ? 'ok' : 'degraded',
+        version: '1.0.0',
+        healthy: health.healthy,
+      };
     } catch (error) {
       logger.error('[ElizaOS] Erro ao obter status:', error);
-      throw new Error(
-        `Falha ao consultar status do ElizaOS: ${error instanceof Error ? error.message : 'erro desconhecido'}`
-      );
+      return {
+        status: 'error',
+        version: '1.0.0',
+        healthy: false,
+      };
     }
   }
 

@@ -40,6 +40,12 @@ export class IntentParser {
         /setup.*payment.*stream/i,
         /stream\s+(\d+)\s+(?:tokens?|of)\s+(\w+)\s+to\s+(.+)/i,
         /pay\s+(.+)\s+(\d+)\s+(\w+)\s+(?:per\s+)?(\w+)/i,
+        // Português
+        /criar.*stream/i,
+        /enviar.*pagamento/i,
+        /configurar.*pagamento/i,
+        /pagar\s+(.+)\s+(\d+)\s+(\w+)/i,
+        /stream\s+de\s+(\d+)\s+(\w+)\s+para\s+(.+)/i,
       ],
     ],
     [
@@ -49,6 +55,12 @@ export class IntentParser {
         /withdraw.*stream/i,
         /collect.*stream/i,
         /claim.*tokens?/i,
+        // Português
+        /reivindicar.*stream/i,
+        /sacar.*stream/i,
+        /coletar.*stream/i,
+        /resgatar.*tokens?/i,
+        /pedir.*pagamento/i,
       ],
     ],
     [
@@ -57,6 +69,11 @@ export class IntentParser {
         /pause.*stream/i,
         /stop.*stream/i,
         /suspend.*stream/i,
+        // Português
+        /pausar.*stream/i,
+        /parar.*stream/i,
+        /suspender.*stream/i,
+        /interromper.*stream/i,
       ],
     ],
     [
@@ -66,6 +83,11 @@ export class IntentParser {
         /delete.*stream/i,
         /terminate.*stream/i,
         /stop.*stream.*permanently/i,
+        // Português
+        /cancelar.*stream/i,
+        /excluir.*stream/i,
+        /encerrar.*stream/i,
+        /parar.*definitivamente/i,
       ],
     ],
     [
@@ -76,6 +98,12 @@ export class IntentParser {
         /my.*stream/i,
         /view.*stream/i,
         /stream.*balance/i,
+        // Português
+        /mostrar.*stream/i,
+        /listar.*stream/i,
+        /meus.*streams/i,
+        /ver.*streams/i,
+        /saldo.*stream/i,
       ],
     ],
     [
@@ -84,6 +112,10 @@ export class IntentParser {
         /details?.*stream/i,
         /stream.*info/i,
         /tell.*about.*stream/i,
+        // Português
+        /detalhes?.*stream/i,
+        /info.*stream/i,
+        /sobre.*stream/i,
       ],
     ],
     [
@@ -93,6 +125,11 @@ export class IntentParser {
         /deposit.*liquid/i,
         /provide.*liquid/i,
         /liquidity.*pool/i,
+        // Português
+        /adicionar.*liquid/i,
+        /depositar.*liquid/i,
+        /fornecer.*liquid/i,
+        /pool\s+de\s+liquidez/i,
       ],
     ],
     [
@@ -101,6 +138,10 @@ export class IntentParser {
         /remove.*liquid/i,
         /withdraw.*liquid/i,
         /exit.*pool/i,
+        // Português
+        /remover.*liquid/i,
+        /retirar.*liquid/i,
+        /sair.*pool/i,
       ],
     ],
     [
@@ -110,6 +151,11 @@ export class IntentParser {
         /list.*pool/i,
         /view.*pool/i,
         /pool.*info/i,
+        // Português
+        /mostrar.*pools/i,
+        /listar.*pools/i,
+        /ver.*pools/i,
+        /info.*pools/i,
       ],
     ],
     [
@@ -119,6 +165,10 @@ export class IntentParser {
         /exchange\s+(.+?)\s+(?:for|to)\s+(.+)/i,
         /trade\s+(.+?)\s+(?:for|to)\s+(.+)/i,
         /convert\s+(.+?)\s+(?:to)\s+(.+)/i,
+        // Português
+        /trocar\s+(.+?)\s+(?:por|para)\s+(.+)/i,
+        /permutar\s+(.+?)\s+(?:por|para)\s+(.+)/i,
+        /converter\s+(.+?)\s+(?:para)\s+(.+)/i,
       ],
     ],
     [
@@ -128,6 +178,11 @@ export class IntentParser {
         /how\s+much\s+(?:do\s+)?(?:i\s+)?(?:have|own)/i,
         /net\s+worth/i,
         /portfolio/i,
+        // Português
+        /saldo/i,
+        /quanto.*eu.*tenho/i,
+        /patrimônio/i,
+        /carteira/i,
       ],
     ],
     [
@@ -136,6 +191,10 @@ export class IntentParser {
         /(?:what\s+)?(?:is\s+)?(?:the\s+)?price\s+of\s+(.+)/i,
         /(.+)\s+price/i,
         /how\s+much\s+(?:is|costs?)\s+(.+)/i,
+        // Português
+        /preço.*de\s+(.+)/i,
+        /quanto.*custa\s+(.+)/i,
+        /cotação.*de\s+(.+)/i,
       ],
     ],
   ]);
@@ -168,7 +227,7 @@ export class IntentParser {
     }
 
     if (bestMatch && bestMatch.confidence > 0.5) {
-      const parameters = this.extractParameters(bestMatch.intent, bestMatch.matches || [], message);
+      const parameters = this.extractParameters(bestMatch.intent, bestMatch.matches as RegExpMatchArray, message);
 
       return {
         intent: bestMatch.intent,
@@ -247,13 +306,14 @@ export class IntentParser {
       params.tokens = tokenMatch.map((t) => t.toUpperCase());
     }
 
-    // Extract duration
+    // Extract duration (English and Portuguese)
     const durationMatch = message.match(
-      /(?:for\s+)?(\d+)\s+(?:day|week|month|year|hour|second)s?/i
+      /(?:for|por|durante\s+)?(\d+)\s+(?:day|week|month|year|hour|second|dia|semana|mês|mes|ano|hora|segundo)s?/i
     );
     if (durationMatch) {
       params.duration = durationMatch[1];
-      params.durationUnit = durationMatch[0].split(' ')[1];
+      const unit = durationMatch[0].split(/\s+/).pop()?.toLowerCase() || 'second';
+      params.durationUnit = unit;
     }
 
     // Extract pool information
@@ -331,19 +391,19 @@ export class IntentParser {
    */
   getIntentDescription(parsed: ParsedIntent): string {
     const descriptions: Record<StreamPayIntent, string> = {
-      [StreamPayIntent.CREATE_STREAM]: 'Create a payment stream',
-      [StreamPayIntent.CLAIM_STREAM]: 'Claim tokens from a stream',
-      [StreamPayIntent.PAUSE_STREAM]: 'Pause a stream',
-      [StreamPayIntent.CANCEL_STREAM]: 'Cancel a stream',
-      [StreamPayIntent.VIEW_STREAMS]: 'View your streams',
-      [StreamPayIntent.VIEW_STREAM_DETAILS]: 'View stream details',
-      [StreamPayIntent.ADD_LIQUIDITY]: 'Add liquidity to pool',
-      [StreamPayIntent.REMOVE_LIQUIDITY]: 'Remove liquidity from pool',
-      [StreamPayIntent.VIEW_POOLS]: 'View liquidity pools',
-      [StreamPayIntent.SWAP_TOKENS]: 'Swap tokens',
-      [StreamPayIntent.CHECK_BALANCE]: 'Check wallet balance',
-      [StreamPayIntent.GET_PRICE]: 'Get token price',
-      [StreamPayIntent.UNKNOWN]: 'Unknown request',
+      [StreamPayIntent.CREATE_STREAM]: 'criar um stream de pagamento',
+      [StreamPayIntent.CLAIM_STREAM]: 'reivindicar tokens de um stream',
+      [StreamPayIntent.PAUSE_STREAM]: 'pausar um stream',
+      [StreamPayIntent.CANCEL_STREAM]: 'cancelar um stream',
+      [StreamPayIntent.VIEW_STREAMS]: 'ver seus streams',
+      [StreamPayIntent.VIEW_STREAM_DETAILS]: 'ver detalhes do stream',
+      [StreamPayIntent.ADD_LIQUIDITY]: 'adicionar liquidez ao pool',
+      [StreamPayIntent.REMOVE_LIQUIDITY]: 'remover liquidez do pool',
+      [StreamPayIntent.VIEW_POOLS]: 'ver pools de liquidez',
+      [StreamPayIntent.SWAP_TOKENS]: 'trocar tokens',
+      [StreamPayIntent.CHECK_BALANCE]: 'verificar saldo da carteira',
+      [StreamPayIntent.GET_PRICE]: 'buscar preço de token',
+      [StreamPayIntent.UNKNOWN]: 'requisição desconhecida',
     };
 
     return descriptions[parsed.intent];
