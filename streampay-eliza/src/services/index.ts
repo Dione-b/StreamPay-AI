@@ -7,6 +7,15 @@ export { MoralisService, createMoralisService } from './moralis';
 export { ChainlinkService, createChainlinkService } from './chainlink';
 export { IntentParser, StreamPayIntent, ParsedIntent, createIntentParser } from './intent-parser';
 export { ActionHandler, createActionHandler } from './action-handler';
+export {
+  ContractService,
+  createContractService,
+  type ContractServiceConfig,
+  type ExecutionResult,
+  type NetworkName,
+  type SignaturePayload,
+  type SignatureRequest,
+} from './contract-service';
 
 // Service factory for easy initialization
 export interface ServiceConfig {
@@ -15,12 +24,14 @@ export interface ServiceConfig {
   backendUrl: string;
   userAddress?: string;
   authToken?: string;
+  network?: 'sepolia' | 'localhost';
 }
 
 export class ServiceFactory {
   private moralisService: any;
   private chainlinkService: any;
   private intentParser: any;
+  private contractService: any;
   private config: ServiceConfig;
 
   constructor(config: ServiceConfig) {
@@ -66,5 +77,18 @@ export class ServiceFactory {
       moralisService: this.getMoralisService(),
       chainlinkService: this.getChainlinkService(),
     });
+  }
+
+  getContractService() {
+    if (!this.contractService) {
+      const { createContractService } = require('./contract-service');
+      this.contractService = createContractService({
+        backendUrl: this.config.backendUrl,
+        userAddress: this.config.userAddress || '',
+        authToken: this.config.authToken,
+        network: this.config.network || 'sepolia',
+      });
+    }
+    return this.contractService;
   }
 }

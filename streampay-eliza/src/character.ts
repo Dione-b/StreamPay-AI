@@ -1,4 +1,5 @@
 import { type Character } from '@elizaos/core';
+import { createStreamPayPlugin } from './agents/eliza-integration';
 
 /**
  * StreamPay Agent Character Configuration
@@ -7,7 +8,7 @@ import { type Character } from '@elizaos/core';
  */
 export const character: Character = {
   name: 'StreamPay Agent',
-  description: 'DeFi streaming payment and liquidity management assistant',
+
   plugins: [
     // Core plugins
     '@elizaos/plugin-sql',
@@ -20,8 +21,8 @@ export const character: Character = {
     ...(process.env.DISCORD_API_TOKEN?.trim() ? ['@elizaos/plugin-discord'] : []),
     ...(process.env.TELEGRAM_BOT_TOKEN?.trim() ? ['@elizaos/plugin-telegram'] : []),
 
-    // StreamPay custom plugin (loaded locally)
-    './src/agents/eliza-integration.ts',
+    // StreamPay custom plugin
+
   ],
   settings: {
     secrets: {

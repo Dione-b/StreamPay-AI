@@ -10,7 +10,7 @@ const router = Router();
  */
 router.post('/eliza-message', async (req: Request, res: Response) => {
   try {
-    const { message, userId, userName } = req.body;
+    const { message, userId, userName, userAddress, authToken } = req.body;
 
     if (!message || typeof message !== 'string' || message.length === 0) {
       return res.status(400).json({ error: 'Message is required and must be non-empty' });
@@ -19,11 +19,21 @@ router.post('/eliza-message', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'UserId is required' });
     }
 
-    const response = await elizaosService.sendMessage({
-      text: message,
-      userId,
-      userName: userName || `User_${userId}`,
-    });
+    // Extrair authToken do header Authorization se não estiver no body
+    const token = authToken || (req.headers.authorization?.replace('Bearer ', '') || undefined);
+    
+    // Extrair userAddress do userId se for um endereço Ethereum, ou do body
+    const address = userAddress || (userId.startsWith('0x') && userId.length === 42 ? userId : undefined);
+
+    const response = await elizaosService.sendMessage(
+      {
+        text: message,
+        userId,
+        userName: userName || `User_${userId}`,
+      },
+      address,
+      token
+    );
     res.json({ userId, message, response });
   } catch (error) {
     logger.error('[ElizaOS Route] Erro ao enviar mensagem:', error);

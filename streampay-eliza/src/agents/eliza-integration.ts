@@ -76,7 +76,7 @@ export const streamPayMessageAction: Action = {
         });
       }
 
-      return result.success;
+      return;
     } catch (error) {
       console.error('[StreamPay ElizaOS] Error:', error);
 
@@ -86,20 +86,20 @@ export const streamPayMessageAction: Action = {
         });
       }
 
-      return false;
+      return;
     }
   },
 
   examples: [
     [
       {
-        user: 'user',
+        name: 'user',
         content: {
           text: 'Create a stream of 1000 USDC to 0x1234567890123456789012345678901234567890 per day for 30 days',
         },
       },
       {
-        user: 'assistant',
+        name: 'assistant',
         content: {
           text: 'Stream created successfully! Your payment stream is now active.',
         },
@@ -107,13 +107,13 @@ export const streamPayMessageAction: Action = {
     ],
     [
       {
-        user: 'user',
+        name: 'user',
         content: {
           text: 'What is my wallet balance?',
         },
       },
       {
-        user: 'assistant',
+        name: 'assistant',
         content: {
           text: 'Your wallet net worth is $5,234.50. You have 5 tokens in your portfolio.',
         },
@@ -121,13 +121,13 @@ export const streamPayMessageAction: Action = {
     ],
     [
       {
-        user: 'user',
+        name: 'user',
         content: {
           text: 'Swap 100 USDC for ETH',
         },
       },
       {
-        user: 'assistant',
+        name: 'assistant',
         content: {
           text: 'Swap quote: 100 USDC → ~0.05 ETH. Ready to execute?',
         },
@@ -179,7 +179,7 @@ export const streamPayCommandsAction: Action = {
         });
       }
 
-      return true;
+      return;
     } catch (error) {
       console.error('[StreamPay Help] Error:', error);
 
@@ -189,20 +189,20 @@ export const streamPayCommandsAction: Action = {
         });
       }
 
-      return false;
+      return;
     }
   },
 
   examples: [
     [
       {
-        user: 'user',
+        name: 'user',
         content: {
           text: 'What can you help me with?',
         },
       },
       {
-        user: 'assistant',
+        name: 'assistant',
         content: {
           text: 'I can help with StreamPay operations like creating streams, swapping tokens, and managing liquidity. Type "help" for a list of commands.',
         },

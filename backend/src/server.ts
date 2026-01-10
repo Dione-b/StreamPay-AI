@@ -16,6 +16,7 @@ import etherscanRouter from "./routes/external/etherscan";
 import moralisRouter from "./routes/external/moralis";
 import infuraRouter from "./routes/external/infura";
 import elizaosRouter from "./routes/external/elizaos";
+import agentContractsRouter from "./routes/agent/contracts";
 import { setupSwagger } from "./config/swagger";
 import { validateEnv, getConfigStatus, validateBlockchainConfig } from "./config/validation";
 
@@ -100,6 +101,9 @@ app.use("/api", etherscanRouter);
 app.use("/api", moralisRouter);
 app.use("/api", infuraRouter);
 app.use("/api", elizaosRouter);
+
+// Agent routes (require JWT + signature validation inside router)
+app.use("/api/agent", agentContractsRouter);
 
 // Protected routes
 app.use("/api/streams", authenticateJWT, streamsRouter);

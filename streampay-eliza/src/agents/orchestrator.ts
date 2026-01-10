@@ -42,6 +42,10 @@ export class StreamPayAgent {
     authToken?: string
   ): Promise<{ response: string; data?: any; success: boolean }> {
     try {
+      // Atualizar config com userAddress e authToken do contexto atual
+      this.config.userAddress = userAddress;
+      this.config.authToken = authToken;
+
       // Parse user intent
       const parsedIntent = this.intentParser.parseIntent(userMessage);
 
@@ -59,11 +63,12 @@ export class StreamPayAgent {
         };
       }
 
-      // Create action handler with user context
-      this.actionHandler = this.serviceFactory.getActionHandler();
+      // Create action handler with user context (agora com userAddress e authToken atualizados)
+      const handler = this.serviceFactory.getActionHandler();
+      this.actionHandler = handler;
 
       // Execute action
-      const actionResult = await this.actionHandler.execute(parsedIntent);
+      const actionResult = await handler.execute(parsedIntent);
 
       return {
         success: actionResult.success,
@@ -72,10 +77,34 @@ export class StreamPayAgent {
       };
     } catch (error) {
       console.error('[StreamPayAgent] Error processing message:', error);
+      const errorMessage = error instanceof Error ? error.message : 'erro desconhecido';
+      
+      // Log detalhado para debugging
+      console.error('[StreamPayAgent] Error details:', {
+        message: userMessage,
+        userAddress,
+        error: errorMessage,
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+
+      // Mensagens de erro mais específicas
+      if (errorMessage.includes('network') || errorMessage.includes('ECONNREFUSED')) {
+        return {
+          success: false,
+          response: 'Erro de conexão. Verifique se os serviços estão disponíveis e tente novamente.',
+        };
+      }
+
+      if (errorMessage.includes('validation') || errorMessage.includes('invalid')) {
+        return {
+          success: false,
+          response: 'Erro de validação. Por favor, verifique os parâmetros fornecidos e tente novamente.',
+        };
+      }
+
       return {
         success: false,
-        response:
-          'I encountered an error processing your request. Please try again or rephrase your message.',
+        response: `Encontrei um erro ao processar sua solicitação: ${errorMessage}. Por favor, tente novamente ou reformule sua mensagem.`,
       };
     }
   }
@@ -209,14 +238,14 @@ export class StreamPayAgent {
     const missingParams = this.getMissingParameters(parsed);
 
     if (missingParams.length > 0) {
-      return `To ${intentDescription}, I need: ${missingParams.join(', ')}.\n\nCould you provide these details?`;
+      return `Para ${intentDescription}, preciso de: ${missingParams.join(', ')}.\n\nPoderia fornecer esses detalhes?`;
     }
 
     if (parsed.confidence < 0.5) {
-      return `I'm not sure what you're asking. Could you rephrase that? Available commands: ${this.getCommandsList()}`;
+      return `Não tenho certeza do que você está pedindo. Poderia reformular? Comandos disponíveis: ${this.getCommandsList()}`;
     }
 
-    return `I couldn't understand your request. Please try again.`;
+    return `Não consegui entender sua solicitação. Por favor, tente novamente.`;
   }
 
   /**
@@ -243,14 +272,14 @@ export class StreamPayAgent {
     const missing: string[] = [];
 
     const paramMap: Record<string, string> = {
-      recipient: 'recipient address',
-      amount: 'amount',
+      recipient: 'endereço do destinatário',
+      amount: 'valor',
       token: 'token',
-      streamId: 'stream ID',
-      poolId: 'pool ID',
-      tokenIn: 'input token',
-      tokenOut: 'output token',
-      symbol: 'symbol',
+      streamId: 'ID do stream',
+      poolId: 'ID do pool',
+      tokenIn: 'token de entrada',
+      tokenOut: 'token de saída',
+      symbol: 'símbolo',
     };
 
     for (const req of required) {
