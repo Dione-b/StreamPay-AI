@@ -1,0 +1,80 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/.next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_CHAIN_ID": {
+      "description": "Blockchain network chain ID (137 for Polygon mainnet, 11155111 for Sepolia testnet)",
+      "example": "137",
+      "required": true
+    },
+    "NEXT_PUBLIC_BACKEND_URL": {
+      "description": "Backend API URL",
+      "example": "https://api.streampay.io",
+      "required": true
+    },
+    "NEXT_PUBLIC_ELIZA_URL": {
+      "description": "ElizaOS agent server URL",
+      "example": "https://agent.streampay.io",
+      "required": true
+    },
+    "NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID": {
+      "description": "WalletConnect project ID from https://cloud.walletconnect.com",
+      "required": true
+    },
+    "NEXT_PUBLIC_STREAM_PAY_CORE_ADDRESS": {
+      "description": "StreamPayCore contract address (mainnet or testnet)",
+      "example": "0x8a9bDE90B28b6ec99CC0895AdB2d851A786041dD",
+      "required": true
+    },
+    "NEXT_PUBLIC_LIQUIDITY_POOL_ADDRESS": {
+      "description": "LiquidityPool contract address",
+      "example": "0x585C98E899F07c22C4dF33d694aF8cb7096CCd5c",
+      "required": true
+    },
+    "NEXT_PUBLIC_POOL_MANAGER_ADDRESS": {
+      "description": "PoolManager contract address",
+      "example": "0xae185cA95D0b626a554b0612777350CE3DE06bB9",
+      "required": true
+    },
+    "NEXT_PUBLIC_SWAP_ROUTER_ADDRESS": {
+      "description": "SwapRouter contract address",
+      "example": "0x07AfFa6C58999Ac0c98237d10476983A573eD368",
+      "required": true
+    },
+    "NEXT_PUBLIC_TOKEN_ADDRESS": {
+      "description": "Token contract address",
+      "example": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+      "required": true
+    }
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "develop": true
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+        }
+      ]
+    }
+  ]
+}
