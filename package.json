@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm-run-all --parallel dev:*",
+    "dev": "npm-run-all --parallel dev:frontend dev:backend dev:eliza",
     "dev:frontend": "cd frontend && PORT=3003 npm run dev",
     "dev:backend": "cd backend && npm run dev",
     "dev:eliza": "cd streampay-eliza && npm run dev",
-    "dev:contracts": "cd smart-contracts && npm run compile && npm run test",
+    "contracts:compile": "cd smart-contracts && npm run compile",
+    "contracts:test": "cd smart-contracts && npm run test",
+    "contracts:deploy": "cd smart-contracts && npm run deploy",
     "test": "jest"
   },
   "devDependencies": {

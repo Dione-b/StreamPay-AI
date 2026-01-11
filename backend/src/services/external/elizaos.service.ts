@@ -34,7 +34,7 @@ export class ElizaOSService {
       // Usando o artefato de build CommonJS para evitar problemas de ESM/CJS
       // O path aponta para o JS compilado no dist
       // @ts-ignore
-      const { createStreamPayAgent } = require('../../../../streampay-eliza/dist/src/index.js');
+      const { createStreamPayAgent } = require('../../../../streampay-eliza/dist/index.js');
       
       this.agent = createStreamPayAgent(config);
       logger.info('[ElizaOS] StreamPayAgent inicializado via CommonJS Build');

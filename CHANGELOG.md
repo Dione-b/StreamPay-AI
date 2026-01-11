@@ -4,6 +4,40 @@ All notable changes are documented here.
 
 ---
 
+## [1.0.1] - 2026-01-11
+
+### 🤖 ElizaOS Chatbot Enhancements
+
+#### Enhanced User Experience
+- ✅ **Help Command System**: Added comprehensive help with `help`, `ajuda`, or `comandos`
+- ✅ **Enhanced Validation Messages**: Detailed error messages with examples in PT/EN
+- ✅ **Command Examples**: Real-world examples for all operations:
+  - Create Stream: "Criar stream de 1000 USDC para 0x1234... por 30 dias"
+  - Claim Stream: "Resgatar stream 0x7890...abcd"
+  - Pause/Cancel: With stream ID examples
+  - Add Liquidity: Token pair examples
+  - Swap Tokens: With amount and token examples
+- ✅ **Multi-language Support**: Full Portuguese and English command recognition
+- ✅ **Intent Detection**: Improved pattern matching for incomplete commands
+
+#### Infrastructure Updates
+- ✅ **Port Configuration**: ElizaOS now runs on port 3002 (auto-detection when 3000 busy)
+- ✅ **Frontend Authentication**: Enhanced error handling in historico and dashboard pages
+- ✅ **Backend Module Loading**: Fixed ElizaOS integration path (dist/index.js)
+- ✅ **Environment Setup**: Complete .env configuration for all services
+
+#### Developer Experience
+- ✅ **Unified Start Command**: `npm run dev` starts all services (backend, frontend, ElizaOS)
+- ✅ **Service Status**: Backend (3001), Frontend (3003), ElizaOS (3002)
+- ✅ **Improved Documentation**: Updated all MD files with current system state
+
+Dev URLs:
+- Frontend: `http://localhost:3003`
+- Backend: `http://localhost:3001` (Swagger: `/api-docs`)
+- ElizaOS: `http://localhost:3002` (Web UI + Health endpoint)
+
+---
+
 ## [0.1.1] - 2025-12-17
 
 ### Frontend fixes & Dev experience

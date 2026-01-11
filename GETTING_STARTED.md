@@ -1,10 +1,11 @@
-# 🚀 Getting Started Guide - StreamPay AI (Updated 12/15/2025)
+# 🚀 Getting Started Guide - StreamPay AI (Updated 01/11/2026)
 
 ## 🎯 Overall Status: 100% COMPLETE ✅
 
 The StreamPay AI project is **production-ready** with:
 - ✅ Web3 Authentication (MetaMask + JWT)
 - ✅ Complete Streams CRUD
+- ✅ ElizaOS AI Chatbot (Enhanced UX)
 - ✅ Dashboard with real data
 - ✅ Stream details with actions
 - ✅ History with advanced filters
@@ -14,6 +15,19 @@ The StreamPay AI project is **production-ready** with:
 
 ## ⚡ Quick Start (5 minutes)
 
+### Opção 1: Iniciar Todos os Serviços (Recomendado)
+```bash
+# Na raiz do projeto
+npm install
+npm run dev
+
+# Serviços disponíveis:
+# Backend: http://localhost:3001
+# Frontend: http://localhost:3003
+# ElizaOS Chatbot: http://localhost:3002
+```
+
+### Opção 2: Iniciar Individualmente
 ```bash
 # Terminal 1: Backend (Express)
 cd backend
@@ -27,7 +41,13 @@ npm install
 npm run dev
 # http://localhost:3003
 
-# Terminal 3: Tests
+# Terminal 3: ElizaOS (AI Chatbot)
+cd streampay-eliza
+npm install
+npm run dev
+# http://localhost:3002
+
+# Terminal 4: Tests
 npm test
 # 17/17 tests passing ✅
 ```
@@ -35,8 +55,9 @@ npm test
 ## 📋 Usage Checklist
 
 ### ✅ Ready for Development
-- [x] Backend configured and running
-- [x] Frontend compiled without errors
+- [x] Backend configured and running (port 3001)
+- [x] Frontend compiled without errors (port 3003)
+- [x] ElizaOS chatbot operational (port 3002)
 - [x] PostgreSQL connected
 - [x] 17/17 tests passing
 - [x] Web3Auth implemented
@@ -45,15 +66,20 @@ npm test
 - [x] Stream details implemented
 - [x] Create modal implemented
 - [x] History filters implemented
+- [x] AI chatbot with help system
+- [x] Enhanced validation messages
 
 ### 🎯 Usage Flow
 1. **Open application**: http://localhost:3003
 2. **Connect MetaMask**: Click "Connect Wallet"
 3. **Login**: Sign the message
 4. **Use dashboard**: View your streams
-5. **Create new stream**: Click "✨ Create Stream"
-6. **View details**: Click on stream to see full information
-7. **Filter history**: Use filters in "History"
+5. **Create new stream**: 
+   - Via UI: Click "✨ Create Stream"
+   - Via Chatbot: Type "criar stream de 1000 USDC para 0x123... por 30 dias"
+6. **Get help**: Type "help" or "ajuda" in the chatbot
+7. **View details**: Click on stream to see full information
+8. **Filter history**: Use filters in "History"
 
 ## 📊 Architecture
 ---
@@ -62,7 +88,7 @@ npm test
 
 **Implement Web3Auth with MetaMask**
 
-📄 Guide: See `README.md` and `PROJECT_STATUS.md`
+📄 Guide: See `README.md` and `DOCUMENTATION_INDEX.md`
 
 Summary:
 1. Use `Web3Auth.tsx` component (implemented)
@@ -81,8 +107,8 @@ Summary:
 | File | Purpose | Reading |
 |------|---------|---------|
 | `README.md` | Project overview | 15 min |
-| `PROJECT_STATUS.md` | Project status | 10 min |
-| `FEATURES_DECEMBER_2025.md` | 3 new features | 20 min |
+| `DOCUMENTATION_INDEX.md` | Documentation index | 10 min |
+| `ELIZAOS_GUIDE.md` | AI chatbot guide | 20 min |
 | `TECHNICAL_DOCUMENTATION.md` | Complete architecture | 30 min |
 | `API.md` | Documented endpoints | 15 min |
 | `CHANGELOG.md` | Release history | 10 min |

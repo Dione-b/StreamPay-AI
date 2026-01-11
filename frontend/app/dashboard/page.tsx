@@ -47,12 +47,22 @@ export default function DashboardPage() {
     setStreamsLoading(true);
     setStreamsError(null);
     try {
-      const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api/streams`
-      );
+      // Verificar se o usuário está autenticado
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      const response = await fetchWithAuth('/streams');
       
       if (!response.ok) {
-        throw new Error('Falha ao buscar streams');
+        if (response.status === 401) {
+          // fetchWithAuth já redireciona para login
+          return;
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Falha ao buscar streams');
       }
 
       const data = await response.json();

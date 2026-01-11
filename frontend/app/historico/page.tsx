@@ -38,6 +38,13 @@ export default function HistoricoPage() {
 
   // Buscar streams
   useEffect(() => {
+    // Verificar autenticação antes de buscar
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      setLoading(false);
+      setError('Você precisa estar autenticado para ver o histórico');
+      return;
+    }
     fetchStreams();
   }, []);
 
@@ -45,12 +52,22 @@ export default function HistoricoPage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api/streams`
-      );
+      // Verificar se o usuário está autenticado
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      const response = await fetchWithAuth('/streams');
 
       if (!response.ok) {
-        throw new Error("Erro ao buscar histórico");
+        if (response.status === 401) {
+          // fetchWithAuth já redireciona para login
+          return;
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Erro ao buscar histórico");
       }
 
       const data = await response.json();
@@ -247,7 +264,22 @@ export default function HistoricoPage() {
 
         {error && (
           <Card variant="glass" padding="lg" className="mb-8 border-red-500/50">
-            <p className="text-red-400">❌ {error}</p>
+            <div className="text-center">
+              <p className="text-red-400 mb-4">❌ {error}</p>
+              <Button
+                variant="neon"
+                onClick={fetchStreams}
+                className="mr-2"
+              >
+                🔄 Tentar Novamente
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => router.push('/login')}
+              >
+                🔐 Fazer Login
+              </Button>
+            </div>
           </Card>
         )}
 

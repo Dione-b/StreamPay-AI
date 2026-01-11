@@ -1,12 +1,13 @@
 # 🚀 StreamPay AI - Smart Payment Streaming Platform
 
-**Status**: 🟢 100% Complete & Production Ready | **Version**: 1.0.0 | **Updated**: December 15, 2025
+**Status**: 🟢 100% Complete & Production Ready | **Version**: 1.0.1 | **Updated**: January 11, 2026
 
 ## 📖 Overview
 
 StreamPay is a decentralized payment streaming platform for freelancers, investors, and companies, featuring:
 - **Web3 Authentication**: MetaMask login with JWT + refresh token pattern
 - **Streams Management**: Create, list, detail, pause, claim, cancel operations
+- **AI Chatbot (ElizaOS)**: Intelligent assistant with natural language processing
 - **Advanced Filtering**: Status, token, date range filters on history page
 - **Real-time Display**: Dashboard with active/completed streams
 - **Production Ready**: 17/17 tests passing, full TypeScript coverage
@@ -37,6 +38,15 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 - ✅ History page with advanced filters
 - ✅ Responsive mobile/tablet/desktop layout
 
+### 🤖 AI Chatbot (ElizaOS)
+- ✅ Natural language command processing
+- ✅ Help system with command examples
+- ✅ Enhanced validation error messages
+- ✅ Multi-language support (PT/EN)
+- ✅ Stream creation via chat
+- ✅ Token swaps and liquidity management
+- ✅ Balance and price queries
+
 ### 🧪 Testing & Quality
 - ✅ 17/17 tests passing (100% pass rate)
 - ✅ 7 authentication tests
@@ -48,8 +58,8 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 
 | Document | Purpose | Time |
 |----------|---------|------|
-| **[PROJECT_STATUS.md](./PROJECT_STATUS.md)** ⭐ | Complete project status | 10 min |
-| **[COMECE_AQUI.md](./COMECE_AQUI.md)** | Portuguese quick start | 5 min |
+| **[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)** ⭐ | Documentation index | 10 min |
+| **[GETTING_STARTED.md](./GETTING_STARTED.md)** | Quick start guide | 5 min |
 | **[SECURITY.md](./SECURITY.md)** | Security guidelines | 10 min |
 | **[CHANGELOG.md](./CHANGELOG.md)** | Version history | 5 min |
 | **[docs/API.md](./docs/API.md)** | API endpoints documentation | 15 min |
@@ -68,6 +78,17 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 # Clone repository
 git clone https://github.com/Jistriane/StreamPay-AI.git
 cd StreamPay-AI
+
+# Install dependencies
+npm install
+
+# Start all services (Recommended)
+npm run dev
+# Backend: http://localhost:3001
+# Frontend: http://localhost:3003
+# ElizaOS: http://localhost:3002
+
+# Or start individually:
 
 # Backend (Terminal 1)
 cd backend
@@ -107,8 +128,8 @@ PORT=3001
 ```
 StreamPay-AI/
 ├── 📄 README.md                    # This file
-├── 📄 PROJECT_STATUS.md            # Complete status ⭐
-├── 📄 COMECE_AQUI.md               # Portuguese guide
+├── 📄 DOCUMENTATION_INDEX.md       # Documentation index ⭐
+├── 📄 GETTING_STARTED.md           # Quick start guide
 ├── 📄 SECURITY.md                  # Security guidelines
 ├── 📄 CHANGELOG.md                 # Version history
 │
@@ -298,9 +319,9 @@ See [infra/docker-compose.yml](./infra/docker-compose.yml) for configuration.
 
 ## 📞 Support
 
-- **Documentation**: See [PROJECT_STATUS.md](./PROJECT_STATUS.md)
+- **Documentation**: See [DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)
 - **Issues**: GitHub Issues
-- **Quick Start**: [COMECE_AQUI.md](./COMECE_AQUI.md)
+- **Quick Start**: [GETTING_STARTED.md](./GETTING_STARTED.md)
 - **API Docs**: [docs/API.md](./docs/API.md)
 
 ## 📄 License

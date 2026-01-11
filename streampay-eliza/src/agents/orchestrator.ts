@@ -42,6 +42,15 @@ export class StreamPayAgent {
     authToken?: string
   ): Promise<{ response: string; data?: any; success: boolean }> {
     try {
+      // Verificar se é comando de ajuda
+      const lowerMessage = userMessage.toLowerCase().trim();
+      if (lowerMessage === 'help' || lowerMessage === 'ajuda' || lowerMessage === 'comandos') {
+        return {
+          success: true,
+          response: this.getHelpMessage(),
+        };
+      }
+
       // Atualizar config com userAddress e authToken do contexto atual
       this.config.userAddress = userAddress;
       this.config.authToken = authToken;
@@ -53,13 +62,24 @@ export class StreamPayAgent {
         intent: parsedIntent.intent,
         confidence: parsedIntent.confidence,
         parameters: parsedIntent.parameters,
+        originalMessage: parsedIntent.originalMessage,
       });
 
       // Validate intent has required parameters
-      if (!this.intentParser.validateIntent(parsedIntent)) {
+      const isValid = this.intentParser.validateIntent(parsedIntent);
+      
+      console.log('[StreamPayAgent] Validation result:', {
+        isValid,
+        intent: parsedIntent.intent,
+        hasParameters: Object.keys(parsedIntent.parameters).length > 0,
+      });
+
+      if (!isValid) {
+        const errorMessage = this.generateValidationErrorMessage(parsedIntent);
+        console.log('[StreamPayAgent] Returning validation error:', errorMessage.substring(0, 100) + '...');
         return {
           success: false,
-          response: this.generateValidationErrorMessage(parsedIntent),
+          response: errorMessage,
         };
       }
 
@@ -234,18 +254,65 @@ export class StreamPayAgent {
    */
   private generateValidationErrorMessage(parsed: ParsedIntent): string {
     const intentDescription = this.intentParser.getIntentDescription(parsed);
-
     const missingParams = this.getMissingParameters(parsed);
 
-    if (missingParams.length > 0) {
-      return `Para ${intentDescription}, preciso de: ${missingParams.join(', ')}.\n\nPoderia fornecer esses detalhes?`;
-    }
+    console.log('[generateValidationErrorMessage]', {
+      intent: parsed.intent,
+      confidence: parsed.confidence,
+      missingParams,
+      parameters: parsed.parameters,
+    });
 
+    // Se o intent foi identificado mas está com baixa confiança
     if (parsed.confidence < 0.5) {
-      return `Não tenho certeza do que você está pedindo. Poderia reformular? Comandos disponíveis: ${this.getCommandsList()}`;
+      return `Não tenho certeza do que você está pedindo. Poderia reformular?\n\n` +
+        `📋 **Comandos disponíveis:**\n` +
+        `• create stream - Criar pagamento em stream\n` +
+        `• claim stream - Resgatar tokens\n` +
+        `• pause stream - Pausar stream\n` +
+        `• cancel stream - Cancelar stream\n` +
+        `• view streams - Ver meus streams\n\n` +
+        `💡 Use "help" ou "ajuda" para mais detalhes.`;
     }
 
-    return `Não consegui entender sua solicitação. Por favor, tente novamente.`;
+    // Se o usuário apenas mencionou o comando sem parâmetros, fornecer exemplo
+    if (parsed.intent === StreamPayIntent.CREATE_STREAM) {
+      if (missingParams.length > 0) {
+        return `Para criar um stream, preciso de algumas informações:\n\n` +
+          `📝 **Exemplo de comando completo:**\n` +
+          `"Criar stream de 1000 USDC para 0x1234... por 30 dias"\n\n` +
+          `🔹 **Preciso de:**\n` +
+          `• Valor (ex: 1000)\n` +
+          `• Token (ex: USDC, DAI, ETH)\n` +
+          `• Endereço do destinatário (0x...)\n` +
+          `• Duração (ex: 30 dias, 1 mês)\n\n` +
+          `💡 **Tente algo como:**\n` +
+          `"Enviar 500 USDC para 0xabcd1234... durante 7 dias"`;
+      }
+    }
+
+    if (parsed.intent === StreamPayIntent.CLAIM_STREAM) {
+      if (missingParams.length > 0) {
+        return `Para resgatar um stream, preciso do ID.\n\n` +
+          `📝 **Exemplo:**\n` +
+          `"Resgatar stream #123" ou "Claim do stream 5"`;
+      }
+    }
+
+    if (parsed.intent === StreamPayIntent.PAUSE_STREAM) {
+      if (missingParams.length > 0) {
+        return `Para pausar um stream, preciso do ID.\n\n` +
+          `📝 **Exemplo:**\n` +
+          `"Pausar stream #123" ou "Parar stream 5"`;
+      }
+    }
+
+    if (missingParams.length > 0) {
+      return `Para ${intentDescription}, preciso de: ${missingParams.join(', ')}.\n\n` +
+        `💡 **Dica:** Forneça todos os detalhes necessários em uma única mensagem.`;
+    }
+
+    return `Não consegui entender sua solicitação. Por favor, tente novamente ou digite "help" para ver os comandos disponíveis.`;
   }
 
   /**
@@ -309,6 +376,71 @@ export class StreamPayAgent {
     ]
       .slice(0, 5)
       .join(', ');
+  }
+
+  /**
+   * Get comprehensive help message with all available commands
+   */
+  private getHelpMessage(): string {
+    return `
+🤖 **StreamPay AI - Comandos Disponíveis**
+
+📊 **STREAMS DE PAGAMENTO**
+
+1️⃣ **Criar Stream**
+   • Português: "Criar stream de [VALOR] [TOKEN] para [ENDEREÇO] por [DURAÇÃO]"
+   • English: "Create stream of [AMOUNT] [TOKEN] to [ADDRESS] for [DURATION]"
+   • Exemplo: "Criar stream de 1000 USDC para 0x1234...5678 por 30 dias"
+   • Exemplo: "Create stream of 500 DAI to 0xabcd...ef00 for 7 days"
+
+2️⃣ **Resgatar Stream**
+   • Português: "Resgatar stream [STREAM_ID]"
+   • English: "Claim stream [STREAM_ID]"
+   • Exemplo: "Resgatar stream 0x7890...abcd"
+
+3️⃣ **Pausar Stream**
+   • Português: "Pausar stream [STREAM_ID]"
+   • English: "Pause stream [STREAM_ID]"
+   • Exemplo: "Pausar stream 0x7890...abcd"
+
+4️⃣ **Cancelar Stream**
+   • Português: "Cancelar stream [STREAM_ID]"
+   • English: "Cancel stream [STREAM_ID]"
+   • Exemplo: "Cancelar stream 0x7890...abcd"
+
+5️⃣ **Ver Streams**
+   • Português: "Ver meus streams" ou "Listar streams"
+   • English: "View my streams" ou "List streams"
+
+💧 **LIQUIDEZ & DEFI**
+
+6️⃣ **Adicionar Liquidez**
+   • Português: "Adicionar [VALOR] [TOKEN_IN] e [VALOR] [TOKEN_OUT] no pool"
+   • English: "Add [AMOUNT] [TOKEN_IN] and [AMOUNT] [TOKEN_OUT] to pool"
+   • Exemplo: "Adicionar 1000 USDC e 500 DAI no pool"
+
+7️⃣ **Trocar Tokens**
+   • Português: "Trocar [VALOR] [TOKEN_IN] por [TOKEN_OUT]"
+   • English: "Swap [AMOUNT] [TOKEN_IN] for [TOKEN_OUT]"
+   • Exemplo: "Trocar 100 USDC por DAI"
+
+📈 **INFORMAÇÕES**
+
+8️⃣ **Ver Saldo**
+   • Português: "Qual meu saldo de [TOKEN]?" ou "Saldo [TOKEN]"
+   • English: "What's my [TOKEN] balance?" ou "Balance [TOKEN]"
+   • Exemplo: "Qual meu saldo de USDC?"
+
+9️⃣ **Ver Preço**
+   • Português: "Qual o preço de [TOKEN]?" ou "Preço [TOKEN]"
+   • English: "What's the price of [TOKEN]?" ou "Price [TOKEN]"
+   • Exemplo: "Qual o preço de ETH?"
+
+🔧 **Tokens Suportados:** USDC, DAI, USDT, WETH, ETH
+⏱️ **Durações:** dias/days, semanas/weeks, meses/months
+
+💡 **Dica:** Use o comando completo com todos os parâmetros para melhor resultado!
+    `.trim();
   }
 }
 

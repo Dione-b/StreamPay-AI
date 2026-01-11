@@ -26,7 +26,7 @@ The StreamPay API provides RESTful endpoints for integration between frontend, b
 - **Backend**: `backend/src/config/contracts.ts`
 - **Deployment**: `smart-contracts/deployments/sepolia-1765778736884.json`
 
-For full reference, see [CONTRATOS_DEPLOYADOS.md](../CONTRATOS_DEPLOYADOS.md)
+For full reference, see [DEPLOYED_CONTRACTS.md](../DEPLOYED_CONTRACTS.md)
 
 ---
 
