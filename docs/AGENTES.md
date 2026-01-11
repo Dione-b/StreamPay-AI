@@ -66,9 +66,9 @@ StreamPay agents, integrated via ElizaOS, automate monitoring, compliance, liqui
 ## References
 
 - [ElizaOS](https://elizaos.com/)
-- [StreamPay Roadmap](../roadmap.md)
-- [Monitoring API](../backend/MONITORAMENTO_API.md)
-- [Compliance API](../backend/ELIZAOS_API.md)
+- [StreamPay Changelog](../CHANGELOG.md)
+- [Monitoring API](../backend/docs/MONITORAMENTO_API.md)
+- [Compliance API](../backend/docs/ELIZAOS_API.md)
 
 ---
 

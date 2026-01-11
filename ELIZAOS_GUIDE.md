@@ -372,8 +372,8 @@ npm run dev
 
 - [ElizaOS Documentation](https://github.com/elizaos/eliza)
 - [StreamPay API Docs](http://localhost:3001/api-docs)
-- [Backend README](../backend/README.md)
-- [Getting Started](../GETTING_STARTED.md)
+- [Backend README](backend/README.md)
+- [Getting Started](GETTING_STARTED.md)
 
 ## 🤝 Contribuindo
 
@@ -388,7 +388,7 @@ Para adicionar novos comandos ao chatbot:
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja [LICENSE](../LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT. Veja [README.md](README.md) para mais detalhes.
 
 ---
 
