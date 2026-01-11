@@ -1,6 +1,6 @@
 # 🚀 StreamPay AI - Smart Payment Streaming Platform
 
-**Status**: 🟢 100% Complete & Production Ready | **Version**: 1.0.1 | **Updated**: January 11, 2026
+**Status**: 🟡 Em progresso (E2E do chat/agent pendente) | **Version**: 1.0.1 | **Updated**: January 11, 2026
 
 ## 📖 Overview
 
@@ -12,7 +12,7 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 - **Real-time Display**: Dashboard with active/completed streams
 - **Production Ready**: 17/17 tests passing, full TypeScript coverage
 
-## 🎯 Core Features (100% Complete)
+## 🎯 Core Features (Em progresso)
 
 ### 🔐 Authentication
 - ✅ MetaMask Web3 login
@@ -43,16 +43,14 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 - ✅ Help system with command examples
 - ✅ Enhanced validation error messages
 - ✅ Multi-language support (PT/EN)
-- ✅ Stream creation via chat
-- ✅ Token swaps and liquidity management
-- ✅ Balance and price queries
+- ⚠️ Stream creation via chat — fluxo E2E ainda em validação (assinatura/execução)
+- Token swaps, liquidez, saldo/preço — revisar após concluir E2E do chat
 
 ### 🧪 Testing & Quality
-- ✅ 17/17 tests passing (100% pass rate)
-- ✅ 7 authentication tests
-- ✅ 10 streams integration tests
-- ✅ Full TypeScript type safety
-- ✅ Production build successful
+- ✅ Testes direcionados passando: `backend/tests/eliza.integration.test.ts`, `backend/tests/agent.execute.contract.test.ts`
+- ⚠️ Suite completa não reexecutada nesta sessão; refazer `npm test` no backend/frontend
+- ✅ TypeScript sem erros no build do agente (tsc) e backend
+- Production build a revalidar após fluxo E2E do chat
 
 ## 📚 Documentation
 
@@ -202,22 +200,18 @@ See [docs/API.md](./docs/API.md) for detailed documentation.
 ## 🧪 Testing
 
 ```bash
-# Run all tests
+# Backend - testes direcionados
+cd backend
+npm test -- tests/eliza.integration.test.ts
+npm test -- tests/agent.execute.contract.test.ts
+
+# Suite completa (recomendado rodar para validar estado atual)
 npm test
-
-# Run specific test file
-npm test auth.test.ts
-
-# Run with coverage
-npm test -- --coverage
-
-# Watch mode
-npm test -- --watch
 ```
 
-**Test Results**: ✅ 17/17 Passing
-- Authentication: 7/7
-- Streams: 10/10
+**Estado de testes:**
+- ✅ Integração ElizaOS e execute-contract OK (última execução local)
+- ⚠️ Suite completa não reexecutada nesta sessão; executar antes de release
 
 ## 📦 Technology Stack
 
@@ -307,15 +301,11 @@ docker-compose up
 
 See [infra/docker-compose.yml](./infra/docker-compose.yml) for configuration.
 
-## 🔮 Future Enhancements
+## 🔮 Next Steps
 
-- Dashboard analytics and charts
-- Portfolio management page
-- Mobile app (React Native)
-- Mainnet deployment
-- Governance tokens
-- Advanced KYC/LGPD compliance
-- Liquidity pool management
+- Concluir fluxo E2E do chat (criar stream via agente → assinatura → execução tx)
+- Reexecutar suites completas de backend/frontend e atualizar métricas de testes
+- (Opcional) Retomar itens de futuro: analytics, mobile, mainnet, governança, KYC/LGPD
 
 ## 📞 Support
 
@@ -341,7 +331,7 @@ For questions or suggestions, please open an issue on GitHub.
 
 ---
 
-**Last Updated**: December 15, 2025  
-**Version**: 1.0.0  
-**Status**: ✅ PRODUCTION READY
+**Last Updated**: January 11, 2026  
+**Version**: 1.0.1  
+**Status**: 🟡 Em progresso (validando agente/chat E2E)
 

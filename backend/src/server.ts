@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { z } from "zod";
-import { pool } from "./db";
+import { pool, migrate, migrateEvents, migrateClaims } from "./db";
 import { authenticateJWT, requireRole } from "./middleware/auth";
 import { errorHandler, asyncHandler } from "./middleware/errorHandler";
 import { validateRequest } from "./middleware/validation";
@@ -136,7 +136,17 @@ app.use(errorHandler);
 
 // Não inicia o servidor durante os testes
 if (process.env.NODE_ENV !== 'test') {
-    const server = app.listen(PORT, () => {
+    (async () => {
+        // Ensure required tables exist before starting server
+        try {
+            await migrate();
+            await migrateEvents();
+            await migrateClaims();
+        } catch (err) {
+            console.error("Database migration failed:", err);
+        }
+
+        const server = app.listen(PORT, () => {
         console.log(`
 ╔════════════════════════════════════════╗
 ║      StreamPay AI Backend Started      ║
@@ -147,7 +157,7 @@ if (process.env.NODE_ENV !== 'test') {
 ║ Database: PostgreSQL (" (".padEnd(19)} ║
 ╚════════════════════════════════════════╝
     `);
-    });
+        });
 
     // ===== GRACEFUL SHUTDOWN =====
 
@@ -168,6 +178,7 @@ if (process.env.NODE_ENV !== 'test') {
             process.exit(0);
         });
     });
+    })();
 }
 
 export default app;

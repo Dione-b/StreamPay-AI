@@ -1,4 +1,5 @@
 import { logger } from '../../utils/logger';
+import path from 'path';
 
 interface ElizaMessage {
   text: string;
@@ -33,8 +34,9 @@ export class ElizaOSService {
 
       // Usando o artefato de build CommonJS para evitar problemas de ESM/CJS
       // O path aponta para o JS compilado no dist
-      // @ts-ignore
-      const { createStreamPayAgent } = require('../../../../streampay-eliza/dist/index.js');
+      // Carrega o bundle ESM/CJS do agente via import dinâmico para evitar conflitos de módulo
+      const agentPath = path.join(__dirname, '../../../../streampay-eliza/dist/index.js');
+      const { createStreamPayAgent } = await import(agentPath);
       
       this.agent = createStreamPayAgent(config);
       logger.info('[ElizaOS] StreamPayAgent inicializado via CommonJS Build');

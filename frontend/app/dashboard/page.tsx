@@ -194,7 +194,7 @@ export default function DashboardPage() {
           ) : activeStreams.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-secondary mb-4">Nenhum stream ativo no momento</p>
-              <Button variant="neon" onClick={() => router.push("/streams")}>
+              <Button variant="neon" onClick={() => setIsCreateModalOpen(true)}>
                 Criar Stream
               </Button>
             </div>
@@ -293,7 +293,7 @@ export default function DashboardPage() {
             <Button
               variant="neon"
               fullWidth
-              onClick={() => router.push("/streams")}
+              onClick={() => setIsCreateModalOpen(true)}
             >
               Criar Stream
             </Button>

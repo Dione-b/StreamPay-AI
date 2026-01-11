@@ -46,6 +46,9 @@ export class IntentParser {
         /configurar.*pagamento/i,
         /pagar\s+(.+)\s+(\d+)\s+(\w+)/i,
         /stream\s+de\s+(\d+)\s+(\w+)\s+para\s+(.+)/i,
+        // Frases comuns em PT-BR: "enviar 100 USDC para 0x... por 7 dias"
+        /enviar\s+(\d+\.?\d*)\s+(\w+)\s+para\s+(0x[a-f0-9]{40})(?:\s+(?:por|durante)\s+\d+\s+\w+)?/i,
+        /transferir\s+(\d+\.?\d*)\s+(\w+)\s+para\s+(0x[a-f0-9]{40})(?:\s+(?:por|durante)\s+\d+\s+\w+)?/i,
       ],
     ],
     [
@@ -303,7 +306,11 @@ export class IntentParser {
     // Extract tokens by name
     const tokenMatch = message.match(/(?:usdc|dai|usdt|eth|matic|token)\b/gi);
     if (tokenMatch) {
-      params.tokens = tokenMatch.map((t) => t.toUpperCase());
+      const upperTokens = tokenMatch.map((t) => t.toUpperCase());
+      params.tokens = upperTokens;
+      if (upperTokens.length > 0) {
+        params.token = upperTokens[0];
+      }
     }
 
     // Extract duration (English and Portuguese)

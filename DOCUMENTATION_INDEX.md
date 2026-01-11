@@ -1,4 +1,4 @@
-# 📚 Documentation Index - StreamPay AI (100% COMPLETE)
+# 📚 Documentation Index - StreamPay AI (Em progresso)
 
 **Última atualização**: 11 de janeiro de 2026 | **Versão**: 1.0.1
 
@@ -6,8 +6,8 @@
 
 ### 👤 If you are new to the project
 1. Read: **`GETTING_STARTED.md`** (5 minutes) ⭐
-2. See: **`README.md`** (15 minutes)
-3. Try: **`ELIZAOS_GUIDE.md`** (15 minutes) 🤖 NEW
+2. See: **`README.md`** (15 minutes) — status atualizado (E2E do chat pendente)
+3. Try: **`ELIZAOS_GUIDE.md`** (15 minutes)
 4. Explore: **`CHANGELOG.md`** (15 minutes)
 
 ### 👨‍💻 If you are a developer
@@ -17,9 +17,10 @@
 4. See: **`CHANGELOG.md`** (15 minutes)
 
 ### 🤖 If you want to use the AI Chatbot
-1. Quick start: **`ELIZAOS_GUIDE.md`** 🤖 NEW (20 minutes)
-2. Commands: See "💬 Comandos Disponíveis" section
+1. Quick start: **`ELIZAOS_GUIDE.md`** 🤖 (20 minutes)
+2. Commands: See "💬 Comandos Disponíveis"
 3. Test: `http://localhost:3002` after running `npm run dev`
+4. ⚠️ Fluxo “criar stream via chat” ainda em validação E2E (assinatura/execução)
 
 ### 🧪 If you are QA/Testing
 1. Read: **`README.md`** (15 minutes)
@@ -29,42 +30,37 @@
 
 ---
 
-## 📄 Final Documentation (10 Root Files)
+## 📄 Documentos prioritários
 
-### 🔴 CRITICAL - Read First
+### 🔴 Ler primeiro
 | File | Description | Time |
 |------|-----------|------|
-| `GETTING_STARTED.md` ⭐ | Quick start - 100% complete | 5 min |
-| `README.md` | Overview + setup | 15 min |
-| `DOCUMENTATION_INDEX.md` ✨ | Documentation index | 10 min |
-| `ELIZAOS_GUIDE.md` 🤖 | AI Chatbot complete guide | 20 min |
+| `GETTING_STARTED.md` ⭐ | Quick start | 5 min |
+| `README.md` | Overview + status atual | 15 min |
+| `DOCUMENTATION_INDEX.md` ✨ | Índice | 10 min |
+| `ELIZAOS_GUIDE.md` 🤖 | Guia do agente | 20 min |
 
-### 🟢 FEATURES & IMPLEMENTATION
+### 🟢 Features & histórico
 | File | Description | Time |
 |------|-----------|------|
-| `TESTE_CHATBOT.md` ✨ | Chatbot testing scenarios | 20 min |
-| `PROJECT_STATUS_FINAL.md` | Historical archive | - |
-| `UPDATE_SUMMARY.md` | Updates recap | - |
+| `TESTE_CHATBOT.md` | Cenários de teste do chatbot | 20 min |
+| `PROJECT_STATUS_FINAL.md` | Histórico (desatualizado) | - |
+| `UPDATE_SUMMARY.md` | Resumo de mudanças | - |
 
-### 🟡 REFERENCE
+### 🟡 Referência
 | File | Description | Time |
 |------|-----------|------|
-| `DEPLOYED_CONTRACTS.md` | Contract addresses reference | 5 min |
-| `CHANGELOG.md` | Change history | 15 min |
-| `ELIZAOS_GUIDE.md` | AI Chatbot guide | 20 min |
+| `DEPLOYED_CONTRACTS.md` | Endereços de contratos | 5 min |
+| `CHANGELOG.md` | Histórico de mudanças | 15 min |
+| `SECURITY.md` | Segurança | 10 min |
 
-### 🔒 SECURITY
-| File | Description | Time |
-|------|-----------|------|
-| `SECURITY.md` | Security guidelines | 10 min |
-
-### 📚 TECHNICAL (In `docs/`)
+### 📚 Técnicos (docs/)
 | File | Description |
 |------|-----------|
-| `docs/TECHNICAL_DOCUMENTATION.md` | Detailed architecture |
-| `docs/API.md` | Documented endpoints |
-| `docs/AGENTES.md` | ElizaOS agents |
-| `docs/ROADMAP.md` | Project roadmap |
+| `docs/TECHNICAL_DOCUMENTATION.md` | Arquitetura |
+| `docs/API.md` | Endpoints |
+| `docs/AGENTES.md` | Agentes ElizaOS |
+| `docs/ROADMAP.md` | Roadmap |
 
 ---
 
@@ -169,7 +165,6 @@ More details in `GETTING_STARTED.md` and `README.md`
 
 ---
 
-**Last updated**: December 16, 2025  
-**Version**: 3.0 (Final - 100% Complete)  
-**Status**: ✅ Consolidated and Finalized  
-**Files Removed**: 9 (obsolete guides and intermediate analyses)
+**Last updated**: January 11, 2026  
+**Version**: 1.0.1  
+**Status**: 🟡 Em progresso (E2E do chat/agent pendente)  

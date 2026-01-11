@@ -86,7 +86,8 @@ export async function migrateEvents() {
       rate_per_second TEXT,
       duration TEXT,
       amount TEXT,
-      timestamp TIMESTAMP
+      timestamp TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW()
     );
   `);
 }
@@ -107,12 +108,37 @@ export async function migrate() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS streams (
       id SERIAL PRIMARY KEY,
-      recipient TEXT,
-      token TEXT,
-      rate TEXT,
-      duration INTEGER,
-      active BOOLEAN,
-      sender TEXT
+      sender TEXT NOT NULL,
+      recipient TEXT NOT NULL,
+      token TEXT NOT NULL,
+      deposit TEXT,
+      rate_per_second TEXT,
+      duration INTEGER NOT NULL,
+      status TEXT DEFAULT 'pending',
+      tx_hash TEXT,
+      on_chain_id TEXT,
+      active BOOLEAN DEFAULT true,
+      remaining_balance TEXT DEFAULT '0',
+      start_time TIMESTAMP,
+      stop_time TIMESTAMP,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+}
+
+export async function migrateClaims() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS stream_claims (
+      id SERIAL PRIMARY KEY,
+      stream_id INTEGER NOT NULL,
+      recipient TEXT NOT NULL,
+      status TEXT DEFAULT 'pending',
+      amount TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      CONSTRAINT fk_stream
+        FOREIGN KEY(stream_id)
+          REFERENCES streams(id)
+          ON DELETE CASCADE
     );
   `);
 }

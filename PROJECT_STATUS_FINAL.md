@@ -1,8 +1,10 @@
-# 📊 StreamPay AI - Final Status (December 15, 2025)
+# 📊 StreamPay AI - Status Histórico (December 15, 2025)
 
-## 🎯 Conclusion: 98-99% Complete ✅
+> ⚠️ Arquivo histórico. O estado atual está em README.md e DOCUMENTATION_INDEX.md. Fluxo de criação de stream via chat/agent ainda em validação e suites completas não foram reexecutadas nesta sessão.
 
-The **StreamPay AI** project is **production-ready** with all infrastructure, authentication, and main features implemented.
+## 🎯 Situação Atual: Em progresso (revalidando agente/chat)
+
+O projeto permanece funcional, mas não está considerado “final” até validar o fluxo E2E do chat/agent e reexecutar suites completas de testes.
 
 ---
 

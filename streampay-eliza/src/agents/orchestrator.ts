@@ -319,26 +319,24 @@ export class StreamPayAgent {
    * Get missing required parameters
    */
   private getMissingParameters(parsed: ParsedIntent): string[] {
-    const requirements: Record<StreamPayIntent, string[]> = {
-      [StreamPayIntent.CREATE_STREAM]: ['recipient address', 'amount', 'token type'],
-      [StreamPayIntent.CLAIM_STREAM]: ['stream ID'],
-      [StreamPayIntent.PAUSE_STREAM]: ['stream ID'],
-      [StreamPayIntent.CANCEL_STREAM]: ['stream ID'],
+    // Define requirements using parameter KEYS, then map to human labels for display
+    const requirementsByIntent: Record<StreamPayIntent, string[]> = {
+      [StreamPayIntent.CREATE_STREAM]: ['recipient', 'amount', 'token'],
+      [StreamPayIntent.CLAIM_STREAM]: ['streamId'],
+      [StreamPayIntent.PAUSE_STREAM]: ['streamId'],
+      [StreamPayIntent.CANCEL_STREAM]: ['streamId'],
       [StreamPayIntent.VIEW_STREAMS]: [],
-      [StreamPayIntent.VIEW_STREAM_DETAILS]: ['stream ID'],
+      [StreamPayIntent.VIEW_STREAM_DETAILS]: ['streamId'],
       [StreamPayIntent.ADD_LIQUIDITY]: ['token', 'amount'],
-      [StreamPayIntent.REMOVE_LIQUIDITY]: ['pool ID'],
+      [StreamPayIntent.REMOVE_LIQUIDITY]: ['poolId'],
       [StreamPayIntent.VIEW_POOLS]: [],
-      [StreamPayIntent.SWAP_TOKENS]: ['input token', 'output token', 'amount'],
+      [StreamPayIntent.SWAP_TOKENS]: ['tokenIn', 'tokenOut', 'amount'],
       [StreamPayIntent.CHECK_BALANCE]: [],
-      [StreamPayIntent.GET_PRICE]: ['token symbol'],
+      [StreamPayIntent.GET_PRICE]: ['symbol'],
       [StreamPayIntent.UNKNOWN]: [],
     };
 
-    const required = requirements[parsed.intent] || [];
-    const missing: string[] = [];
-
-    const paramMap: Record<string, string> = {
+    const paramLabels: Record<string, string> = {
       recipient: 'endereço do destinatário',
       amount: 'valor',
       token: 'token',
@@ -349,10 +347,12 @@ export class StreamPayAgent {
       symbol: 'símbolo',
     };
 
-    for (const req of required) {
-      const paramKey = Object.keys(paramMap).find((k) => paramMap[k] === req);
-      if (paramKey && !(paramKey in parsed.parameters)) {
-        missing.push(req);
+    const requiredKeys = requirementsByIntent[parsed.intent] || [];
+    const missing: string[] = [];
+
+    for (const key of requiredKeys) {
+      if (!(key in parsed.parameters)) {
+        missing.push(paramLabels[key] || key);
       }
     }
 

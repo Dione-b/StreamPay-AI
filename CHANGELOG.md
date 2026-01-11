@@ -31,6 +31,11 @@ All notable changes are documented here.
 - ✅ **Service Status**: Backend (3001), Frontend (3003), ElizaOS (3002)
 - ✅ **Improved Documentation**: Updated all MD files with current system state
 
+### 📝 Documentation Notes
+- ⚠️ Status ajustado para “Em progresso”: fluxo de criação de stream via chat/agent ainda em validação E2E
+- 📄 PROJECT_STATUS_FINAL.md marcado como histórico; usar README.md e DOCUMENTATION_INDEX.md como fonte atual
+- 📚 DOCUMENTATION_INDEX.md atualizado para refletir pendências e priorizar arquivos ativos
+
 Dev URLs:
 - Frontend: `http://localhost:3003`
 - Backend: `http://localhost:3001` (Swagger: `/api-docs`)
