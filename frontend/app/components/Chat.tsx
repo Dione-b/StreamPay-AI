@@ -50,11 +50,13 @@ export default function Chat() {
     setLoading(true);
 
     try {
+      // Inclui JWT se disponível para que o backend reconheça a sessão
+      const authToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
       const response = await fetch("/api/eliza", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(isConnected && address ? { authorization: `${address}:123` } : {}),
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
         },
         body: JSON.stringify({
           prompt: userMessage.content,

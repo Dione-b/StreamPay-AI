@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const prompt = String(body?.prompt || "");
     const userAddress = body?.userAddress ? String(body.userAddress) : undefined;
+    const authHeader = request.headers.get('authorization') || undefined;
 
     if (!prompt.trim()) {
       return NextResponse.json({ error: "Prompt é obrigatório" }, { status: 400 });
@@ -25,11 +26,18 @@ export async function POST(request: Request) {
 
     const r = await fetch(`${BACKEND_URL}/api/eliza-message`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(authHeader ? { Authorization: authHeader } : {}),
+      },
       body: JSON.stringify({
         message: prompt,
         userId,
         userName,
+        // Também envia explicitamente o token para serviços que não leem headers
+        authToken: authHeader?.startsWith('Bearer ')
+          ? authHeader.slice('Bearer '.length)
+          : undefined,
       }),
     });
 
