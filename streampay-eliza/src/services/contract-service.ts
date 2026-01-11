@@ -13,7 +13,7 @@ import type { StreamPayIntent } from './intent-parser';
 import { randomUUID } from 'crypto';
 import { z } from 'zod';
 
-export type NetworkName = 'sepolia' | 'localhost' | 'polygon';
+export type NetworkName = 'polygon' | 'mainnet' | 'sepolia' | 'localhost';
 
 export interface SignaturePayload<TParams extends Record<string, any> = Record<string, any>> {
   /**
