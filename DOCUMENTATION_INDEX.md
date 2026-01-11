@@ -167,4 +167,5 @@ More details in `GETTING_STARTED.md` and `README.md`
 
 **Last updated**: January 11, 2026  
 **Version**: 1.0.1  
-**Status**: 🟡 Em progresso (E2E do chat/agent pendente)  
+**Status**: 🟡 Em progresso (E2E do chat/agent pendente; testes 74.5% backend, 87.7% frontend)  
+**Test Results**: Backend 41/55 ✅, Frontend 50/57 ✅, Coverage 45.49%  

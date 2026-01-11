@@ -46,11 +46,16 @@ StreamPay is a decentralized payment streaming platform for freelancers, investo
 - ⚠️ Stream creation via chat — fluxo E2E ainda em validação (assinatura/execução)
 - Token swaps, liquidez, saldo/preço — revisar após concluir E2E do chat
 
-### 🧪 Testing & Quality
-- ✅ Testes direcionados passando: `backend/tests/eliza.integration.test.ts`, `backend/tests/agent.execute.contract.test.ts`
-- ⚠️ Suite completa não reexecutada nesta sessão; refazer `npm test` no backend/frontend
-- ✅ TypeScript sem erros no build do agente (tsc) e backend
-- Production build a revalidar após fluxo E2E do chat
+### 🧪 Testing & Quality (January 11, 2026)
+- ✅ **Backend**: 41/55 testes passam (74.5%)
+  - ✅ Auth (7/7), Streams (10/10), Infura (4/4), Etherscan (7/7)
+  - ⚠️ Agent execute-contract e contracts tests falhando (import dinâmico pendente)
+  - ⚠️ Gemini test falhando (modelo deprecated)
+- ✅ **Frontend**: 50/57 testes passam (87.7%)
+  - ✅ Componentes principais OK
+  - ⚠️ 2 suites de integração falhando (historico, dados mockados)
+  - Coverage: 45.49% statements
+- ✅ TypeScript build sem erros no agente e backend
 
 ## 📚 Documentation
 

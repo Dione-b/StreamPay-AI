@@ -40,3 +40,10 @@ streampay-eliza/coverage/
 streampay-eliza/.eliza/
 **/.elizadb/
 
+# PGLite runtime database (streampay-eliza)
+streampay-eliza/.pglite/
+
+# tsconfig build info (streampay-eliza)
+streampay-eliza/tsconfig.build.tsbuildinfo
+streampay-eliza/.env
+
