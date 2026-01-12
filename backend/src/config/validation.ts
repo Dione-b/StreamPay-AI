@@ -68,7 +68,7 @@ export function validateEnv(): EnvConfig {
       NODE_ENV: 'test',
       PORT: 3001,
       DATABASE_URL: 'postgresql://user:pass@localhost:5432/testdb',
-      NETWORK: 'sepolia',
+      NETWORK: 'polygon',
       RPC_URL: 'https://example.com',
       PRIVATE_KEY: '0x' + '0'.repeat(64),
       STREAMPAY_CORE_ADDRESS: '0x' + '0'.repeat(40),
