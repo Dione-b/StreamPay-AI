@@ -14,7 +14,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url('DATABASE_URL deve ser uma URL válida'),
   
   // Blockchain
-  NETWORK: z.enum(['localhost', 'sepolia', 'polygon', 'mainnet']).default('sepolia'),
+  NETWORK: z.enum(['localhost', 'sepolia', 'ethereum', 'mainnet']).default('sepolia'),
   RPC_URL: z.string().url('RPC_URL deve ser uma URL válida').default('https://ethereum-sepolia-rpc.publicnode.com'),
   PRIVATE_KEY: z.string()
     .refine(

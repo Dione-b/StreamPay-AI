@@ -48,6 +48,41 @@ export const CONTRACTS = {
     },
   },
   
+  mainnet: {
+    chainId: 1,
+    chainName: 'Ethereum Mainnet',
+    rpcUrl: 'https://eth.llamarpc.com',
+    blockExplorer: 'https://etherscan.io',
+    
+    contracts: {
+      StreamPayCore: {
+        address: '0x8a9bDE90B28b6ec99CC0895AdB2d851A786041dD',
+        explorerUrl: 'https://etherscan.io/address/0x8a9bDE90B28b6ec99CC0895AdB2d851A786041dD',
+      },
+      LiquidityPool: {
+        address: '0x585C98E899F07c22C4dF33d694aF8cb7096CCd5c',
+        explorerUrl: 'https://etherscan.io/address/0x585C98E899F07c22C4dF33d694aF8cb7096CCd5c',
+      },
+      PoolManager: {
+        address: '0xae185cA95D0b626a554b0612777350CE3DE06bB9',
+        explorerUrl: 'https://etherscan.io/address/0xae185cA95D0b626a554b0612777350CE3DE06bB9',
+      },
+      SwapRouter: {
+        address: '0x07AfFa6C58999Ac0c98237d10476983A573eD368',
+        explorerUrl: 'https://etherscan.io/address/0x07AfFa6C58999Ac0c98237d10476983A573eD368',
+      },
+    },
+    
+    tokens: {
+      MNEE: {
+        address: '0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFD6cF',
+        symbol: 'MNEE',
+        decimals: 18,
+        explorerUrl: 'https://etherscan.io/token/0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFD6cF',
+      },
+    },
+  },
+  
   localhost: {
     chainId: 31337,
     chainName: 'Localhost',
@@ -74,6 +109,7 @@ export const CONTRACTS = {
  * Get contract configuration based on chain ID
  */
 export function getContractConfig(chainId: number) {
+  if (chainId === 1) return CONTRACTS.mainnet;
   if (chainId === 11155111) return CONTRACTS.sepolia;
   if (chainId === 31337) return CONTRACTS.localhost;
   
@@ -84,7 +120,7 @@ export function getContractConfig(chainId: number) {
  * Get contract address by name and chain ID
  */
 export function getContractAddress(
-  contractName: keyof typeof CONTRACTS.sepolia.contracts,
+  contractName: keyof typeof CONTRACTS.mainnet.contracts,
   chainId: number
 ): string {
   const config = getContractConfig(chainId);
@@ -99,4 +135,4 @@ export const DEFAULT_CHAIN_ID = 11155111;
 /**
  * Supported chain IDs
  */
-export const SUPPORTED_CHAINS = [11155111, 31337] as const;
+export const SUPPORTED_CHAINS = [1, 11155111, 31337] as const;
